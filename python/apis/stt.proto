@@ -1,0 +1,129 @@
+syntax = "proto3";
+
+package tinkoff.cloud.stt.v1;
+
+import "google/protobuf/duration.proto";
+import "google/api/annotations.proto";
+
+service SpeechToText {
+  rpc Recognize(RecognizeRequest) returns (RecognizeResponse) {
+    option (google.api.http) = {
+      post: "/v1/stt:recognize"
+      body: "*"
+    };
+  }
+  rpc StreamingRecognize(stream StreamingRecognizeRequest)
+      returns (stream StreamingRecognizeResponse);
+}
+
+message RecognitionAudio {
+  oneof audio_source {
+    bytes content = 1;
+    string uri = 2;
+  }
+}
+
+enum AudioEncoding {
+  ENCODING_UNSPECIFIED = 0;
+  LINEAR16 = 1;
+  reserved "FLAC"; reserved 2;
+  MULAW = 3;
+  reserved "AMR"; reserved 4;
+  reserved "AMR_WB"; reserved 5;
+  reserved "OGG_OPUS"; reserved 6;
+  reserved "SPEEX_WITH_HEADER_BYTE"; reserved 7;
+  ALAW = 8;
+  LINEAR32F = 9;
+  reserved "OGG_VORBIS"; reserved 10;
+  RAW_OPUS = 11;
+  MPEG_AUDIO = 12;
+}
+
+message SpeechContext {
+  repeated string phrases = 1;
+  repeated string words = 2;
+}
+
+message WordInfo {
+  google.protobuf.Duration start_time = 1;
+  google.protobuf.Duration end_time = 2;
+  string word = 3;
+  float confidence = 4;
+}
+
+message VoiceActivityDetectionConfig {
+  float min_speech_duration = 1;
+  float max_speech_duration = 2;
+  float silence_duration_threshold = 3;
+  float silence_prob_threshold = 4;
+  float aggressiveness = 5;
+}
+
+message RecognitionConfig {
+  AudioEncoding encoding = 1;
+  uint32 sample_rate_hertz = 2;
+  string language_code = 3;
+  uint32 max_alternatives = 4;
+  reserved "profanity_filter"; reserved 5;
+  repeated SpeechContext speech_contexts = 6;
+  reserved "enable_word_time_offsets"; reserved 7;
+  reserved "enable_automatic_punctuation"; reserved 8;
+  reserved "metadata"; reserved 9;
+  string model = 10;
+  reserved "use_enhanced"; reserved 11;
+  uint32 num_channels = 12;
+  oneof vad {
+    bool do_not_perform_vad = 13;
+    VoiceActivityDetectionConfig vad_config = 14;
+  }
+}
+
+message RecognizeRequest {
+  RecognitionConfig config = 1;
+  RecognitionAudio audio = 2;
+}
+
+message SpeechRecognitionAlternative {
+  string transcript = 1;
+  float confidence = 2;
+  repeated WordInfo words = 3;
+}
+
+message SpeechRecognitionResult {
+  repeated SpeechRecognitionAlternative alternatives = 1;
+  int32 channel = 2;
+  google.protobuf.Duration start_time = 3;
+  google.protobuf.Duration end_time = 4;
+}
+
+message RecognizeResponse { repeated SpeechRecognitionResult results = 1; }
+
+message InterimResultsConfig {
+  bool enable_interim_results = 1;
+  float interval = 2;
+}
+
+message StreamingRecognitionConfig {
+  RecognitionConfig config = 1;
+  reserved "single_utterance"; reserved 2;
+  InterimResultsConfig interim_results_config = 3;
+}
+
+message StreamingRecognizeRequest {
+  oneof streaming_request {
+    StreamingRecognitionConfig streaming_config = 1;
+    bytes audio_content = 2;
+  }
+}
+
+message StreamingRecognitionResult {
+  SpeechRecognitionResult recognition_result = 1;
+  bool is_final = 2;
+  float stability = 3;
+}
+
+message StreamingRecognizeResponse {
+  reserved 1;
+  repeated StreamingRecognitionResult results = 2;
+  reserved 3;
+}
