@@ -93,7 +93,7 @@ class BaseRecognitionParser(CommonParser):
         self.add_argument("--rate", type=int, required=True, help="Audio sample rate")
         self.add_argument("--num_channels", type=int, required=True, help="Number of channels")
         self.add_argument("--encoding", type=str, required=True, help="Audio encoding",
-                          choices=["MPEG_AUDIO", "LINEAR16", "LINEAR32F", "ALAW", "MULAW"])
+                          choices=["MPEG_AUDIO", "LINEAR16", "LINEAR32F", "ALAW", "MULAW", "RAW_OPUS"])
         self.add_argument("--max_alternatives", type=int, default=1)
 
 

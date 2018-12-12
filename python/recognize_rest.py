@@ -7,6 +7,8 @@ from common import build_recognition_request, make_channel, \
 def main():
     args = RecognitionParser().parse_args()
 
+    if args.encoding == "RAW_OPUS":
+        raise ValueError("RAW_OPUS encoding is not supported by this script")
     metadata = authorization_metadata(args.api_key, args.secret_key, "tinkoff.cloud.stt", type=dict)
     request = build_recognition_request(args, type="json")
     response = requests.post("https://{}:{}/v1/stt:recognize".format(args.host, args.port),

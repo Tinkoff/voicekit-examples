@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 import sys
+import struct
 from apis import stt_pb2_grpc, stt_pb2
 from auth import authorization_metadata
 from common import build_first_streaming_recognition_request, make_channel, \
@@ -9,9 +10,16 @@ from common import build_first_streaming_recognition_request, make_channel, \
 def generate_requests(args):
     yield build_first_streaming_recognition_request(args)
     while True:
-        data = sys.stdin.buffer.read(args.chunk_size)
-        if not data:
-            break
+        if args.encoding != "RAW_OPUS":
+            data = sys.stdin.buffer.read(args.chunk_size)
+            if not data:
+                break
+        else:
+            length_bytes = sys.stdin.buffer.read(4)
+            if not length_bytes:
+                break
+            length = struct.unpack(">I", length_bytes)[0]
+            data = sys.stdin.buffer.read(length)
         request = stt_pb2.StreamingRecognizeRequest()
         request.audio_content = data
         yield request
