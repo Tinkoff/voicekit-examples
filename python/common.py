@@ -24,6 +24,7 @@ def build_first_streaming_recognition_request(args):
     request.streaming_config.config.encoding = getattr(stt_pb2, args.encoding)
     request.streaming_config.config.sample_rate_hertz = args.rate
     request.streaming_config.config.num_channels = args.num_channels
+    request.streaming_config.config.max_alternatives = args.max_alternatives
     request.streaming_config.interim_results_config.enable_interim_results = args.interim_results
     request.streaming_config.config.language_code = "ru-RU"
     return request
@@ -110,4 +111,3 @@ class StreamingRecognitionParser(BaseRecognitionParser):
         super().__init__()
         self.add_argument("--chunk_size", type=int, default=65536, help="Chunk size for streaming")
         self.add_argument("--interim_results", action="store_true", help="Yield interim results")
-
