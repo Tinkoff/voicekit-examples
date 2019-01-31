@@ -15,8 +15,7 @@ $ cd tinkoff-speech-api-examples
 $ pip3 install -r requirements.txt
 ```
 
-#### Generate protobuf and grpc definitions for your language (Python in this 
-example):
+#### Generate protobuf and grpc definitions for your language (Python):
 
 ```
 $ ./sh/generate_protobuf.sh
