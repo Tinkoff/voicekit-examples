@@ -22,6 +22,10 @@ $ ./sh/generate_protobuf.sh
 ```
 
 3. Run examples
+```
+$ export STT_TEST_API_KEY=your-api-key
+$ export STT_TEST_SECRET_KEY=your-secret-key
+```
 
 ```
 $ ./sh/recognize.sh
