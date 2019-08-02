@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package tinkoff.cloud.tts.v1;
 
-import "google/protobuf/duration.proto";
 import "google/api/annotations.proto";
 
 
