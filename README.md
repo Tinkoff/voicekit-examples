@@ -5,7 +5,7 @@
 0. Clone this repo
 
 ```
-$ git clone --recursive git@github.com:TinkoffCreditSystems/tinkoff-speech-api-examples.git
+$ git clone --recursive https://github.com/TinkoffCreditSystems/tinkoff-speech-api-examples.git
 $ cd tinkoff-speech-api-examples
 ```
 
