@@ -23,7 +23,7 @@ $ ./sh/generate_protobuf.sh
 
 #### Setup environment
 
-One need API keys to authenticate on server.
+Set `STT_TEST_API_KEY` and `STT_TEST_SECRET_KEY` environment variables to your API key and secret key to authenticate on server:
 
 ```bash
 export STT_TEST_SECRET_KEY="SECRET_KEY"
@@ -50,3 +50,14 @@ install sox` / `brew install sox`):
 ```
 $ ./sh/recognize_stream_mic.sh
 ```
+
+```
+$ ./sh/synthesize_stream.sh
+```
+
+You may get scope tinkoff.cloud.tts is not supported error if your API key does not
+support speech synthesis.
+
+### Note on endpoint format
+
+You may use `stt.tinkoff.ru:443` and `tts.tinkoff.ru:443` interchangeably for both speech recognition and speech synthesis.
