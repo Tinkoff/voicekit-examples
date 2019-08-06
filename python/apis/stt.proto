@@ -64,10 +64,10 @@ message RecognitionConfig {
   uint32 sample_rate_hertz = 2;
   string language_code = 3;
   uint32 max_alternatives = 4;
-  reserved "profanity_filter"; reserved 5;
+  bool profanity_filter = 5;
   repeated SpeechContext speech_contexts = 6;
   reserved "enable_word_time_offsets"; reserved 7;
-  reserved "enable_automatic_punctuation"; reserved 8;
+  bool enable_automatic_punctuation = 8;
   reserved "metadata"; reserved 9;
   string model = 10;
   reserved "use_enhanced"; reserved 11;
@@ -105,7 +105,7 @@ message InterimResultsConfig {
 
 message StreamingRecognitionConfig {
   RecognitionConfig config = 1;
-  reserved "single_utterance"; reserved 2;
+  bool single_utterance = 2;
   InterimResultsConfig interim_results_config = 3;
 }
 

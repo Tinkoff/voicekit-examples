@@ -1,8 +1,15 @@
 import argparse
+import json
+import os
+import wave
+from collections import deque
+from typing import NamedTuple, Dict, Iterable
+
 import grpc
 from google.protobuf.json_format import MessageToDict
 
-from apis import stt_pb2
+import apis.stt_pb2 as stt_pb2
+import apis.tts_pb2 as tts_pb2
 
 
 def build_recognition_request(args, type="pb"):
@@ -31,23 +38,12 @@ def build_first_streaming_recognition_request(args):
 
 
 def make_channel(host, port):
+    target = "{}:{}".format(host, port)
     if port == 443:
         creds = grpc.ssl_channel_credentials()
-        return grpc.secure_channel("{}:{}".format(host, port), creds)
+        return grpc.secure_channel(target, creds)
     else:
-        return grpc.insecure_channel("{}:{}".format(host, port))
-
-
-def check_api_key(data):
-    if not data:
-        raise ValueError("API_KEY not provided or empty")
-    return str(data)
-
-
-def check_secret_key(data):
-    if not data:
-        raise ValueError("SECRET_KEY not provided or empty")
-    return str(data)
+        return grpc.insecure_channel(target)
 
 
 def print_recognition_response(response):
@@ -80,12 +76,27 @@ def print_streaming_recognition_responses(responses):
 
 
 class CommonParser(argparse.ArgumentParser):
+    def is_valid_file(self, arg):
+        if not os.path.isfile(arg):
+            self.error(f'The file {arg} does not exist!')
+        return str(arg)
+
+    def check_api_key(self, data):
+        if not data:
+            self.error("API_KEY not provided or empty")
+        return str(data)
+
+    def check_secret_key(self, data):
+        if not data:
+            self.error("SECRET_KEY not provided or empty")
+        return str(data)
+
     def __init__(self):
         super().__init__()
         self.add_argument("--host", type=str, required=True, help="Speech API endpoint host")
         self.add_argument("--port", type=int, required=True, help="Speech API endpoint port")
-        self.add_argument("--api_key", type=check_api_key, required=True, help="API key")
-        self.add_argument("--secret_key", type=check_secret_key, required=True, help="Secret key")
+        self.add_argument("--api_key", type=self.check_api_key, required=True, help="API key")
+        self.add_argument( "--secret_key", type=self.check_secret_key, required=True, help="Secret key")
 
 
 class BaseRecognitionParser(CommonParser):
@@ -111,3 +122,50 @@ class StreamingRecognitionParser(BaseRecognitionParser):
         super().__init__()
         self.add_argument("--chunk_size", type=int, default=65536, help="Chunk size for streaming")
         self.add_argument("--interim_results", action="store_true", help="Yield interim results")
+
+
+class BaseSynthesisParser(CommonParser):
+    def __init__(self):
+        super().__init__()
+        self.add_argument("--rate", type=int, required=True, help="Audio sample rate",
+                          choices=[8000, 16000, 24000, 48000])
+        self.add_argument("--encoding", type=str, required=True, help="Audio encoding",
+                          choices=["LINEAR16", "RAW_OPUS"])
+        self.add_argument("--text_file", required=True, type=self.is_valid_file,
+                          help="Text file with sentences separated with newlines")
+
+
+def build_synthesis_request(args, text: str, *, type="pb"):
+    # TODO: check synthesis input
+    input = tts_pb2.SynthesisInput(text=text)
+    audio_config = tts_pb2.AudioConfig(
+        audio_encoding=args.encoding,
+        sample_rate_hertz=args.rate,
+        # speaking_rate=args.speech_rate,
+    )
+    voice = tts_pb2.VoiceSelectionParams()
+    request = tts_pb2.SynthesizeSpeechRequest(
+        input=input,
+        audio_config=audio_config,
+        voice=voice,
+    )
+    return request if type != "json" else MessageToDict(request)
+
+
+def save_synthesis_wav(audio_content: bytes, file_name: str, rate: int):
+    with wave.open(file_name, "wb") as wav_out:
+        wav_out.setnframes(len(audio_content))
+        wav_out.setframerate(rate)
+        wav_out.setnchannels(1)
+        wav_out.setsampwidth(2)
+        wav_out.writeframes(audio_content)
+    print(f"Saved {file_name}")
+
+
+def generate_utterances(filename: str) -> Iterable[str]:
+    with open(filename, "r", encoding="utf-8") as f:
+        for line in f:
+            text = line.strip()
+            if not text or text.startswith("#"):
+                continue
+            yield text
