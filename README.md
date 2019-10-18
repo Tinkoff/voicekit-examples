@@ -60,4 +60,4 @@ support speech synthesis.
 
 ### Note on endpoint format
 
-You may use `stt.tinkoff.ru:443` and `tts.tinkoff.ru:443` interchangeably for both speech recognition and speech synthesis.
+Use `stt.tinkoff.ru:443` for speech recognition and `tts.tinkoff.ru:443` for speech synthesis.
