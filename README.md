@@ -1,63 +1,35 @@
-# Tinkoff Speech API Examples
+# Tinkoff VoiceKit Examples
 
-### Usage
+https://voicekit.tinkoff.ru
+
+## Usage
 
 #### Clone this repo
 
 ```
-$ git clone --recursive https://github.com/TinkoffCreditSystems/tinkoff-speech-api-examples.git
-$ cd tinkoff-speech-api-examples
-```
-
-#### Install requirements
-
-```
-$ pip3 install -r requirements.txt
-```
-
-#### Generate protobuf and grpc definitions for your language (Python):
-
-```
-$ ./sh/generate_protobuf.sh
+$ git clone --recursive https://github.com/TinkoffCreditSystems/voicekit-examples.git
+$ cd voicekit-examples
 ```
 
 #### Setup environment
 
-Set `STT_TEST_API_KEY` and `STT_TEST_SECRET_KEY` environment variables to your API key and secret key to authenticate on server:
+Set `VOICEKIT_API_KEY` and `VOICEKIT_SECRET_KEY` environment variables to your API key and secret key to authenticate
+your requests to VoiceKit:
 
 ```bash
-export STT_TEST_SECRET_KEY="SECRET_KEY"
-export STT_TEST_API_KEY="API_KEY"
+export VOICEKIT_API_KEY="Your API key"
+export VOICEKIT_SECRET_KEY="Your secret key"
 ```
 
-#### Run examples
+You may get scope `tinkoff.cloud.tts` is not supported error if your API key does not
+support speech synthesis. Write us a letter at https://voicekit.tinkoff.ru to enable
+speech synthesis for you API key.
 
-```
-$ ./sh/recognize.sh
-```
+#### Language specific instructions
 
-```
-$ ./sh/recognize_rest.sh
-```
+Follow language specific instructions in the related folder in repository root. E.g. for Python scripts, open
+`python/README.md`
 
-```
-$ ./sh/recognize_stream_file.sh audio/sample_1.mp3
-```
+## Note on endpoint format
 
-One should install sox library to recognize recording from a microphone (`apt 
-install sox` / `brew install sox`):
-
-```
-$ ./sh/recognize_stream_mic.sh
-```
-
-```
-$ ./sh/synthesize_stream.sh
-```
-
-You may get scope tinkoff.cloud.tts is not supported error if your API key does not
-support speech synthesis.
-
-### Note on endpoint format
-
-Use `stt.tinkoff.ru:443` for speech recognition and `tts.tinkoff.ru:443` for speech synthesis.
+Use `stt.tinkoff.ru:443` for speech recognition and `tts.tinkoff.ru:443` for speech synthesis. Unencrypted endpoints (with port `80`) are not avaialable.

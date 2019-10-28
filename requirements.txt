@@ -1,6 +1,0 @@
-grpcio
-grpcio_tools
-googleapis-common-protos
-numpy
-requests
-opuslib

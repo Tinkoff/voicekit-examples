@@ -7,15 +7,6 @@ from time import time
 TEN_MINUTES = 600  # seconds
 
 
-def pad_base64(base64_str):
-    len_ = len(base64_str)
-    num_equals_signs = 4 - len_ % 4
-    if num_equals_signs < 4:
-        equals_signs = '=' * num_equals_signs
-        return base64_str + equals_signs
-    return base64_str
-
-
 def generate_jwt(api_key, secret_key, payload, expiration_time=TEN_MINUTES):
     header = {
         "alg": "HS256",
@@ -30,12 +21,11 @@ def generate_jwt(api_key, secret_key, payload, expiration_time=TEN_MINUTES):
     payload_bytes = json.dumps(payload_copy, separators=(',', ':')).encode("utf-8")
     header_bytes = json.dumps(header, separators=(',', ':')).encode("utf-8")
 
-    data = (base64.urlsafe_b64encode(header_bytes) + b"." +
-            base64.urlsafe_b64encode(payload_bytes))
+    data = (base64.urlsafe_b64encode(header_bytes).strip(b'=') + b"." +
+            base64.urlsafe_b64encode(payload_bytes).strip(b'='))
 
-    signature = hmac.new(base64.urlsafe_b64decode(pad_base64(secret_key)), msg=data,
-                         digestmod="sha256")
-    jwt = data + b"." + base64.urlsafe_b64encode(signature.digest())
+    signature = hmac.new(base64.urlsafe_b64decode(secret_key), msg=data, digestmod="sha256")
+    jwt = data + b"." + base64.urlsafe_b64encode(signature.digest()).strip(b'=')
     return jwt.decode("utf-8")
 
 
@@ -50,4 +40,3 @@ def authorization_metadata(api_key, secret_key, scope, type=list):
         ("authorization", "Bearer " + generate_jwt(api_key, secret_key, auth_payload))
     ]
     return type(metadata)
-
