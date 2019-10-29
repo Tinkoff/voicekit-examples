@@ -2,3 +2,6 @@ __pycache__
 *.py[cod]
 
 /.idea/
+
+/nodejs/node_modules
+/nodejs/package-lock.json

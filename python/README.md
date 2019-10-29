@@ -24,7 +24,7 @@ $ python3 -m pip install -r requirements/all.txt
 Run basic (non-streaming) speech recognition example:
 
 ```
-$ python3 python3 recognize.py -r 16000 -c 1 -e MPEG_AUDIO ../audio/sample_1.mp3
+$ python3 recognize.py -r 16000 -c 1 -e MPEG_AUDIO ../audio/sample_1.mp3
 ```
 
 To disable automatic punctuation and get up to 3 recognition alternatives:
@@ -36,7 +36,7 @@ $ python3 recognize.py -r 16000 -c 1 -e MPEG_AUDIO --disable_automatic_punctuati
 Also there is a REST-like API for non-streaming speech recognition:
 
 ```
-$ python3 python3 recognize_rest.py -r 16000 -c 1 -e MPEG_AUDIO ../audio/sample_2.mp3
+$ python3 recognize_rest.py -r 16000 -c 1 -e MPEG_AUDIO ../audio/sample_2.mp3
 ```
 
 To get description of all command-line parameters:
@@ -98,26 +98,26 @@ $ python3 recognize_stream.py -e MPEG_AUDIO --interim_results -r 16000 -c 1 ../a
 Use audio from microphone (requires `PyAudio`):
 
 ```
-python3 recognize_stream.py -e LINEAR16 --interim_results -r 16000 -c 1 --silence_duration_threshold 0.3 pyaudio:
+$ python3 recognize_stream.py -e LINEAR16 --interim_results -r 16000 -c 1 --silence_duration_threshold 0.3 pyaudio:
 ```
 
 Specify longer silence timeout for voice activity detection:
 
 ```
-python3 recognize_stream.py -e LINEAR16 --interim_results -r 16000 -c 1 --silence_duration_threshold 1.2 pyaudio:
+$ python3 recognize_stream.py -e LINEAR16 --interim_results -r 16000 -c 1 --silence_duration_threshold 1.2 pyaudio:
 ```
 
 Return just the first recognized utterance and halt:
 
 ```
-python3 recognize_stream.py -e LINEAR16 --interim_results -r 16000 -c 1 --single_utterance pyaudio:
+$ python3 recognize_stream.py -e LINEAR16 --interim_results -r 16000 -c 1 --single_utterance pyaudio:
 ```
 
 Synthesize and play audio directly through your speakers at the same time.
 This is faster than saving to file because of streaming (requires `PyAudio`):
 
 ```
-python3 synthesize_stream.py -r 48000 -e LINEAR16 "И мысли тоже тяжелые и медлительные, падают неторопливо и редко одна за другой, точно песчинки в разленившихся песочных часах." pyaudio:   
+$ python3 synthesize_stream.py -r 48000 -e LINEAR16 "И мысли тоже тяжелые и медлительные, падают неторопливо и редко одна за другой, точно песчинки в разленившихся песочных часах." pyaudio:
 ```
 
 ## Generate Protobuf and gRPC definitions (optional)
