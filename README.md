@@ -32,6 +32,7 @@ Follow language specific instructions in the related folder in repository root. 
 
 * [Python](python/README.md)
 * [Nodejs](nodejs/README.md)
+* [Golang](golang/README.md)
 
 If you can't find your favorite language here, don't worry: consult gRPC docs for a list of [its supported languages](https://grpc.io/about/) and when you are ready dive into Protobuf definitions inside [`apis/`](apis/) folder.
 

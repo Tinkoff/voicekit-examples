@@ -16,35 +16,41 @@ function baseRecognitionOptions(yargs) {
         })
         .option('rate', {
             alias: 'r',
-            describe: 'Sampling rate of the audio.',
+            describe: 'Audio sampling rate.',
             type: 'number',
             demandOption: true,
         })
         .option('num-channels', {
             alias: 'c',
-            describe: 'Number of channels in the audio.',
+            describe: 'Number of audio channels.',
             type: 'number',
             demandOption: true,
         })
         .option('max-alternatives', {
-            descibe: 'Number of maximum speech recognition alternatives to return',
+            descibe: 'Number of speech recognition alternatives to return.',
             type: 'number',
             default: 1,
         })
         .option('perform-vad', {
+            descibe: 'Turn this off to disable voice activity detection. All audio is processed ' +
+                'as though it were a single utterance.'
             type: 'boolean',
             default: true,
         })
         .option('silence-duration-threshold', {
+            descibe: 'Silence threshold in seconds for VAD to assume the current utterance is ended and ' +
+                'the next utterance shall begin.'
             type: 'number',
             default: 0.6,
         })
         .option('language-code', {
+            descibe: 'Language for speech recognition.',
             type: 'string',
             choices: ['ru-RU'],
             default: 'ru-RU',
         })
         .option('automatic-punctuation', {
+            descibe: 'Turn this off to disable automatic punctuation in recognition results.',
             type: 'boolean',
             default: true,
         });
@@ -53,10 +59,12 @@ function baseRecognitionOptions(yargs) {
 function streamingRecognitionOptions(yargs) {
     return baseRecognitionOptions(yargs)
         .option('interim-results', {
+            descibe: 'Yield interim results',
             type: 'boolean',
             default: false,
         })
         .option('single-utterance', {
+            descibe: 'Recognize only first utterance',
             type: 'boolean',
             default: false,
         });
@@ -66,23 +74,23 @@ function streamingSynthesisOptions(yargs) {
     return yargs
         .strict(true)
         .positional('input-text', {
-            describe: 'text to synthesize',
+            describe: 'Input text to synthesize.',
             type: 'string',
         })
         .positional('output-file', {
-            describe: 'output file',
+            describe: 'Output wav to save.',
             type: 'string',
         })
         .option('encoding', {
             alias: 'e',
-            describe: 'Audio encoding.',
+            describe: 'Audio encoding',
             type: 'string',
             choices: ['LINEAR16', 'RAW_OPUS'],
             demandOption: true,
         })
         .option('rate', {
             alias: 'r',
-            describe: 'Sampling rate of the audio.',
+            describe: 'Audio sample rate.',
             type: 'number',
             demandOption: true,
             choices: [8000, 16000, 24000, 48000],

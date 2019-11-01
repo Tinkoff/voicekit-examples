@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package tinkoff.cloud.tts.v1;
+option go_package = "github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1";
 
 import "google/api/annotations.proto";
 

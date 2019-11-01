@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package tinkoff.cloud.stt.v1;
+option go_package = "github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1";
 
 import "google/protobuf/duration.proto";
 import "google/api/annotations.proto";
