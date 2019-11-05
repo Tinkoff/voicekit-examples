@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package tinkoff.cloud.stt.v1;
 option go_package = "github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1";
+option objc_class_prefix = 'TVKSR';
 
 import "google/protobuf/duration.proto";
 import "google/api/annotations.proto";

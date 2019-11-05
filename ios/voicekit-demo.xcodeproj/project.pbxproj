@@ -1,0 +1,417 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		908C47B3E067F923C107A2C9 /* Pods_voicekit_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B37E19F3380D53E5E711CD9 /* Pods_voicekit_demo.framework */; };
+		DA17F0552371E6CE0001DC50 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA17F0542371E6CE0001DC50 /* Config.swift */; };
+		DA6F2398236E12AE00EDE280 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F2397236E12AE00EDE280 /* AppDelegate.swift */; };
+		DA6F239A236E12AE00EDE280 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F2399236E12AE00EDE280 /* SceneDelegate.swift */; };
+		DA6F239C236E12AE00EDE280 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F239B236E12AE00EDE280 /* ViewController.swift */; };
+		DA6F239F236E12AE00EDE280 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA6F239D236E12AE00EDE280 /* Main.storyboard */; };
+		DA6F23A1236E12AE00EDE280 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA6F23A0236E12AE00EDE280 /* Assets.xcassets */; };
+		DA6F23A4236E12AE00EDE280 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA6F23A2236E12AE00EDE280 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3B37E19F3380D53E5E711CD9 /* Pods_voicekit_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_voicekit_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B6712D86C34B122D33FA7E5 /* Pods-voicekit-demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-voicekit-demo.release.xcconfig"; path = "Target Support Files/Pods-voicekit-demo/Pods-voicekit-demo.release.xcconfig"; sourceTree = "<group>"; };
+		C2D2EB27FCF1ED658ECCCB8D /* Pods-voicekit-demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-voicekit-demo.debug.xcconfig"; path = "Target Support Files/Pods-voicekit-demo/Pods-voicekit-demo.debug.xcconfig"; sourceTree = "<group>"; };
+		DA17F0542371E6CE0001DC50 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		DA6F2394236E12AE00EDE280 /* voicekit-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "voicekit-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA6F2397236E12AE00EDE280 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DA6F2399236E12AE00EDE280 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		DA6F239B236E12AE00EDE280 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DA6F239E236E12AE00EDE280 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DA6F23A0236E12AE00EDE280 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DA6F23A3236E12AE00EDE280 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DA6F23A5236E12AE00EDE280 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DA6F2391236E12AE00EDE280 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				908C47B3E067F923C107A2C9 /* Pods_voicekit_demo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0A071B462A02944F19E3E834 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C2D2EB27FCF1ED658ECCCB8D /* Pods-voicekit-demo.debug.xcconfig */,
+				8B6712D86C34B122D33FA7E5 /* Pods-voicekit-demo.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		3FC5B0E9450792A9EAA63E92 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3B37E19F3380D53E5E711CD9 /* Pods_voicekit_demo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DA6F238B236E12AE00EDE280 = {
+			isa = PBXGroup;
+			children = (
+				DA6F2396236E12AE00EDE280 /* voicekit-demo */,
+				DA6F2395236E12AE00EDE280 /* Products */,
+				0A071B462A02944F19E3E834 /* Pods */,
+				3FC5B0E9450792A9EAA63E92 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		DA6F2395236E12AE00EDE280 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DA6F2394236E12AE00EDE280 /* voicekit-demo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DA6F2396236E12AE00EDE280 /* voicekit-demo */ = {
+			isa = PBXGroup;
+			children = (
+				DA6F2397236E12AE00EDE280 /* AppDelegate.swift */,
+				DA6F2399236E12AE00EDE280 /* SceneDelegate.swift */,
+				DA6F239B236E12AE00EDE280 /* ViewController.swift */,
+				DA6F239D236E12AE00EDE280 /* Main.storyboard */,
+				DA6F23A0236E12AE00EDE280 /* Assets.xcassets */,
+				DA6F23A2236E12AE00EDE280 /* LaunchScreen.storyboard */,
+				DA6F23A5236E12AE00EDE280 /* Info.plist */,
+				DA17F0542371E6CE0001DC50 /* Config.swift */,
+			);
+			path = "voicekit-demo";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DA6F2393236E12AE00EDE280 /* voicekit-demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA6F23A8236E12AE00EDE280 /* Build configuration list for PBXNativeTarget "voicekit-demo" */;
+			buildPhases = (
+				EC5E5C342F57B2A330BD2D2A /* [CP] Check Pods Manifest.lock */,
+				DA6F2390236E12AE00EDE280 /* Sources */,
+				DA6F2391236E12AE00EDE280 /* Frameworks */,
+				DA6F2392236E12AE00EDE280 /* Resources */,
+				6FD559289135B529F63C8C29 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "voicekit-demo";
+			productName = "voicekit-demo";
+			productReference = DA6F2394236E12AE00EDE280 /* voicekit-demo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DA6F238C236E12AE00EDE280 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1110;
+				LastUpgradeCheck = 1110;
+				ORGANIZATIONNAME = com.example;
+				TargetAttributes = {
+					DA6F2393236E12AE00EDE280 = {
+						CreatedOnToolsVersion = 11.1;
+					};
+				};
+			};
+			buildConfigurationList = DA6F238F236E12AE00EDE280 /* Build configuration list for PBXProject "voicekit-demo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DA6F238B236E12AE00EDE280;
+			productRefGroup = DA6F2395236E12AE00EDE280 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DA6F2393236E12AE00EDE280 /* voicekit-demo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DA6F2392236E12AE00EDE280 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA6F23A4236E12AE00EDE280 /* LaunchScreen.storyboard in Resources */,
+				DA6F23A1236E12AE00EDE280 /* Assets.xcassets in Resources */,
+				DA6F239F236E12AE00EDE280 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6FD559289135B529F63C8C29 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-voicekit-demo/Pods-voicekit-demo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-voicekit-demo/Pods-voicekit-demo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-voicekit-demo/Pods-voicekit-demo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EC5E5C342F57B2A330BD2D2A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-voicekit-demo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DA6F2390236E12AE00EDE280 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA6F239C236E12AE00EDE280 /* ViewController.swift in Sources */,
+				DA17F0552371E6CE0001DC50 /* Config.swift in Sources */,
+				DA6F2398236E12AE00EDE280 /* AppDelegate.swift in Sources */,
+				DA6F239A236E12AE00EDE280 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DA6F239D236E12AE00EDE280 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA6F239E236E12AE00EDE280 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		DA6F23A2236E12AE00EDE280 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA6F23A3236E12AE00EDE280 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DA6F23A6236E12AE00EDE280 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DA6F23A7236E12AE00EDE280 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DA6F23A9236E12AE00EDE280 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C2D2EB27FCF1ED658ECCCB8D /* Pods-voicekit-demo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "voicekit-demo/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.voicekit-demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DA6F23AA236E12AE00EDE280 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8B6712D86C34B122D33FA7E5 /* Pods-voicekit-demo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "voicekit-demo/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.voicekit-demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DA6F238F236E12AE00EDE280 /* Build configuration list for PBXProject "voicekit-demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA6F23A6236E12AE00EDE280 /* Debug */,
+				DA6F23A7236E12AE00EDE280 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA6F23A8236E12AE00EDE280 /* Build configuration list for PBXNativeTarget "voicekit-demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA6F23A9236E12AE00EDE280 /* Debug */,
+				DA6F23AA236E12AE00EDE280 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DA6F238C236E12AE00EDE280 /* Project object */;
+}
