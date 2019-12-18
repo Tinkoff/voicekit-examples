@@ -35,7 +35,7 @@ enum AudioEncoding {
   reserved "OGG_OPUS"; reserved 6;
   reserved "SPEEX_WITH_HEADER_BYTE"; reserved 7;
   ALAW = 8;
-  LINEAR32F = 9;
+  reserved "LINEAR32F"; reserved 9;  // deprecated
   reserved "OGG_VORBIS"; reserved 10;
   RAW_OPUS = 11;
   MPEG_AUDIO = 12;

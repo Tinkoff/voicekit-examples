@@ -11,7 +11,7 @@ function baseRecognitionOptions(yargs) {
             alias: 'e',
             describe: 'Audio encoding.',
             type: 'string',
-            choices: ['LINEAR16', 'LINEAR32F', 'ALAW', 'MULAW', 'MPEG_AUDIO'],
+            choices: ['LINEAR16', 'ALAW', 'MULAW', 'MPEG_AUDIO'],
             demandOption: true,
         })
         .option('rate', {

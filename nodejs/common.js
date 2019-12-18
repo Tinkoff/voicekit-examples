@@ -43,13 +43,11 @@ function createTtsClient() {
 function checkWavFormat(format, argv) {
     const formatTags = {
         'LINEAR16': 0x0001,
-        'LINEAR32F': 0x0003,
         'ALAW': 0x0006,
         'MULAW': 0x0007,
     };
     const bitDepth = {
         'LINEAR16': 16,
-        'LINEAR32F': 32,
         'ALAW': 8,
         'MULAW': 8,
     };

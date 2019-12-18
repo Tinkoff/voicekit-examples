@@ -21,8 +21,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='tinkoff/cloud/tts/v1/tts.proto',
   package='tinkoff.cloud.tts.v1',
   syntax='proto3',
-  serialized_options=None,
-  serialized_pb=_b('\n\x1etinkoff/cloud/tts/v1/tts.proto\x12\x14tinkoff.cloud.tts.v1\x1a\x1cgoogle/api/annotations.proto\"\x8c\x01\n\x05Voice\x12\x16\n\x0elanguage_codes\x18\x01 \x03(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12:\n\x0bssml_gender\x18\x03 \x01(\x0e\x32%.tinkoff.cloud.tts.v1.SsmlVoiceGender\x12!\n\x19natural_sample_rate_hertz\x18\x04 \x01(\x05\"*\n\x11ListVoicesRequest\x12\x15\n\rlanguage_code\x18\x01 \x01(\t\"B\n\x13ListVoicesResponses\x12+\n\x06voices\x18\x01 \x03(\x0b\x32\x1b.tinkoff.cloud.tts.v1.Voice\"*\n\x0eSynthesisInput\x12\x0c\n\x04text\x18\x01 \x01(\tJ\x04\x08\x02\x10\x03R\x04ssml\"w\n\x14VoiceSelectionParams\x12\x15\n\rlanguage_code\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12:\n\x0bssml_gender\x18\x03 \x01(\x0e\x32%.tinkoff.cloud.tts.v1.SsmlVoiceGender\"\x9f\x01\n\x0b\x41udioConfig\x12;\n\x0e\x61udio_encoding\x18\x01 \x01(\x0e\x32#.tinkoff.cloud.tts.v1.AudioEncoding\x12\x15\n\rspeaking_rate\x18\x02 \x01(\x01\x12\x19\n\x11sample_rate_hertz\x18\x05 \x01(\x05J\x04\x08\x03\x10\x04J\x04\x08\x04\x10\x05R\x05pitchR\x0evolume_gain_db\"\xc2\x01\n\x17SynthesizeSpeechRequest\x12\x33\n\x05input\x18\x01 \x01(\x0b\x32$.tinkoff.cloud.tts.v1.SynthesisInput\x12\x39\n\x05voice\x18\x02 \x01(\x0b\x32*.tinkoff.cloud.tts.v1.VoiceSelectionParams\x12\x37\n\x0c\x61udio_config\x18\x03 \x01(\x0b\x32!.tinkoff.cloud.tts.v1.AudioConfig\"1\n\x18SynthesizeSpeechResponse\x12\x15\n\raudio_content\x18\x01 \x01(\x0c\"8\n!StreamingSynthesizeSpeechResponse\x12\x13\n\x0b\x61udio_chunk\x18\x01 \x01(\x0c*W\n\x0fSsmlVoiceGender\x12!\n\x1dSSML_VOICE_GENDER_UNSPECIFIED\x10\x00\x12\x08\n\x04MALE\x10\x01\x12\n\n\x06\x46\x45MALE\x10\x02\x12\x0b\n\x07NEUTRAL\x10\x03*\xe0\x01\n\rAudioEncoding\x12\x18\n\x14\x45NCODING_UNSPECIFIED\x10\x00\x12\x0c\n\x08LINEAR16\x10\x01\x12\t\n\x05MULAW\x10\x03\x12\x08\n\x04\x41LAW\x10\x08\x12\r\n\tLINEAR32F\x10\t\x12\x0c\n\x08RAW_OPUS\x10\x0b\"\x04\x08\x02\x10\x02\"\x04\x08\x04\x10\x04\"\x04\x08\x05\x10\x05\"\x04\x08\x06\x10\x06\"\x04\x08\x07\x10\x07\"\x04\x08\n\x10\n\"\x04\x08\x0c\x10\x0c*\x04\x46LAC*\x03\x41MR*\x06\x41MR_WB*\x08OGG_OPUS*\x16SPEEX_WITH_HEADER_BYTE*\nOGG_VORBIS*\nMPEG_AUDIO2\x9b\x03\n\x0cTextToSpeech\x12}\n\nListVoices\x12\'.tinkoff.cloud.tts.v1.ListVoicesRequest\x1a).tinkoff.cloud.tts.v1.ListVoicesResponses\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/v1/tts:list_voices\x12\x8a\x01\n\nSynthesize\x12-.tinkoff.cloud.tts.v1.SynthesizeSpeechRequest\x1a..tinkoff.cloud.tts.v1.SynthesizeSpeechResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\"\x12/v1/tts:synthesize:\x01*\x12\x7f\n\x13StreamingSynthesize\x12-.tinkoff.cloud.tts.v1.SynthesizeSpeechRequest\x1a\x37.tinkoff.cloud.tts.v1.StreamingSynthesizeSpeechResponse0\x01\x62\x06proto3')
+  serialized_options=_b('ZQgithub.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1\242\002\005TVKSS'),
+  serialized_pb=_b('\n\x1etinkoff/cloud/tts/v1/tts.proto\x12\x14tinkoff.cloud.tts.v1\x1a\x1cgoogle/api/annotations.proto\"\x8c\x01\n\x05Voice\x12\x16\n\x0elanguage_codes\x18\x01 \x03(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12:\n\x0bssml_gender\x18\x03 \x01(\x0e\x32%.tinkoff.cloud.tts.v1.SsmlVoiceGender\x12!\n\x19natural_sample_rate_hertz\x18\x04 \x01(\x05\"*\n\x11ListVoicesRequest\x12\x15\n\rlanguage_code\x18\x01 \x01(\t\"B\n\x13ListVoicesResponses\x12+\n\x06voices\x18\x01 \x03(\x0b\x32\x1b.tinkoff.cloud.tts.v1.Voice\"*\n\x0eSynthesisInput\x12\x0c\n\x04text\x18\x01 \x01(\tJ\x04\x08\x02\x10\x03R\x04ssml\"w\n\x14VoiceSelectionParams\x12\x15\n\rlanguage_code\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12:\n\x0bssml_gender\x18\x03 \x01(\x0e\x32%.tinkoff.cloud.tts.v1.SsmlVoiceGender\"\x9f\x01\n\x0b\x41udioConfig\x12;\n\x0e\x61udio_encoding\x18\x01 \x01(\x0e\x32#.tinkoff.cloud.tts.v1.AudioEncoding\x12\x15\n\rspeaking_rate\x18\x02 \x01(\x01\x12\x19\n\x11sample_rate_hertz\x18\x05 \x01(\x05J\x04\x08\x03\x10\x04J\x04\x08\x04\x10\x05R\x05pitchR\x0evolume_gain_db\"\xc2\x01\n\x17SynthesizeSpeechRequest\x12\x33\n\x05input\x18\x01 \x01(\x0b\x32$.tinkoff.cloud.tts.v1.SynthesisInput\x12\x39\n\x05voice\x18\x02 \x01(\x0b\x32*.tinkoff.cloud.tts.v1.VoiceSelectionParams\x12\x37\n\x0c\x61udio_config\x18\x03 \x01(\x0b\x32!.tinkoff.cloud.tts.v1.AudioConfig\"1\n\x18SynthesizeSpeechResponse\x12\x15\n\raudio_content\x18\x01 \x01(\x0c\"8\n!StreamingSynthesizeSpeechResponse\x12\x13\n\x0b\x61udio_chunk\x18\x01 \x01(\x0c*W\n\x0fSsmlVoiceGender\x12!\n\x1dSSML_VOICE_GENDER_UNSPECIFIED\x10\x00\x12\x08\n\x04MALE\x10\x01\x12\n\n\x06\x46\x45MALE\x10\x02\x12\x0b\n\x07NEUTRAL\x10\x03*\xe2\x01\n\rAudioEncoding\x12\x18\n\x14\x45NCODING_UNSPECIFIED\x10\x00\x12\x0c\n\x08LINEAR16\x10\x01\x12\t\n\x05MULAW\x10\x03\x12\x08\n\x04\x41LAW\x10\x08\x12\x0c\n\x08RAW_OPUS\x10\x0b\"\x04\x08\x02\x10\x02\"\x04\x08\x04\x10\x04\"\x04\x08\x05\x10\x05\"\x04\x08\x06\x10\x06\"\x04\x08\x07\x10\x07\"\x04\x08\t\x10\t\"\x04\x08\n\x10\n\"\x04\x08\x0c\x10\x0c*\x04\x46LAC*\x03\x41MR*\x06\x41MR_WB*\x08OGG_OPUS*\x16SPEEX_WITH_HEADER_BYTE*\tLINEAR32F*\nOGG_VORBIS*\nMPEG_AUDIO2\x9b\x03\n\x0cTextToSpeech\x12}\n\nListVoices\x12\'.tinkoff.cloud.tts.v1.ListVoicesRequest\x1a).tinkoff.cloud.tts.v1.ListVoicesResponses\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/v1/tts:list_voices\x12\x8a\x01\n\nSynthesize\x12-.tinkoff.cloud.tts.v1.SynthesizeSpeechRequest\x1a..tinkoff.cloud.tts.v1.SynthesizeSpeechResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\"\x12/v1/tts:synthesize:\x01*\x12\x7f\n\x13StreamingSynthesize\x12-.tinkoff.cloud.tts.v1.SynthesizeSpeechRequest\x1a\x37.tinkoff.cloud.tts.v1.StreamingSynthesizeSpeechResponse0\x01\x42[ZQgithub.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1\xa2\x02\x05TVKSSb\x06proto3')
   ,
   dependencies=[google_dot_api_dot_annotations__pb2.DESCRIPTOR,])
 
@@ -80,18 +80,14 @@ _AUDIOENCODING = _descriptor.EnumDescriptor(
       serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='LINEAR32F', index=4, number=9,
-      serialized_options=None,
-      type=None),
-    _descriptor.EnumValueDescriptor(
-      name='RAW_OPUS', index=5, number=11,
+      name='RAW_OPUS', index=4, number=11,
       serialized_options=None,
       type=None),
   ],
   containing_type=None,
   serialized_options=None,
   serialized_start=1064,
-  serialized_end=1288,
+  serialized_end=1290,
 )
 _sym_db.RegisterEnumDescriptor(_AUDIOENCODING)
 
@@ -104,7 +100,6 @@ ENCODING_UNSPECIFIED = 0
 LINEAR16 = 1
 MULAW = 3
 ALAW = 8
-LINEAR32F = 9
 RAW_OPUS = 11
 
 
@@ -534,6 +529,7 @@ StreamingSynthesizeSpeechResponse = _reflection.GeneratedProtocolMessageType('St
 _sym_db.RegisterMessage(StreamingSynthesizeSpeechResponse)
 
 
+DESCRIPTOR._options = None
 
 _TEXTTOSPEECH = _descriptor.ServiceDescriptor(
   name='TextToSpeech',
@@ -541,8 +537,8 @@ _TEXTTOSPEECH = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=1291,
-  serialized_end=1702,
+  serialized_start=1293,
+  serialized_end=1704,
   methods=[
   _descriptor.MethodDescriptor(
     name='ListVoices',

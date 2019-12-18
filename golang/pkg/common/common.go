@@ -117,13 +117,11 @@ func OpenWavFormat(file *os.File, expectedEncoding string, expectedNumChannels i
 
 	encodingAudioFormat := map[string]uint16{
 		"LINEAR16":  0x0001,
-		"LINEAR32F": 0x0003,
 		"ALAW":      0x0006,
 		"MULAW":     0x0007,
 	}
 	encodingBitDepth := map[string]uint16{
 		"LINEAR16":  16,
-		"LINEAR32F": 32,
 		"ALAW":      8,
 		"MULAW":     8,
 	}

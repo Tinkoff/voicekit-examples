@@ -12,8 +12,6 @@ def _encoding_to_pyaudio_format_and_width(encoding):
     import pyaudio
     if encoding in [stt_pb2.LINEAR16, tts_pb2.LINEAR16]:
         return pyaudio.paInt16, 2
-    elif encoding in [stt_pb2.LINEAR32F, tts_pb2.LINEAR32F]:
-        return pyaudio.paFloat32, 4
     else:
         raise ValueError("pyaudio: does not support encoding {}".format(encoding))
 
@@ -72,8 +70,6 @@ class WaveReader(FileReader):
         if wav.getframerate() != self._sample_rate_hint:
             raise ValueError("Sample rate detected: {} vs specified: {}".format(wav.getframerate(),
                                                                                 self._sample_rate_hint))
-        if wav.getsampwidth() != 4 and self._encoding_hint == stt_pb2.LINEAR32F:
-            raise ValueError("Specified encoding LINEAR32F, got sample width: {}".format(wav.getsampwidth()))
         if wav.getsampwidth() != 2 and self._encoding_hint == stt_pb2.LINEAR16:
             raise ValueError("Specified encoding LINEAR16, got sample width: {}".format(wav.getsampwidth()))
 

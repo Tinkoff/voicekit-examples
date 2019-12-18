@@ -39,7 +39,6 @@ func addRecognizeOptions(parser *argparse.Parser) *RecognizeOptions {
 
 	encoding := parser.Selector("e", "encoding", []string{
 		"LINEAR16",
-		"LINEAR32F",
 		"MPEG_AUDIO",
 		"ALAW",
 		"MULAW",
