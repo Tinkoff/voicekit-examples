@@ -25,10 +25,10 @@ To disable automatic punctuation and get up to 3 recognition alternatives:
 $ node recognize.js -e MPEG_AUDIO -r 16000 -c 1 --no-automatic-punctuation --max-alternatives 3 ../audio/sample_1.mp3
 ```
 
-Run streaming speech recognition with interim results:
+Run streaming speech recognition with interim results and disabled voice activity detection (VAD):
 
 ```
-$ node recognize_stream.js -e MPEG_AUDIO -r 16000 -c 1 --interim-results ../audio/sample_1.mp3
+$ node recognize_stream.js -e MPEG_AUDIO -r 16000 -c 1 --interim-results --no-perform-vad ../audio/sample_1.mp3
 ```
 
 Specify longer silence timeout for voice activity detection (you will probably need longer audio to actually see the difference):

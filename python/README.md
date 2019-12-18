@@ -89,10 +89,10 @@ $ python3 synthesize_stream.py -r 48000 -e RAW_OPUS "Газета Times, 03 ян
 $ python3 recognize_stream.py -e RAW_OPUS -r 48000 -c 1 output.raw_opus
 ```
 
-Run streaming speech recognition with interim results:
+Run streaming speech recognition with interim results and disabled voice activity detection (VAD):
 
 ```
-$ python3 recognize_stream.py -e MPEG_AUDIO --interim_results -r 16000 -c 1 ../audio/sample_1.mp3
+$ python3 recognize_stream.py -e MPEG_AUDIO --interim_results --do_not_perform_vad -r 16000 -c 1 ../audio/sample_1.mp3
 ```
 
 Use audio from microphone (requires `PyAudio`):
