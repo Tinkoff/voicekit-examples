@@ -38,3 +38,9 @@ DerivedData/
 
 ## Gcc Patch
 /*.gcno
+
+## .Net project
+csharp/obj
+csharp/bin
+csharp/.vscode
+csharp/*.wav
