@@ -9,6 +9,7 @@ namespace Tinkoff.VoiceKit
     public static class CommandLineInterface
     {
         static VoiceKitClient _client;
+
         static CommandLineInterface()
         {
             string apiKey = Environment.GetEnvironmentVariable("VOICEKIT_API_KEY");
@@ -21,6 +22,7 @@ namespace Tinkoff.VoiceKit
 
             _client = new VoiceKitClient(apiKey, secretKey);
         }
+
         public static Command CreateRecognizeCommand()
         {
             var commandRecognize = new Command("recognize", "recognize audio");
@@ -44,7 +46,7 @@ namespace Tinkoff.VoiceKit
                         countChannel,
                         maxAlternatives,
                         disablePunctuation);
-                    System.Console.WriteLine(_client.Rcognize(recognizeConfig, audioPath));
+                    System.Console.WriteLine(_client.Recognize(recognizeConfig, audioPath));
                 });
 
             return commandRecognize;
@@ -112,8 +114,6 @@ namespace Tinkoff.VoiceKit
 
         static List<Option> CreateRecognizeOptions()
         {
-            List<Option> recognizeOptions = new List<Option>();
-
             var sampleRateOption = new Option("--sample-rate");
             sampleRateOption.AddAlias("-r");
             var sampleRate = new Argument<uint>();
@@ -142,6 +142,7 @@ namespace Tinkoff.VoiceKit
             var audioPath = new Argument<string>();
             audioPathOption.Argument = audioPath;
 
+            var recognizeOptions = new List<Option>();
             recognizeOptions.Add(sampleRateOption);
             recognizeOptions.Add(countAudioChannelOption);
             recognizeOptions.Add(audioEncodingOption);
@@ -154,12 +155,11 @@ namespace Tinkoff.VoiceKit
 
         static List<Option> CreateStreamingRecognitionOptions()
         {
-            List<Option> options  = CreateRecognizeOptions();
-
             var enableInterimResultsOption = new Option("--enable-interim-results");
             var enableInterimResults = new Argument<bool>(defaultValue: () => false);
             enableInterimResultsOption.Argument = enableInterimResults;
 
+            var options  = CreateRecognizeOptions();
             options.Add(enableInterimResultsOption);
 
             return options;
@@ -197,6 +197,7 @@ namespace Tinkoff.VoiceKit
             recognizeCongig.NumChannels = countChannel;
             recognizeCongig.EnableAutomaticPunctuation = !disablePunctuation;
             recognizeCongig.MaxAlternatives = maxAlternatives;
+
             return recognizeCongig;
         }
 

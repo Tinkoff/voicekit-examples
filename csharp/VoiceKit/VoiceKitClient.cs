@@ -18,26 +18,6 @@ namespace Tinkoff.VoiceKit
         Auth _authSTT;
         Auth _authTTS;
 
-        Metadata _getMetadataSTT
-        {
-            get
-            {
-                Metadata header = new Metadata();
-                header.Add("Authorization", $"Bearer {_authSTT.GetToken}");
-                return header;
-            }
-        }
-
-        Metadata _getMetadataTTS
-        {
-            get
-            {
-                Metadata header = new Metadata();
-                header.Add("Authorization", $"Bearer {_authTTS.GetToken}");
-                return header;
-            }
-        }
-
         public VoiceKitClient(string apiKey, string secretKey)
         {
             _authSTT = new Auth(apiKey, secretKey, "tinkoff.cloud.stt");
@@ -51,7 +31,21 @@ namespace Tinkoff.VoiceKit
             _clientTTS = new TextToSpeech.TextToSpeechClient(channelTTS);
         }
 
-        public string Rcognize(RecognitionConfig config, string path)
+        private Metadata Get_getMetadataSTT()
+        {
+            Metadata header = new Metadata();
+            header.Add("Authorization", $"Bearer {_authSTT.GetToken}");
+            return header;
+        }
+
+        private Metadata Get_getMetadataTTS()
+        {
+            Metadata header = new Metadata();
+            header.Add("Authorization", $"Bearer {_authTTS.GetToken}");
+            return header;
+        }
+
+        public string Recognize(RecognitionConfig config, string path)
         {
             var audioBytes = File.ReadAllBytes(path);
 
@@ -62,9 +56,9 @@ namespace Tinkoff.VoiceKit
                 Content = Google.Protobuf.ByteString.CopyFrom(audioBytes, 0, audioBytes.Length)
             };
 
-            var response = _clientSTT.Recognize(request, this._getMetadataSTT);
+            var response = _clientSTT.Recognize(request, this.Get_getMetadataSTT());
 
-            List<string> texts = new List<string>();
+            var texts = new List<string>();
 
             foreach (var result in response.Results)
             {
@@ -77,7 +71,7 @@ namespace Tinkoff.VoiceKit
 
         public async Task StreamingRecognize(StreamingRecognitionConfig config, string path)
         {
-            var stream = _clientSTT.StreamingRecognize(this._getMetadataSTT);
+            var stream = _clientSTT.StreamingRecognize(this.Get_getMetadataSTT());
             var request = new StreamingRecognizeRequest();
             request.StreamingConfig = config;
             await stream.RequestStream.WriteAsync(request);
@@ -97,7 +91,6 @@ namespace Tinkoff.VoiceKit
                     }
                 }
             });
-
 
             using (FileStream fileStream = new FileStream(path, FileMode.Open))
             {
@@ -134,9 +127,9 @@ namespace Tinkoff.VoiceKit
                 Text = synthesizeInput
             };
 
-            var stream = _clientTTS.StreamingSynthesize(request, this._getMetadataTTS);
+            var stream = _clientTTS.StreamingSynthesize(request, this.Get_getMetadataTTS());
 
-            List<Byte[]> audioBuffer = new List<Byte[]>();
+            var audioBuffer = new List<Byte[]>();
             while (await stream.ResponseStream.MoveNext(
                     default(CancellationToken)))
             {
