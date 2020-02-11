@@ -4,7 +4,6 @@ using Grpc.Core;
 using System.IO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Threading;
 using System;
 using NAudio.Wave;
 using System.Linq;
@@ -31,23 +30,28 @@ namespace Tinkoff.VoiceKit
             _clientTTS = new TextToSpeech.TextToSpeechClient(channelTTS);
         }
 
-        private Metadata Get_getMetadataSTT()
+        private Metadata GetMetadataSTT()
         {
             Metadata header = new Metadata();
             header.Add("Authorization", $"Bearer {_authSTT.GetToken}");
             return header;
         }
 
-        private Metadata Get_getMetadataTTS()
+        private Metadata GetMetadataTTS()
         {
             Metadata header = new Metadata();
             header.Add("Authorization", $"Bearer {_authTTS.GetToken}");
             return header;
         }
 
-        public string Recognize(RecognitionConfig config, string path)
+        public string Recognize(RecognitionConfig config, Stream audioStream)
         {
-            var audioBytes = File.ReadAllBytes(path);
+            byte[] audioBytes;
+            using (MemoryStream buffer = new MemoryStream())
+            {
+                audioStream.CopyTo(buffer);
+                audioBytes = buffer.ToArray();
+            }
 
             RecognizeRequest request = new RecognizeRequest();
             request.Config = config;
@@ -56,7 +60,7 @@ namespace Tinkoff.VoiceKit
                 Content = Google.Protobuf.ByteString.CopyFrom(audioBytes, 0, audioBytes.Length)
             };
 
-            var response = _clientSTT.Recognize(request, this.Get_getMetadataSTT());
+            var response = _clientSTT.Recognize(request, this.GetMetadataSTT());
 
             var texts = new List<string>();
 
@@ -69,46 +73,39 @@ namespace Tinkoff.VoiceKit
             return string.Join(" ", texts);
         }
 
-        public async Task StreamingRecognize(StreamingRecognitionConfig config, string path)
+        public async Task StreamingRecognize(StreamingRecognitionConfig config, Stream audioStream)
         {
-            var stream = _clientSTT.StreamingRecognize(this.Get_getMetadataSTT());
-            var request = new StreamingRecognizeRequest();
-            request.StreamingConfig = config;
-            await stream.RequestStream.WriteAsync(request);
-
-            Task PrintResponses = Task.Run(async () =>
+            var streamingSTT = _clientSTT.StreamingRecognize(this.GetMetadataSTT());
+            var requestWithConfig = new StreamingRecognizeRequest
             {
-                while (await stream.ResponseStream.MoveNext(
-                    default(CancellationToken)))
+                StreamingConfig = config
+            };
+            await streamingSTT.RequestStream.WriteAsync(requestWithConfig);
+
+            Task PrintResponsesTask = Task.Run(async () =>
+            {
+                while (await streamingSTT.ResponseStream.MoveNext())
                 {
-                    foreach (var result in stream.ResponseStream
-                        .Current.Results)
-                    {
+                    foreach (var result in streamingSTT.ResponseStream.Current.Results)
                         foreach (var alternative in result.RecognitionResult.Alternatives)
-                        {
                             System.Console.WriteLine(alternative.Transcript);
-                        }
-                    }
                 }
             });
 
-            using (FileStream fileStream = new FileStream(path, FileMode.Open))
+            var buffer = new byte[2 * 1024];
+            int bytesRead;
+            while ((bytesRead = audioStream.Read(buffer, 0, buffer.Length)) > 0)
             {
-                var buffer = new byte[2 * 1024];
-                int bytesRead;
-                while ((bytesRead = await fileStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-                {
-                    await stream.RequestStream.WriteAsync(
-                    new StreamingRecognizeRequest()
+                await streamingSTT.RequestStream.WriteAsync(
+                    new StreamingRecognizeRequest
                     {
-                        AudioContent = Google.Protobuf.ByteString
-                        .CopyFrom(buffer, 0, bytesRead),
+                        AudioContent = Google.Protobuf
+                        .ByteString.CopyFrom(buffer, 0, bytesRead),
                     });
-                }
             }
 
-            await stream.RequestStream.CompleteAsync();
-            await PrintResponses;
+            await streamingSTT.RequestStream.CompleteAsync();
+            await PrintResponsesTask;
         }
 
         public async Task StreamingSynthesize(string synthesizeInput, string audioName)
@@ -127,17 +124,16 @@ namespace Tinkoff.VoiceKit
                 Text = synthesizeInput
             };
 
-            var stream = _clientTTS.StreamingSynthesize(request, this.Get_getMetadataTTS());
+            var stream = _clientTTS.StreamingSynthesize(request, this.GetMetadataTTS());
 
             var audioBuffer = new List<Byte[]>();
-            while (await stream.ResponseStream.MoveNext(
-                    default(CancellationToken)))
+            while (await stream.ResponseStream.MoveNext())
             {
                 audioBuffer.Add(stream.ResponseStream.Current.AudioChunk.ToByteArray());
             }
 
             var audioBytes = audioBuffer.SelectMany(byteArr => byteArr).ToArray();
-            using (WaveFileWriter writer = new WaveFileWriter(audioName, new WaveFormat(sampleRate, 1)))
+            using (var writer = new WaveFileWriter(audioName, new WaveFormat(sampleRate, 1)))
             {
                 writer.Write(audioBytes, 0, audioBytes.Length);
             }

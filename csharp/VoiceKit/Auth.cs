@@ -24,7 +24,7 @@ namespace Tinkoff.VoiceKit
                 {
                     _expTime = DateTimeOffset.UtcNow.AddMinutes(5);
                     _payload["exp"] = _expTime.ToUnixTimeSeconds();
-                    CreateTokenJWT();
+                    CreateJWT();
                 }
                 return _jwt;
             }
@@ -49,21 +49,21 @@ namespace Tinkoff.VoiceKit
                 { "kid", _apiKey }
             };
 
-            CreateTokenJWT();
+            CreateJWT();
         }
 
-        private static string UrlSaveEncode(string data)
+        private static string UrlSafeEncode(string data)
         {
             byte[] dataBytes = Encoding.UTF8.GetBytes(data);
             string dataBase64 = Convert.ToBase64String(dataBytes);
-            string dataUrlSaveBase64 = dataBase64.TrimEnd('=').
-            Replace('+', '-').
-            Replace('/', '_');
+            string dataUrlSaveBase64 = dataBase64.TrimEnd('=')
+            .Replace('+', '-')
+            .Replace('/', '_');
 
             return dataUrlSaveBase64;
         }
 
-        private static byte[] UrlSaveDecode(string data)
+        private static byte[] UrlSafeDecode(string data)
         {
             string incoming = data.Replace('_', '/').Replace('-', '+');
             switch (data.Length % 4)
@@ -75,15 +75,15 @@ namespace Tinkoff.VoiceKit
             return Convert.FromBase64String(incoming);
         }
 
-        private void CreateTokenJWT()
+        private void CreateJWT()
         {
             string payloadJson = JsonConvert.SerializeObject(_payload, Formatting.Indented);
             string headerJson = JsonConvert.SerializeObject(_header, Formatting.Indented);
 
-            string payloadUrlSaveBase64 = UrlSaveEncode(payloadJson);
-            string headerUrlSaveBase64 = UrlSaveEncode(headerJson);
+            string payloadUrlSaveBase64 = UrlSafeEncode(payloadJson);
+            string headerUrlSaveBase64 = UrlSafeEncode(headerJson);
             string data = string.Concat(headerUrlSaveBase64, ".", payloadUrlSaveBase64);
-            byte[] secretBytes = UrlSaveDecode(_secretKey);
+            byte[] secretBytes = UrlSafeDecode(_secretKey);
 
             using (var hmac = new HMACSHA256(secretBytes))
             {

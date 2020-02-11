@@ -1,6 +1,6 @@
 # C# examples
 
-You will need preinstall `.net core 2.2`.
+You will need to install `.net core 2.1`.
 
 ### Basic recognition examples
 
@@ -13,16 +13,26 @@ $ dotnet run -- recognize -e MPEG_AUDIO -c 1 -r 16000 -p ../audio/sample_1.mp3
 To disable automatic punctuation and get up to 3 recognition alternatives:
 
 ```
-$ dotnet run -- streaming-recognize -e MPEG_AUDIO -c 1 -r 16000 --disable-automatic-punctuation true -p ../audio/sample_1.mp3
+$ dotnet run -- streaming-recognize -e MPEG_AUDIO -c 1 -r 16000 --max-alternatives 3 --disable-automatic-punctuation true -p ../audio/sample_1.mp3
 ```
 
 Run streaming speech recognition with interim results:
 
 ```
-$ dotnet run -- streaming-recognize -e MPEG_AUDIO -r 16000 -c 1 --interim-results true -p ../audio/sample_1.mp3
+$ dotnet run -- streaming-recognize -e MPEG_AUDIO -r 16000 -c 1 --enable-interim-results true -p ../audio/sample_1.mp3
+```
+
+Specify longer silence timeout for voice activity detection (you will probably need longer audio to actually see the difference):
+
+```
+$ dotnet run -- streaming-recognize -e MPEG_AUDIO -r 16000 -c 1 --enable-interim-results true --silence-duration-treshold 1.2 -p ../audio/sample_1.mp3
 ```
 
 Return just the first recognized utterance and halt (you will probably need longer audio to actually see the difference):
+
+```
+$ dotnet run -- streaming-recognize -e MPEG_AUDIO -r 16000 -c 1 --enable-interim-results true --single-utterance true -p ../audio/sample_1.mp3
+```
 
 ### Basic synthesis examples
 

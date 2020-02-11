@@ -1,13 +1,39 @@
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using Tinkoff.Cloud.Stt.V1;
+using Tinkoff.VoiceKit;
+using NAudio.Wave;
 
-namespace Tinkoff.VoiceKit
+namespace csharp.Infrastructure
 {
     public static class CommandLineInterface
     {
+        delegate void RecognitionHandler(
+            uint sampleRate,
+            string audioEncoding,
+            uint channelsCount,
+            uint maxAlternatives,
+            bool disableAutomaticPunctation,
+            bool doNotPerformVad,
+            float silenceDurationThreshold,
+            string audioPath
+        );
+
+        delegate void StreamingRecognitionHandler(
+            uint sampleRate,
+            string audioEncoding,
+            uint channelsCount,
+            uint maxAlternatives,
+            bool disablePunctuation,
+            bool disableAutomaticPunctation,
+            float silenceDurationThreshold,
+            string audioPath,
+            bool enableInterimResults,
+            bool singleUtterance
+        );
+
         static VoiceKitClient _client;
 
         static CommandLineInterface()
@@ -16,153 +42,187 @@ namespace Tinkoff.VoiceKit
             string secretKey = Environment.GetEnvironmentVariable("VOICEKIT_SECRET_KEY");
 
             if (string.IsNullOrEmpty(apiKey))
-                throw new ArgumentException("VOICEKIT_API_KEY does not exist in enviroment variable");
+                throw new ArgumentException("VOICEKIT_API_KEY does not exist in the enviroment variable");
             if (string.IsNullOrEmpty(secretKey))
-                throw new ArgumentException("VOICEKIT_SECRET_KEY does not exist in enviroment variable");
+                throw new ArgumentException("VOICEKIT_SECRET_KEY does not exist in the enviroment variable");
 
             _client = new VoiceKitClient(apiKey, secretKey);
         }
 
-        public static Command CreateRecognizeCommand()
+        public static Command CreateRecognitionCommand()
         {
-            var commandRecognize = new Command("recognize", "recognize audio");
+            var recognitionCommand = new Command("recognize", "recognize audio");
 
-            foreach (var option in CreateRecognizeOptions())
-                commandRecognize.Add(option);
+            foreach (var option in CommandLineOptions.CreateRecognitionOptions())
+                recognitionCommand.Add(option);
 
-            commandRecognize.Handler = CommandHandler.
-            Create<uint, string, uint, uint, bool, string>
-            (
-                (sampleRate,
-                audioEncoding,
-                countChannel,
-                maxAlternatives,
-                disablePunctuation,
-                audioPath) =>
-                {
-                    RecognitionConfig recognizeConfig = CreateRecognizeConfig(
-                        sampleRate,
-                        audioEncoding,
-                        countChannel,
-                        maxAlternatives,
-                        disablePunctuation);
-                    System.Console.WriteLine(_client.Recognize(recognizeConfig, audioPath));
-                });
+            RecognitionHandler handler = HandleRecognitionCommand;
+            recognitionCommand.Handler = CommandHandler.Create(handler);
 
-            return commandRecognize;
+            return recognitionCommand;
         }
 
-        public static Command CreateStreamingRecognizeCommand()
+        public static Command CreateStreamingRecognitionCommand()
         {
-            var commandStreamingRecognize = new Command("streaming-recognize", "streaming recognize audio");
+            var streamingRecognitionCommand = new Command("streaming-recognize", "streaming recognize audio");
 
-            foreach (var option in CreateStreamingRecognitionOptions())
-                commandStreamingRecognize.Add(option);
+            foreach (var option in CommandLineOptions.CreateStreamingRecognitionOptions())
+                streamingRecognitionCommand.Add(option);
 
-            commandStreamingRecognize.Handler = CommandHandler.
-            Create<uint, string, uint, uint, bool, string, bool>
-            (
-                (sampleRate,
-                audioEncoding,
-                countChannel,
-                maxAlternatives,
-                disableAutomaticPunctuation,
-                audioPath,
-                enableInterimResults) =>
-                {
-                    var streamingRecognizeConfig = CreateStreamingRecognizeConfig(
-                        sampleRate,
-                        audioEncoding,
-                        countChannel,
-                        maxAlternatives,
-                        disableAutomaticPunctuation,
-                        enableInterimResults);
-                    _client.StreamingRecognize(streamingRecognizeConfig, audioPath).Wait();
-                });
+            StreamingRecognitionHandler handler = HandleStreamingRecognitionCommand;
+            streamingRecognitionCommand.Handler = CommandHandler.Create(handler);
 
-            return commandStreamingRecognize;
+            return streamingRecognitionCommand;
         }
-        
-        public static Command CreateStreamingSynthesizeCommand()
+
+        public static Command CreateStreamingSynthesisCommand()
         {
-            var commandStreamingSynthesize = new Command("synthesize", "streaming synthesize command");
+            var streamingSynthesisCommand = new Command("synthesize");
 
-            Option audioTextOption = new Option("--synthesize-text", "text, that you wont synthesize");
-            audioTextOption.AddAlias("-t");
-            var audioText = new Argument<string>();
-            audioTextOption.Argument = audioText;
+            foreach (var option in CommandLineOptions.CreateStreamingSynthesisOptions())
+                streamingSynthesisCommand.AddOption(option);
 
-            Option audioNameOption = new Option("--audio-name", "name of audio that will be save");
-            audioNameOption.AddAlias("-o");
-            var audioName = new Argument<string>(defaultValue: () => "./audio.wav");
-            audioNameOption.Argument = audioName;
-
-            commandStreamingSynthesize.AddOption(audioTextOption);
-            commandStreamingSynthesize.AddOption(audioNameOption);
-
-            commandStreamingSynthesize.Handler = CommandHandler.
-            Create<string, string>
+            streamingSynthesisCommand.Handler = CommandHandler
+            .Create<string, string>
             (
                 (synthesizeText, audioNAme) =>
                 {
                     _client.StreamingSynthesize(synthesizeText, audioNAme).Wait();
                 }
             );
+
+            return streamingSynthesisCommand;
+        }
+
+        public static void HandleRecognitionCommand(
+            uint sampleRate,
+            string audioEncoding,
+            uint channelsCount,
+            uint maxAlternatives,
+            bool disableAutomaticPunctation,
+            bool doNotPerformVad,
+            float silenceDurationThreshold,
+            string audioPath
+        )
+        {
+            RecognitionConfig recognitionConfig = CreateRecognitionConfig(
+                sampleRate,
+                audioEncoding,
+                channelsCount,
+                maxAlternatives,
+                disableAutomaticPunctation
+            );
+
+            ConfigurateVAD(
+                recognitionConfig, 
+                silenceDurationThreshold, 
+                doNotPerformVad
+            );
+
+            using (var fileStream = GetAudioStream(audioPath, audioEncoding))
+            {
+                System.Console.WriteLine(_client.Recognize(recognitionConfig, fileStream));
+            }
+        }
+
+        public static void HandleStreamingRecognitionCommand(
+            uint sampleRate,
+            string audioEncoding,
+            uint channelsCount,
+            uint maxAlternatives,
+            bool disableAutomaticPunctation,
+            bool doNotPerformVad,
+            float silenceDurationThreshold,
+            string audioPath,
+            bool enableInterimResults,
+            bool singleUtterance
+        )
+        {
+            var streamingRecognitionConfig = CreateStreamingRecognitionConfig(
+                sampleRate,
+                audioEncoding,
+                channelsCount,
+                maxAlternatives,
+                disableAutomaticPunctation,
+                enableInterimResults,
+                singleUtterance
+            );
             
-            return commandStreamingSynthesize;
+
+            ConfigurateVAD(
+                streamingRecognitionConfig.Config, 
+                silenceDurationThreshold, 
+                doNotPerformVad
+            );
+
+            using (var fileStream = GetAudioStream(audioPath, audioEncoding))
+            {
+                _client.StreamingRecognize(streamingRecognitionConfig, fileStream).Wait();
+            }
         }
 
-        static List<Option> CreateRecognizeOptions()
+        static RecognitionConfig CreateRecognitionConfig(
+            uint sampleRate,
+            string encoding,
+            uint countChannel,
+            uint maxAlternatives,
+            bool disablePunctuation
+        )
         {
-            var sampleRateOption = new Option("--sample-rate");
-            sampleRateOption.AddAlias("-r");
-            var sampleRate = new Argument<uint>();
-            sampleRateOption.Argument = sampleRate;
+            var recognitionConfig = new RecognitionConfig();
+            recognitionConfig.SampleRateHertz = sampleRate;
+            recognitionConfig.Encoding = GetAudioEncodingSTT(encoding);
+            recognitionConfig.NumChannels = countChannel;
+            recognitionConfig.EnableAutomaticPunctuation = !disablePunctuation;
+            recognitionConfig.MaxAlternatives = maxAlternatives;
 
-            var audioEncodingOption = new Option("--audio-encoding");
-            audioEncodingOption.AddAlias("-e");
-            var audioEncoding = new Argument<string>();
-            audioEncodingOption.Argument = audioEncoding;
-
-            var countAudioChannelOption = new Option("--count-channel");
-            countAudioChannelOption.AddAlias("-c");
-            var countAudioChannel = new Argument<uint>();
-            countAudioChannelOption.Argument = countAudioChannel;
-
-            var maxAlternativesOption = new Option("--max-alternatives");
-            var maxAlternatives = new Argument<uint>(defaultValue: () => 1);
-            maxAlternativesOption.Argument = maxAlternatives;
-
-            var disableAutomaticPunctuationOption = new Option("--disable-automatic-punctuation");
-            var disableAutomaticPunctation = new Argument<bool>(defaultValue: () => false);
-            disableAutomaticPunctuationOption.Argument = disableAutomaticPunctation;
-
-            var audioPathOption = new Option("--audio-path");
-            audioPathOption.AddAlias("-p");
-            var audioPath = new Argument<string>();
-            audioPathOption.Argument = audioPath;
-
-            var recognizeOptions = new List<Option>();
-            recognizeOptions.Add(sampleRateOption);
-            recognizeOptions.Add(countAudioChannelOption);
-            recognizeOptions.Add(audioEncodingOption);
-            recognizeOptions.Add(maxAlternativesOption);
-            recognizeOptions.Add(disableAutomaticPunctuationOption);
-            recognizeOptions.Add(audioPathOption);
-
-            return recognizeOptions;
+            return recognitionConfig;
         }
 
-        static List<Option> CreateStreamingRecognitionOptions()
+        static StreamingRecognitionConfig CreateStreamingRecognitionConfig(
+            uint sampleRate,
+            string audioEncoding,
+            uint countChannel,
+            uint maxAlternatives,
+            bool disableAutomaticPunctuation,
+            bool enableInterimResults,
+            bool singleUtterance
+        )
         {
-            var enableInterimResultsOption = new Option("--enable-interim-results");
-            var enableInterimResults = new Argument<bool>(defaultValue: () => false);
-            enableInterimResultsOption.Argument = enableInterimResults;
+            var streamingRecognitionConfig = new StreamingRecognitionConfig();
 
-            var options  = CreateRecognizeOptions();
-            options.Add(enableInterimResultsOption);
+            streamingRecognitionConfig.Config = CreateRecognitionConfig
+            (
+                sampleRate,
+                audioEncoding,
+                countChannel,
+                maxAlternatives,
+                disableAutomaticPunctuation
+            );
 
-            return options;
+            streamingRecognitionConfig.InterimResultsConfig = new InterimResultsConfig()
+            {
+                EnableInterimResults = enableInterimResults,
+            };
+
+            streamingRecognitionConfig.SingleUtterance = singleUtterance;
+
+            return streamingRecognitionConfig;
+        }
+
+        static void ConfigurateVAD(
+            RecognitionConfig config,
+            float silenceDurationThreshold,
+            bool doNotPerformVAD
+        )
+        {
+            if (silenceDurationThreshold >= 0)
+                config.VadConfig = new VoiceActivityDetectionConfig
+                {
+                    SilenceDurationThreshold = silenceDurationThreshold
+                };
+            else
+                config.DoNotPerformVad = doNotPerformVAD;
         }
 
         static AudioEncoding GetAudioEncodingSTT(string encoding)
@@ -172,6 +232,7 @@ namespace Tinkoff.VoiceKit
                 case "MPEG_AUDIO":
                     return AudioEncoding.MpegAudio;
                 case "LINEAR16":
+                case "WAV":
                     return AudioEncoding.Linear16;
                 case "MULAW":
                     return AudioEncoding.Mulaw;
@@ -179,54 +240,17 @@ namespace Tinkoff.VoiceKit
                     return AudioEncoding.Alaw;
                 case "RAW_OPUS":
                     return AudioEncoding.RawOpus;
+                default:
+                    return AudioEncoding.EncodingUnspecified;
             }
-            return AudioEncoding.EncodingUnspecified;
         }
 
-        static RecognitionConfig CreateRecognizeConfig(
-            uint sampleRate,
-            string encoding,
-            uint countChannel,
-            uint maxAlternatives,
-            bool disablePunctuation
-        )
+        public static Stream GetAudioStream(string path, string audioEncoding)
         {
-            var recognizeCongig = new RecognitionConfig();
-            recognizeCongig.SampleRateHertz = sampleRate;
-            recognizeCongig.Encoding = GetAudioEncodingSTT(encoding);
-            recognizeCongig.NumChannels = countChannel;
-            recognizeCongig.EnableAutomaticPunctuation = !disablePunctuation;
-            recognizeCongig.MaxAlternatives = maxAlternatives;
+            if (audioEncoding == "WAV")
+                return new WaveFileReader(path);
 
-            return recognizeCongig;
-        }
-
-        static StreamingRecognitionConfig CreateStreamingRecognizeConfig(
-            uint sampleRate,
-            string audioEncoding,
-            uint countChannel,
-            uint maxAlternatives,
-            bool disableAutomaticPunctuation,
-            bool enableInterimResults
-        )
-        {
-            var streamingRecognizeConfig = new StreamingRecognitionConfig();
-
-            streamingRecognizeConfig.Config = CreateRecognizeConfig
-            (
-                sampleRate,
-                audioEncoding,
-                countChannel,
-                maxAlternatives,
-                disableAutomaticPunctuation
-            );
-
-            streamingRecognizeConfig.InterimResultsConfig = new InterimResultsConfig()
-            {
-                EnableInterimResults = enableInterimResults
-            };
-
-            return streamingRecognizeConfig;
+            return new FileStream(path, FileMode.Open);
         }
     }
 }

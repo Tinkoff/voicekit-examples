@@ -1,6 +1,7 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.Threading.Tasks;
+using csharp.Infrastructure;
 
 namespace Tinkoff.VoiceKit
 {
@@ -8,16 +9,16 @@ namespace Tinkoff.VoiceKit
     {
         public static async Task Main(string[] args)
         {
-            var commandRoot = new RootCommand("voicekit");
-            var commandRecognize = CommandLineInterface.CreateRecognizeCommand();
-            var commandStreamingRecognize = CommandLineInterface.CreateStreamingRecognizeCommand();
-            var commandStreamingSynthesize = CommandLineInterface.CreateStreamingSynthesizeCommand();
+            var rootCommand = new RootCommand("voicekit");
+            var recognitionCommand = CommandLineInterface.CreateRecognitionCommand();
+            var streamingRecognitionCommand = CommandLineInterface.CreateStreamingRecognitionCommand();
+            var streamingSynthesisCommand = CommandLineInterface.CreateStreamingSynthesisCommand();
 
-            commandRoot.AddCommand(commandRecognize);
-            commandRoot.AddCommand(commandStreamingRecognize);
-            commandRoot.AddCommand(commandStreamingSynthesize);
+            rootCommand.AddCommand(recognitionCommand);
+            rootCommand.AddCommand(streamingRecognitionCommand);
+            rootCommand.AddCommand(streamingSynthesisCommand);
 
-            await commandRoot.InvokeAsync(args);
+            await rootCommand.InvokeAsync(args);
         }
     }
 }
