@@ -155,9 +155,9 @@ namespace csharp.Infrastructure
                 doNotPerformVad
             );
 
-            using (var fileStream = GetAudioStream(audioPath, audioEncoding))
+            using (var stream = GetAudioStream(audioPath, audioEncoding))
             {
-                _client.StreamingRecognize(streamingRecognitionConfig, fileStream).Wait();
+                _client.StreamingRecognize(streamingRecognitionConfig, stream).Wait();
             }
         }
 
@@ -191,8 +191,7 @@ namespace csharp.Infrastructure
         {
             var streamingRecognitionConfig = new StreamingRecognitionConfig();
 
-            streamingRecognitionConfig.Config = CreateRecognitionConfig
-            (
+            streamingRecognitionConfig.Config = CreateRecognitionConfig(
                 sampleRate,
                 audioEncoding,
                 countChannel,
@@ -200,7 +199,7 @@ namespace csharp.Infrastructure
                 disableAutomaticPunctuation
             );
 
-            streamingRecognitionConfig.InterimResultsConfig = new InterimResultsConfig()
+            streamingRecognitionConfig.InterimResultsConfig = new InterimResultsConfig
             {
                 EnableInterimResults = enableInterimResults,
             };
@@ -241,7 +240,7 @@ namespace csharp.Infrastructure
                 case "RAW_OPUS":
                     return AudioEncoding.RawOpus;
                 default:
-                    return AudioEncoding.EncodingUnspecified;
+                    throw new ArgumentException($"{encoding} is unsupported audio format");
             }
         }
 

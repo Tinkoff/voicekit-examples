@@ -33,14 +33,14 @@ namespace Tinkoff.VoiceKit
         private Metadata GetMetadataSTT()
         {
             Metadata header = new Metadata();
-            header.Add("Authorization", $"Bearer {_authSTT.GetToken}");
+            header.Add("Authorization", $"Bearer {_authSTT.Token}");
             return header;
         }
 
         private Metadata GetMetadataTTS()
         {
             Metadata header = new Metadata();
-            header.Add("Authorization", $"Bearer {_authTTS.GetToken}");
+            header.Add("Authorization", $"Bearer {_authTTS.Token}");
             return header;
         }
 
@@ -75,7 +75,7 @@ namespace Tinkoff.VoiceKit
 
         public async Task StreamingRecognize(StreamingRecognitionConfig config, Stream audioStream)
         {
-            var streamingSTT = _clientSTT.StreamingRecognize(this.GetMetadataSTT());
+            var streamingSTT = _clientSTT.StreamingRecognize(GetMetadataSTT());
             var requestWithConfig = new StreamingRecognizeRequest
             {
                 StreamingConfig = config
@@ -111,20 +111,20 @@ namespace Tinkoff.VoiceKit
         public async Task StreamingSynthesize(string synthesizeInput, string audioName)
         {
             int sampleRate = 48000;
-            var request = new SynthesizeSpeechRequest();
-            var config = new AudioConfig
+            var request = new SynthesizeSpeechRequest
             {
-                AudioEncoding = Tinkoff.Cloud.Tts.V1.AudioEncoding.Linear16,
-                SampleRateHertz = sampleRate
+                AudioConfig = new AudioConfig
+                {
+                    AudioEncoding = Tinkoff.Cloud.Tts.V1.AudioEncoding.Linear16,
+                    SampleRateHertz = sampleRate
+                },
+                Input = new SynthesisInput
+                {
+                    Text = synthesizeInput
+                } 
             };
 
-            request.AudioConfig = config;
-            request.Input = new SynthesisInput
-            {
-                Text = synthesizeInput
-            };
-
-            var stream = _clientTTS.StreamingSynthesize(request, this.GetMetadataTTS());
+            var stream = _clientTTS.StreamingSynthesize(request, GetMetadataTTS());
 
             var audioBuffer = new List<Byte[]>();
             while (await stream.ResponseStream.MoveNext())

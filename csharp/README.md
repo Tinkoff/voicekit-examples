@@ -25,7 +25,7 @@ $ dotnet run -- streaming-recognize -e MPEG_AUDIO -r 16000 -c 1 --enable-interim
 Specify longer silence timeout for voice activity detection (you will probably need longer audio to actually see the difference):
 
 ```
-$ dotnet run -- streaming-recognize -e MPEG_AUDIO -r 16000 -c 1 --enable-interim-results true --silence-duration-treshold 1.2 -p ../audio/sample_1.mp3
+$ dotnet run -- streaming-recognize -e MPEG_AUDIO -r 16000 -c 1 --enable-interim-results true --silence-duration-threshold 1.2 -p ../audio/sample_1.mp3
 ```
 
 Return just the first recognized utterance and halt (you will probably need longer audio to actually see the difference):

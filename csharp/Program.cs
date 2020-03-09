@@ -7,7 +7,7 @@ namespace Tinkoff.VoiceKit
 {
     class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             var rootCommand = new RootCommand("voicekit");
             var recognitionCommand = CommandLineInterface.CreateRecognitionCommand();
@@ -18,7 +18,7 @@ namespace Tinkoff.VoiceKit
             rootCommand.AddCommand(streamingRecognitionCommand);
             rootCommand.AddCommand(streamingSynthesisCommand);
 
-            await rootCommand.InvokeAsync(args);
+            rootCommand.Invoke(args);
         }
     }
 }
