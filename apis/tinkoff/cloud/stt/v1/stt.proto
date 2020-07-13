@@ -78,6 +78,8 @@ message RecognitionConfig {
     bool do_not_perform_vad = 13;
     VoiceActivityDetectionConfig vad_config = 14;
   }
+  reserved 15;
+  bool enable_denormalization = 16;
 }
 
 message RecognizeRequest {
