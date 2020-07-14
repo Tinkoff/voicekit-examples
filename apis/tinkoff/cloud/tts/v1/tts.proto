@@ -46,7 +46,7 @@ message ListVoicesResponses {
 
 message SynthesisInput {
     string text = 1;
-    reserved "ssml"; reserved 2;
+    string ssml = 2;
 }
 
 message VoiceSelectionParams {
