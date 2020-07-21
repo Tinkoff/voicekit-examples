@@ -6,89 +6,88 @@ option objc_class_prefix = 'TVKSS';
 
 import "google/api/annotations.proto";
 
-
-service TextToSpeech {
-    rpc ListVoices(ListVoicesRequest) returns (ListVoicesResponses) {
-        option (google.api.http) = {
-            get: "/v1/tts:list_voices"
-        };
-    }
-    rpc Synthesize(SynthesizeSpeechRequest) returns (SynthesizeSpeechResponse) {
-        option (google.api.http) = {
-            post: "/v1/tts:synthesize"
-            body: "*"
-        };
-    }
-    rpc StreamingSynthesize(SynthesizeSpeechRequest) returns (stream StreamingSynthesizeSpeechResponse);
+service TextToSpeech { // Speech synthesis.
+  rpc ListVoices(ListVoicesRequest) returns (ListVoicesResponses) { // (Not implemented) Method for retrieving available voice list.
+    option (google.api.http) = {
+      get: "/v1/tts:list_voices"
+    };
+  }
+  rpc Synthesize(SynthesizeSpeechRequest) returns (SynthesizeSpeechResponse) { // (Not implemented) Method for fragment synthesis.
+    option (google.api.http) = {
+      post: "/v1/tts:synthesize"
+      body: "*"
+    };
+  }
+  rpc StreamingSynthesize(SynthesizeSpeechRequest) returns (stream StreamingSynthesizeSpeechResponse); // Method for streaming synthesis.
 }
 
-enum SsmlVoiceGender {
-    SSML_VOICE_GENDER_UNSPECIFIED = 0;
-    MALE = 1;
-    FEMALE = 2;
-    NEUTRAL = 3;
+enum SsmlVoiceGender { // Gender of preferred voice to be used for synthesis.
+  SSML_VOICE_GENDER_UNSPECIFIED = 0; // Unspecified
+  MALE = 1; // Male
+  FEMALE = 2; // Female
+  NEUTRAL = 3; // Neutral
 }
 
-message Voice {
-    repeated string language_codes = 1;
-    string name = 2;
-    SsmlVoiceGender ssml_gender = 3;
-    int32 natural_sample_rate_hertz = 4;
-}
-
-message ListVoicesRequest {
-    string language_code = 1;
-}
-
-message ListVoicesResponses {
-    repeated Voice voices = 1;
-}
-
-message SynthesisInput {
-    string text = 1;
-    reserved "ssml"; reserved 2;
-}
-
-message VoiceSelectionParams {
-    string language_code = 1;
-    string name = 2;
-    SsmlVoiceGender ssml_gender = 3;
-}
-
-enum AudioEncoding {
-  ENCODING_UNSPECIFIED = 0;
-  LINEAR16 = 1;
+enum AudioEncoding { // Audio encoding. Defines both codec and container.
+  ENCODING_UNSPECIFIED = 0; // <i>Unspecified - invalid value.</i> Used as default value to avoid accidental errors.
+  LINEAR16 = 1; // Raw PCM with signed integer 16-bit linear audio samples.
   reserved "FLAC"; reserved 2;
-  MULAW = 3;
+  MULAW = 3; // Raw PCM with Mu-law mapped audio samples.
   reserved "AMR"; reserved 4;
   reserved "AMR_WB"; reserved 5;
   reserved "OGG_OPUS"; reserved 6;
   reserved "SPEEX_WITH_HEADER_BYTE"; reserved 7;
-  ALAW = 8;
-  reserved "LINEAR32F"; reserved 9;  // deprecated
+  ALAW = 8; // Raw PCM with A-law mapped audio samples.
+  reserved "LINEAR32F"; reserved 9;  // Deprecated.
   reserved "OGG_VORBIS"; reserved 10;
-  RAW_OPUS = 11;
+  RAW_OPUS = 11; // Opus frames packed into Protobuf messages. NOTE: each Opus frame is packed into separate message with "audio_content" field. I. e. you can't just concatenate encoded Opus frames and push it as a single chuk into Opus decoder. Also although Opus is sample rate agnostic, estimated duration of synthesized audio is calculated in samples of specified sample rate.
   reserved "MPEG_AUDIO"; reserved 12;
 }
 
-message AudioConfig {
-    AudioEncoding audio_encoding = 1;
-    double speaking_rate = 2;
-    reserved "pitch"; reserved 3;
-    reserved "volume_gain_db"; reserved 4;
-    int32 sample_rate_hertz = 5;
+message Voice { // Voice description obtained by available voice request.
+  repeated string language_codes = 1; // Code of voice spoken language.
+  string name = 2; // Voice name.
+  SsmlVoiceGender ssml_gender = 3; // Gender of voice.
+  int32 natural_sample_rate_hertz = 4; // Original sample rate. I. e., bigger value indicates higher quality.
 }
 
-message SynthesizeSpeechRequest {
-    SynthesisInput input = 1;
-    VoiceSelectionParams voice = 2;
-    AudioConfig audio_config = 3;
+message ListVoicesRequest { // Request for available voices.
+  string language_code = 1; // Code of language to get list of voices for.
 }
 
-message SynthesizeSpeechResponse {
-    bytes audio_content = 1;
+message ListVoicesResponses { // Response with voice list.
+  repeated Voice voices = 1; // Array of voices.
 }
 
-message StreamingSynthesizeSpeechResponse {
-    bytes audio_chunk = 1;
+message SynthesisInput { // Synthesis input.
+  string text = 1; // Text to synthesize.
+  reserved "ssml"; reserved 2;
+}
+
+message VoiceSelectionParams { // Configuration of preferred synthesis voice.
+  string language_code = 1; // Code of preferrable voice spoken language.
+  string name = 2; // Exact voice name.
+  SsmlVoiceGender ssml_gender = 3; // Preferrable voice gender.
+}
+
+message AudioConfig { // Configuration of synthesized audio.
+  AudioEncoding audio_encoding = 1; // Audio encoding. Specifies both container and codec.
+  double speaking_rate = 2; // Speaking rate of generated audio as a fraction of original speaking rate. Default value is "1.0".
+  reserved "pitch"; reserved 3;
+  reserved "volume_gain_db"; reserved 4;
+  int32 sample_rate_hertz = 5; // Sample rate of generated audio in Hertz.
+}
+
+message SynthesizeSpeechRequest { // Request using SynthesizeSpeech method.
+  SynthesisInput input = 1; // Input to synthesize.
+  VoiceSelectionParams voice = 2; // Voice selection parameters.
+  AudioConfig audio_config = 3; // Audio configuration.
+}
+
+message SynthesizeSpeechResponse { // Response using SynthesizeSpeech method.
+  bytes audio_content = 1; // Whole synthesized audio.
+}
+
+message StreamingSynthesizeSpeechResponse { // Chunk of synthesized audio using StreamingSynthesize method. See AudioEncoding = RAW_OPUS for specificity of raw Opus encoding.
+  bytes audio_chunk = 1; // Chunk of synthesized audio: either samples for LINEAR16, MULAW and ALAW or single frame for RAW_OPUS.
 }
