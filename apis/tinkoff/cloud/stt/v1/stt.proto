@@ -56,16 +56,16 @@ message WordInfo { // <i>Currently unsupported.</i> Detailed information on reco
 message VoiceActivityDetectionConfig { // Structure to customize VAD (every field is optional).
   float min_speech_duration = 1; // <i>Currently ignored.</i> Minimal duration of phrase to detect by VAD in seconds.
   float max_speech_duration = 2; // <i>Currently ignored.</i> Maximal duration of phrase to detect by VAD in seconds.
-  float silence_duration_threshold = 3; // Duration of silence in seconds to consider phrase ended.
-  float silence_prob_threshold = 4; // Threshold value for silence probability (in range from 0.0 to 1.0). If silence probabily is below threshold and audio fragment is considered silence.
+  float silence_duration_threshold = 3; // Duration of silence in seconds to consider phrase ended. Default value depends on service configuration.
+  float silence_prob_threshold = 4; // Threshold value for silence probability (in range from 0.0 to 1.0). If silence probabily is below threshold and audio fragment is considered silence. Default value depends on service configuration.
   float aggressiveness = 5; // Currently unused.
 }
 
 message RecognitionConfig { // Common regognition configuration.
-  AudioEncoding encoding = 1; // Audio encoding. Specifies both container and codec.
-  uint32 sample_rate_hertz = 2; // Sample rate of input audio in Hertz. Must match actual bitstream sample rate for MPEG_AUDIO.
+  AudioEncoding encoding = 1; // Audio encoding. Specifies both container and codec. Must be specified explicitly.
+  uint32 sample_rate_hertz = 2; // Sample rate of input audio in Hertz. Must match actual bitstream sample rate for MPEG_AUDIO. Must be specified explicitly.
   string language_code = 3; // <i>Currently ignored.</i> Language to recognize.
-  uint32 max_alternatives = 4; // Maximal number of phrase alternatives to return at each moment both for final and interim recognition results.
+  uint32 max_alternatives = 4; // Maximal number of phrase alternatives to return at each moment both for final and interim recognition results. Default value: 1.
   bool profanity_filter = 5; // Currently unused.
   repeated SpeechContext speech_contexts = 6; // Currently unsupported. Defines vocabulary of words and phrases to recognize with highter probability.
   reserved "enable_word_time_offsets"; reserved 7;
