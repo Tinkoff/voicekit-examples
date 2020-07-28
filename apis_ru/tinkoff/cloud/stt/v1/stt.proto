@@ -1,0 +1,133 @@
+syntax = "proto3";
+
+package tinkoff.cloud.stt.v1;
+option go_package = "github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1";
+option objc_class_prefix = 'TVKSR';
+
+import "google/protobuf/duration.proto";
+import "google/api/annotations.proto";
+
+service SpeechToText { // Распознавание речи.
+  rpc Recognize(RecognizeRequest) returns (RecognizeResponse) { // Метод для распознавания аудио целиком: загружаем аудио полностью, получаем полный ответ.
+    option (google.api.http) = {
+      post: "/v1/stt:recognize"
+      body: "*"
+    };
+  }
+  rpc StreamingRecognize(stream StreamingRecognizeRequest)
+    returns (stream StreamingRecognizeResponse); // Метод для поточного распознавания.
+}
+
+enum AudioEncoding { // Формат кодирования аудио. Задаёт и контейнер, и кодек.
+  ENCODING_UNSPECIFIED = 0; // <i>Не задан - недопустимое значение.</i> Используется в качестве значения по умолчанию для исключения случайных ошибок.
+  LINEAR16 = 1; // PCM без заголовков с целыми знаковыми 16-битными сэмплами в линейном распределении.
+  reserved "FLAC"; reserved 2;
+  MULAW = 3; // PCM без заголовков с 8-битными сэмплами в распледелении Mu-law (aka PCMU).
+  reserved "AMR"; reserved 4;
+  reserved "AMR_WB"; reserved 5;
+  reserved "OGG_OPUS"; reserved 6;
+  reserved "SPEEX_WITH_HEADER_BYTE"; reserved 7;
+  ALAW = 8; // PCM без заголовков с 8-битными сэмплами в распледелении A-law (aka PCMA).
+  reserved "LINEAR32F"; reserved 9; // Устаревшее.
+  reserved "OGG_VORBIS"; reserved 10;
+  RAW_OPUS = 11; // Фрэмы Opus запакованные в сообщения Protobuf.<br/><b>ВАЖНО</b>: каждый фрэйм Opus должен быть запакован в поле "content" сообщения RecognitionAudio.<br/>При этом, каждый фрэйм необходимо отправлять ровно так, как он был закодирован.<br/>Т. е., нельзя просто так взять и сконкатенировать несколько фрэймов Opus и отправить их одним куском в "content".
+  MPEG_AUDIO = 12; // Аудиопоток MPEG.
+}
+
+message RecognitionAudio { // Аудио для распознавания.
+  oneof audio_source {
+    bytes content = 1; // Входящее аудио целиком.
+    string uri = 2; // <i>Не поддерживается на данный момент.</i> URI входящего аудио.
+  }
+}
+
+message SpeechContext { // <i>Не используется на данный момент.</i> Задаёт словарь слов и фраз для распознавания с большей вероятностью.
+  repeated string phrases = 1; // Фразы для распознавания с повышенной вероятностью.
+  repeated string words = 2; // Отдельные слова для распознавания с повышенной вероятностью.
+}
+
+message WordInfo { // <i>Не поддерживается на данный момент.</i> Детальная информация по слову внутри фразы.
+  google.protobuf.Duration start_time = 1; // Время начала слова внутри аудиопотока на входе.
+  google.protobuf.Duration end_time = 2; // Время конца слова внутри аудиопотока на входе.
+  string word = 3; // Слово внутри фразы.
+  float confidence = 4; // Относительный показатель уверенности (относительно других слов в фразе и слов в альтернативных гипотезах при конфигурации запроса с max_alternatives > 1).
+}
+
+message VoiceActivityDetectionConfig { // Структура для переопределения настроек VAD (все поля опциональны).
+  float min_speech_duration = 1; // <i>Игнорируется на данный момент.</i> Минимальная длительность фразы при определении VAD в секундах.
+  float max_speech_duration = 2; // <i>Игнорируется на данный момент.</i> Максимальная длительность фразы при определении VAD в секундах.
+  float silence_duration_threshold = 3; // Длительность тишины в секундах, при которой фраза считается завершённой. Значение по умолчанию зависит от конфигурации сервиса.
+  float silence_prob_threshold = 4; // Пороговое значение вероятности тишины (в диапазоне от 0.0 до 1.0). При вероятности тишины ниже этого значения фрагмент аудио считается тишиной. Значение по умолчанию зависит от конфигурации сервиса.
+  float aggressiveness = 5; // <i>Не используется на данный момент.</i>
+}
+
+message RecognitionConfig { // Общие настройки для распознавания.
+  AudioEncoding encoding = 1; // Формат кодирования аудио. Задаёт и контейнер, и кодек. Должен заваться явно.
+  uint32 sample_rate_hertz = 2; // Частота дискретизации аудио на входе в Герцах.<br/>Для MPEG_AUDIO должна соответствовать частоте дискретизации закодированного аудио. Должна заваться явно.
+  string language_code = 3; // <i>Игнорируется на данный момент.</i> Язык речи для распознавания.
+  uint32 max_alternatives = 4; // Максимальное количество версий фраз в моменте для финальных и промежуточных результатов. Значение по умолчанию: 1.
+  bool profanity_filter = 5; // <i>Не используется на данный момент.</i>
+  repeated SpeechContext speech_contexts = 6; // <i>Не используется на данный момент.</i> Задаёт словарь слов и фраз для распознавания с большей вероятностью.
+  reserved "enable_word_time_offsets"; reserved 7;
+  bool enable_automatic_punctuation = 8; // Включает автоматическое заполнение пунктуации для первой (наиболее вероятной) версии финальной гипотезы.
+  reserved "metadata"; reserved 9;
+  string model = 10; // Модель распознавания. В случае если поле не задано, используется модель по умолчанию.
+  reserved "use_enhanced"; reserved 11;
+  uint32 num_channels = 12; // Количество каналов для входящего аудио. Для MPEG_AUDIO должно соответствовать количеству каналов в аудиопотоке.
+  oneof vad {
+    bool do_not_perform_vad = 13; // Флаг выключающий разбиение на фразы, т. е., VAD.<br/>Весь распознанный текст будет получен в виде одной фразы.
+    VoiceActivityDetectionConfig vad_config = 14; // Структура для переопределения настроек VAD.
+  }
+}
+
+message RecognizeRequest { // Запрос на распознавание аудио по методу Recognize.
+  RecognitionConfig config = 1; // Конфигурация распознавания.
+  RecognitionAudio audio = 2; // Аудио для распознавания.
+}
+
+message SpeechRecognitionAlternative { // Версия распознанной фразы (или части фразы в случае промежуточной гипотезы).
+  string transcript = 1; // Распознанный текст.
+  float confidence = 2; // Относительный показатель уверенности (относительно других альтернативных гипотез при конфигурации с max_alternatives > 1).
+  repeated WordInfo words = 3; // <i>Не поддерживается на данный момент.</i> Список отдельных слов внутри фразы.
+}
+
+message SpeechRecognitionResult { // Распозная фраза для указанного аудио канала.
+  repeated SpeechRecognitionAlternative alternatives = 1; // Список версий фразы отсортированных по убыванию confidence.
+  int32 channel = 2; // Канал, к которому относится версия фразы (нумерация с 0).
+  google.protobuf.Duration start_time = 3; // Время начала фразы внутри аудиопотока на входе.
+  google.protobuf.Duration end_time = 4; // Время конца фразы внутри аудиопотока на входе.
+}
+
+message RecognizeResponse { // Ответ с распознанными фразами по методу Recognize.
+  repeated SpeechRecognitionResult results = 1; // Распознанные фразы.
+}
+
+message InterimResultsConfig { // Конфигурация режима промежуточных гипотез.
+  bool enable_interim_results = 1; // Флаг для включения промежуточных гипотез. Выключены по умолчанию.
+  float interval = 2; // Желаемый интервал отправки промежуточных гипотез в секундах.<br/>Реальный интервал между гипотезами выбирается на основе внутреннего устройства сервиса в угоду минимизации задержки отдачи актуальных данных.
+}
+
+message StreamingRecognitionConfig { // Конфигурация распознавания для вызова методом StreamingRecognize. Должна отправляться строго в первом сообщении вызова.
+  RecognitionConfig config = 1; // Конфигурация распознавания.
+  bool single_utterance = 2; // Флаг для включения режима одной фразы. В этом режиме распознавание завершается сервисом сразу после распознавания первой фразы.
+  InterimResultsConfig interim_results_config = 3; // Конфигурация для промежуточных гипотез. Т. е., версий текста в момент когда пришла лишь часть аудио, относящегося к фразе.
+}
+
+message StreamingRecognizeRequest { // Запрос на распознавание по методу StreamingRecognize (сообщение от клиента к серверу).<br/>Первым должно быть отправленно сообщение с заполненным `streaming_config`, а все последующие сообщения должны отправляться с заполненным `audio_content`.
+  oneof streaming_request {
+    StreamingRecognitionConfig streaming_config = 1; // Конфигурация распознавания для поточного вызова. Должна отправляться строго в первом сообщении вызова.
+    bytes audio_content = 2; // Фрагмент аудио на входе. Фрагменты должны отправляться после сообщения с конфигурацией распознавания.
+  }
+}
+
+message StreamingRecognitionResult { // Распознанная фраза по методу StreamingRecognize.
+  SpeechRecognitionResult recognition_result = 1; // Результат распознавания.
+  bool is_final = 2; // Выставленно в true если пришла финальная гипотеза. Значение false проставляется для промежуточных гипотез.
+  float stability = 3; // <i>Не используется на данный момент.</i> Показатель стабильности распознавания.
+}
+
+message StreamingRecognizeResponse { // Ответ с распознанными фразами (сообщение от сервера к клиенту).
+  reserved 1;
+  repeated StreamingRecognitionResult results = 2; // Распознанные фразы.
+  reserved 3;
+}

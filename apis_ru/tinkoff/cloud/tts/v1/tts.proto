@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package tinkoff.cloud.tts.v1;
+option go_package = "github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1";
+option objc_class_prefix = 'TVKSS';
+
+import "google/api/annotations.proto";
+
+service TextToSpeech { // Синтез речи.
+  rpc ListVoices(ListVoicesRequest) returns (ListVoicesResponses) { // (Не реализован) Метод для получения списка доступных голосов.
+    option (google.api.http) = {
+      get: "/v1/tts:list_voices"
+    };
+  }
+  rpc Synthesize(SynthesizeSpeechRequest) returns (SynthesizeSpeechResponse) { // (Не реализован) Метод для синтеза фрагмента.
+    option (google.api.http) = {
+      post: "/v1/tts:synthesize"
+      body: "*"
+    };
+  }
+  rpc StreamingSynthesize(SynthesizeSpeechRequest) returns (stream StreamingSynthesizeSpeechResponse); // Метод для поточного синтеза.
+}
+
+enum SsmlVoiceGender { // Пол предпочитаемого голоса, которым синтезируется текст.
+  SSML_VOICE_GENDER_UNSPECIFIED = 0; // Не задан
+  MALE = 1; // Мужской
+  FEMALE = 2; // Женский
+  NEUTRAL = 3; // Нейтральный
+}
+
+enum AudioEncoding { // Формат кодирования аудио. Задаёт и контейнер, и кодек.
+  ENCODING_UNSPECIFIED = 0; // <i>Не задан - недопустимое значение.</i> Используется в качестве значения по умолчанию для исключения случайных ошибок.
+  LINEAR16 = 1; // PCM без заголовков с целыми знаковыми 16-битными сэмплами в линейном распределении.
+  reserved "FLAC"; reserved 2;
+  MULAW = 3; // PCM без заголовков с 8-битными сэмплами в распледелении Mu-law (aka PCMU).
+  reserved "AMR"; reserved 4;
+  reserved "AMR_WB"; reserved 5;
+  reserved "OGG_OPUS"; reserved 6;
+  reserved "SPEEX_WITH_HEADER_BYTE"; reserved 7;
+  ALAW = 8; // PCM без заголовков с 8-битными сэмплами в распледелении A-law (aka PCMA).
+  reserved "LINEAR32F"; reserved 9;  // Устаревшее.
+  reserved "OGG_VORBIS"; reserved 10;
+  RAW_OPUS = 11; // Фрэймы Opus запакованные в сообщения Protobuf.<br/><b>ВАЖНО</b>: каждый фрэйм Opus запакован в поле сообщение с полем "audio_content".<br/>Т. е., нельзя просто так взять и сконкатенировать фрэймы Opus и отправить их одним куском в декодер Opus.<br/>Кроме того, несмотря на то, что Opus не привязан к частоте дискретизации на стадии кодирования, предполагаемая длительность синтезируемого аудио возвращается в сэмплах указанной частоты дискретизации.<br/>Работает только в поточном режиме.
+  reserved "MPEG_AUDIO"; reserved 12;
+}
+
+message Voice { // Описание голоса при получении списка доступных голосов.
+  repeated string language_codes = 1; // Код языка.
+  string name = 2; // Название голоса.
+  SsmlVoiceGender ssml_gender = 3; // Пол голоса.
+  int32 natural_sample_rate_hertz = 4; // Исходная частота дискретизации. Т. е., большее значение говорит о более высоком качестве.
+}
+
+message ListVoicesRequest { // Запрос списка голосов.
+  string language_code = 1; // Код языка для получения списка голосов.
+}
+
+message ListVoicesResponses { // Ответ со списком голосов.
+  repeated Voice voices = 1; // Список голосов.
+}
+
+message SynthesisInput { // Входные данные для синтеза.
+  string text = 1; // Текст для синтеза.
+  reserved "ssml"; reserved 2;
+}
+
+message VoiceSelectionParams { // Конфигурация предпочитаемого голоса для синтеза.
+  string language_code = 1; // Код предпочитаемого голоса.
+  string name = 2; // Явно заданное имя голоса.
+  SsmlVoiceGender ssml_gender = 3; // Предпочитаемый пол голоса.
+}
+
+message AudioConfig { // Конфигурация аудио на выходе
+  AudioEncoding audio_encoding = 1; // Формат кодирования аудио. Задаёт и контейнер, и кодек. Должен задаваться явно.
+  double speaking_rate = 2; // Скорость синтезируемого аудио в долях от исходной скорости. Значение по умолчанию: "1.0".
+  reserved "pitch"; reserved 3;
+  reserved "volume_gain_db"; reserved 4;
+  int32 sample_rate_hertz = 5; // Частота дискретизации аудио на выходе в Герцах. Должна задаваться явно.
+}
+
+message SynthesizeSpeechRequest { // Запрос по методу SynthesizeSpeech.
+  SynthesisInput input = 1; // Входящие данные для синтеза.
+  VoiceSelectionParams voice = 2; // Параметры выбора голоса.
+  AudioConfig audio_config = 3; // Конфигурация аудио.
+}
+
+message SynthesizeSpeechResponse { // Ответ по методу SynthesizeSpeech.
+  bytes audio_content = 1; // Аудио содержимое целиком.
+}
+
+message StreamingSynthesizeSpeechResponse { // Фрагмент синтезированного аудио по методу StreamingSynthesizeSpeech. См. AudioEncoding = RAW_OPUS для подробностей по работае с кодеком Opus.
+  bytes audio_chunk = 1; // Аудио содержимое: либо сэмплы в случае с LINEAR16, MULAW и ALAW, либо одиночный фрэйм в случае RAW_OPUS.
+}
