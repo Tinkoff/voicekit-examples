@@ -1,0 +1,233 @@
+syntax = "proto3";
+
+package tinkoff.cloud.longrunning.v1;
+option go_package = "github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/longrunning/v1";
+option objc_class_prefix = 'TVKSO';
+
+import "google/api/annotations.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/rpc/status.proto";
+
+service Operations {
+  // Возвращает информацию о состоянии операции по её идентификатору.<br/>
+  // Может вернуть gRPC ошибку со статусом NotFound, если запрошенная операция не существует.
+  rpc GetOperation(GetOperationRequest) returns (Operation) {
+    option (google.api.http) = {
+      get: "/v1/operations/{id}"
+    };
+  }
+
+  // Дожидается первого изменения состояния операции с момента отправки запроса и возвращает её новое состояние.
+  rpc WaitOperation(WaitOperationRequest) returns (Operation);
+
+  // Возвращает список операций и их текущее состояние по заданным условиям.
+  rpc ListOperations(ListOperationsRequest) returns (ListOperationsResponse) {
+    option (google.api.http) = {
+      get: "/v1/operations"
+    };
+  }
+
+  // Отслеживает состояние операций; <br/>
+  // позволяет получить актуальный список состояний операций, а также получать события с изменениями их состояний в рамках одного стрима.
+  rpc WatchOperations(WatchOperationsRequest) returns (stream WatchOperationsResponse);
+
+  // Удаляет и асинхронно отменяет обработку операций, подпадающих под фильтр.<br/>
+  // После успешного вызова данного метода методы работы с указанными операциями будут считать,что операции не существуют.<br/>
+  // Это означает, что отследить факт реальной остановки операции будет невозможно.
+  rpc DeleteOperation(DeleteOperationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/operations/{filter.exact_id}"
+    };
+  }
+
+  // Асинхронно отменяет операцию.<br/>
+  // Отменённая операция переходит в состояние ```FAILED```.<br/>
+  // Если операция находится в обработке, то она перейдёт в состояние ```FAILED``` только после реальной остановки обработки.<br/>
+  // С завершившимися операциями ничего не происходит.
+  rpc CancelOperation(CancelOperationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/v1/operations/{filter.exact_id}:cancel"
+      body: "*"
+    };
+  }
+}
+
+// Состояние операции
+enum OperationState {
+  // Операция находится в очереди и её обработка ещё не начата.
+  ENQUEUED = 0;
+
+  // Операция в данный момент обрабатывается.
+  PROCESSING = 1;
+
+  // Операция завершена успешно.
+  DONE = 2;
+
+  // Операция была завершена с ошибкой, либо была отменена.
+  FAILED = 3;
+}
+
+// Операция.<br/>
+// Статус операций можно отслеживать через сервис Operations.
+message Operation {
+  // Идентификатор операции.<br/>
+  // Назначается сервисом при создании операции.<br/>
+  // Идентификаторы операций уникальны для одного API_KEY.
+  string id = 1;
+
+  // Группа, которая была назначена операции при создании.
+  string group = 2;
+
+  // <i>Не используется на данный момент.</i>
+  google.protobuf.Any metadata = 3;
+
+  // Состояние, в котором находится операция.
+  OperationState state = 4;
+
+  // Результат.
+  oneof result {
+    // Ошибка, произошедшая при обработке операции.<br/>
+    // Заполняется при статусе ```FAILED```.
+    google.rpc.Status error = 5;
+
+    // Результат выполнения операции.<br/>
+    // Заполняется при статусе ```DONE```.<br/>
+    // Для сервиса распознавания аудио результатом является ```RecognizeResponse```.
+    google.protobuf.Any response = 6;
+  }
+}
+
+// Фильтр операций.<br/>
+// Описывает множество операций, которое должно быть обработано в рамках различных вызовов.<br/>
+// Для корректного запроса должно быть соблюдено хотя бы одно из правил:
+// - Поле ```id``` задано как ```exact_id```
+// - Поле ```group``` задано как ```exact_group```
+// - Все 3 поля ```service_id```, ```id``` и ```group``` заданы
+message OperationFilter {
+  // Фильтр по идентификатору сервиса.
+  oneof service_id {
+    // Идентификатор сервиса, чьи операции должно подпадать под фильтр.<br/>
+    // Для сервиса распознавания аудио название сервиса - ```stt```.
+    string exact_service_id = 1;
+
+    // Разрешить операции любого сервиса.
+    google.protobuf.Empty any_service_id = 2;
+  }
+
+  // Фильтр по идентификатору операции
+  oneof id {
+    // Идентификатор операции.
+    string exact_id = 3;
+
+    // Разрешить любой идентификатор операции
+    google.protobuf.Empty any_id = 4;
+  }
+
+  // Фильтр по группе
+  oneof group {
+    // Название группы, операции которой должны подпадать под фильтр.
+    string exact_group = 5;
+
+    // Разрешить любую группу.
+    google.protobuf.Empty any_group = 6;
+  }
+
+  // <i>Не используется на данный момент.</i>
+  repeated OperationState state = 7;
+}
+
+// Запрос информации об операции для метода GetOperation.
+message GetOperationRequest {
+  // Идентификатор операции
+  string id = 1;
+}
+
+// Запрос на ожидание изменения состояния операции информации об операции для метода WaitOperation.
+message WaitOperationRequest {
+  // Идентификатор операции.
+  string id = 1;
+
+  // Максимальное время ожидания изменения состояния операции.<br/>
+  // Если не заполнено, то время не ожидания будет ограничено таймаутом вызова, допускаемым HTTP/gRPC протоколами.
+  google.protobuf.Duration timeout = 2;
+}
+
+// Запрос на получение информации о состоянии множества операций для метода ListOperations.
+message ListOperationsRequest {
+  // Фильтр операций.
+  OperationFilter filter = 1;
+
+  // Максимальное количество операций, возвращаемое за один вызов.<br/>
+  // Если операции, подпадающие под фильтр, не умещаются в одну страницу, то в ответе будет возвращён токен для получения следующей страницы операций.
+  int32 page_size = 2;
+
+  // Токен страницы для постраничной выборки списка операций.<br/>
+  // Сюда нужно передавать значение поля ```next_page_token``` из ListOperationsResponse<br/>
+  // Если значение непустое, остальные поля сообщения игнорируются.
+  string page_token = 3;
+}
+
+// Список операций, возвращаемых методом ListOperations.
+message ListOperationsResponse {
+  // Список операций.
+  repeated Operation operations = 1;
+
+  // Токен для получения следующей страницы операций.<br/>
+  // Заполняется для всех страниц кроме последней.
+  string next_page_token = 2;
+}
+
+// Запрос на удаление операций для метода DeleteOperation.<br/>
+// <i>На данный момент поддерживается только вариант с явным указанием ID операции в поле ```filter```.</i>
+message DeleteOperationRequest {
+  // Фильтр операций.
+  OperationFilter filter = 1;
+}
+
+// Запрос на отмену операций для метода CancelOperation.<br/>
+// <i>На данный момент поддерживается только вариант с явным указанием ID операции в поле ```filter```.</i>
+message CancelOperationRequest {
+  // Фильтр операций.
+  OperationFilter filter = 1;
+}
+
+// Запрос на мониторинг статуса операций для метода WatchOperations.
+message WatchOperationsRequest {
+  // Фильтр операций.
+  OperationFilter filter = 1;
+
+  // Включает режим подписки на все новые события с операциями, заданными фильтром.
+  bool listen_for_updates = 2;
+}
+
+// Исходное состояние операций.
+message OperationsInitialState {
+  // Список операций.
+  repeated Operation operations = 1;
+}
+
+// Изменение состояния одной или нескольких операций.
+message OperationsUpdate {
+  // Список операций.
+  repeated Operation operations = 1;
+}
+
+// Сообщение, приходящее в стриме в ответ на вызов WatchOperations.<br/>
+// В каждом сообщении заполняется только одно из перечисленных полей.<br/>
+// В начале ответа в стриме идут сообщения с заполненным полем ```initial_state```.<br/>
+// Затем присылается одно сообщение с заполненным полем ```init_finished```, означающее, что информация об исходном состоянии передана в полном объёме.<br/>
+// После этого, если была выставлена настройка ```listen_for_updates``` в запросе, сервер переходит в режим ожидания изменений в операциях, подпадающих под фильтр. Все такие изменения присылаются в виде сообщений с заполненным полем  ```update```.
+message WatchOperationsResponse {
+  oneof operations {
+    // Описание исходного состояния операций.
+    OperationsInitialState initial_state = 1;
+
+    // Признак того, что вся информация об исходном состоянии была передана.
+    google.protobuf.Empty init_finished = 2;
+
+    // Описание нового состояни изменившихся операций.
+    OperationsUpdate update = 3;
+  }
+}
