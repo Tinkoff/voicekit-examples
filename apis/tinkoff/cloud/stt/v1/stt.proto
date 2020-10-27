@@ -16,6 +16,13 @@ service SpeechToText { // Speech recognition.
   }
   rpc StreamingRecognize(stream StreamingRecognizeRequest)
     returns (stream StreamingRecognizeResponse); // Method for streaming recognition.
+
+  rpc LongRunningRecognize(LongRunningRecognizeRequest) returns (longrunning.v1.Operation) { // Method to create longrunning recognition operation. Created operation will persist for a limited time and will be deleted after that time has expired.
+    option (google.api.http) = {
+      post: "/v1/stt:longrunningrecognize"
+      body: "*"
+    };
+  }
 }
 
 enum AudioEncoding { // Audio encoding. Defines both codec and container.
@@ -37,7 +44,7 @@ enum AudioEncoding { // Audio encoding. Defines both codec and container.
 message RecognitionAudio { // Audio to recognize.
   oneof audio_source {
     bytes content = 1; // Input audio data chunk.
-    string uri = 2; // Currently unsupported. Input audio URI.
+    string uri = 2; // Currently only supported for LongRunningRecognizeRequest. Input audio URI.<br/>URI format is ```storage://s3.api.tinkoff.ai/inbound/<file_name>```
   }
 }
 
@@ -50,7 +57,7 @@ message WordInfo { // <i>Currently unsupported.</i> Detailed information on reco
   google.protobuf.Duration start_time = 1; // Word start time inside input audiostream.
   google.protobuf.Duration end_time = 2; // Word end time inside input audiostream.
   string word = 3; // Word inside phrase.
-  float confidence = 4; // Relative confidence factor (relative to other words of the phrase and to words of other alternatives for requets configuration with max_alternatives > 1).
+  float confidence = 4; // Relative confidence factor (relative to other words of the phrase and to words of other alternatives for requets configuration with max_alternatives > 1). Value may be negative.
 }
 
 message VoiceActivityDetectionConfig { // Structure to customize VAD (every field is optional).
@@ -107,6 +114,12 @@ message InterimResultsConfig { // Configuration of interim results.
   float interval = 2; // Desired interval in seconds for sending interim results. Actual interval between interim results depends on service internals and is selected for optimal give out of relevant data.
 }
 
+message LongRunningRecognizeRequest { // Request for longrunning recognition using LongRunningRecognize method.
+  RecognitionConfig config = 1; // Recognition configuration.
+  RecognitionAudio audio = 2; // Audio to recognize.
+  string group = 3; // Group to assign to created operation.
+}
+
 message StreamingRecognitionConfig { // Recognition configuration using StreamingRecognition method. Must be sent as first message only.
   RecognitionConfig config = 1; // Recognition configuration.
   bool single_utterance = 2; // Flag to enable single utterance mode. Recognition is finished by service at first recognized phrase in this mode.
@@ -123,7 +136,7 @@ message StreamingRecognizeRequest { // Recognition request using StreamingRecogn
 message StreamingRecognitionResult { // Recognized phrase using StreamingRecognize method.
   SpeechRecognitionResult recognition_result = 1; // Recognition result.
   bool is_final = 2; // Set to true if final version of phrase is recognized. Value of false means interim result.
-  float stability = 3; // Currently unused. Stability factor.
+  float stability = 3; // <i>Currently unused.</i> Stability factor.
 }
 
 message StreamingRecognizeResponse { // Response with regognized phrases (message from server to client).

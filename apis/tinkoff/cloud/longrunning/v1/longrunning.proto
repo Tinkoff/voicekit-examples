@@ -1,0 +1,188 @@
+syntax = "proto3";
+
+package tinkoff.cloud.longrunning.v1;
+option go_package = "stash.tcsbank.ru/stt/tinkoff_cloud_apis/pkg/tinkoff/cloud/longrunning/v1";
+
+import "google/api/annotations.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/rpc/status.proto";
+
+service Operations {
+  // Starts polling for operation statuses
+  // Returns operation status
+  rpc GetOperation(GetOperationRequest) returns (Operation) {
+    option (google.api.http) = {
+      get: "/v1/operations/{id}"
+    };
+  }
+
+  // Wait for operation update
+  rpc WaitOperation(WaitOperationRequest) returns (Operation);
+
+  // List operations
+  rpc ListOperations(ListOperationsRequest) returns (ListOperationsResponse) {
+    option (google.api.http) = {
+      get: "/v1/operations"
+    };
+  }
+
+  // Watch operations
+  rpc WatchOperations(WatchOperationsRequest) returns (stream WatchOperationsResponse);
+
+  // Deletes spepcified operations
+  rpc DeleteOperation(DeleteOperationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/operations/{filter.exact_id}"
+    };
+  }
+
+  // Cancels spepcified operations
+  rpc CancelOperation(CancelOperationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/v1/operations/{filter.exact_id}:cancel"
+      body: "*"
+    };
+  }
+}
+
+enum OperationState {
+  // Operation enqueued by service
+  ENQUEUED = 0;
+
+  // Processing started
+  PROCESSING = 1;
+
+  // Operation finished successfully
+  DONE = 2;
+
+  // Operation finished with error
+  FAILED = 3;
+}
+
+message Operation {
+  // Operation ID
+  string id = 1;
+
+  // Operation group
+  string group = 2;
+
+  // Service-specific metadata associated with the operation.
+  google.protobuf.Any metadata = 3;
+
+  // Operation state
+  OperationState state = 4;
+
+  // Operation result
+  oneof result {
+    // Operation error if error occured
+    google.rpc.Status error = 5;
+
+    // Operation response if successfully finished
+    google.protobuf.Any response = 6;
+  }
+}
+
+message OperationFilter {
+  // Service ID filter
+  oneof service_id {
+    // For single specific value
+    string exact_service_id = 1;
+
+    // For any value
+    google.protobuf.Empty any_service_id = 2;
+  }
+
+  // Operation ID filter
+  oneof id {
+    // For single specific value
+    string exact_id = 3;
+
+    // For any value
+    google.protobuf.Empty any_id = 4;
+  }
+
+  // Operation group filer
+  oneof group {
+    // For single specific value
+    string exact_group = 5;
+
+    // For any value
+    google.protobuf.Empty any_group = 6;
+  }
+
+  // Operation state filter; all operations if empty
+  repeated OperationState state = 7;
+}
+
+message GetOperationRequest {
+  // Operation ID
+  string id = 1;
+}
+
+message WaitOperationRequest {
+  // Operation ID
+  string id = 1;
+
+  // The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol.
+  google.protobuf.Duration timeout = 2;
+}
+
+message ListOperationsRequest {
+  // Operation filter
+  OperationFilter filter = 1;
+
+  // Page size
+  int32 page_size = 2;
+
+  // Page token
+  string page_token = 3;
+}
+
+message ListOperationsResponse {
+  // Operations for current page
+  repeated Operation operations = 1;
+
+  // Next page token
+  string next_page_token = 2;
+}
+
+message DeleteOperationRequest {
+  // Operation filter
+  OperationFilter filter = 1;
+}
+
+message CancelOperationRequest {
+  // Operation filter
+  OperationFilter filter = 1;
+}
+
+message WatchOperationsRequest {
+  // Operation filter
+  OperationFilter filter = 1;
+
+  // Flag to enable keeping gRPC stream and listening for updates
+  bool listen_for_updates = 2;
+}
+
+message OperationsInitialState {
+  // Operations
+  repeated Operation operations = 1;
+}
+message OperationsUpdate {
+  // Operations
+  repeated Operation operations = 1;
+}
+message WatchOperationsResponse {
+  oneof operations {
+    // Initial state
+    OperationsInitialState initial_state = 1;
+
+    // Init finished
+    google.protobuf.Empty init_finished = 2;
+
+    // Update
+    OperationsUpdate update = 3;
+  }
+}
