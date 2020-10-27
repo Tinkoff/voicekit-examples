@@ -1,4 +1,4 @@
-package Infrastructure;
+package Infrastructure.CommandLine;
 
 import org.apache.commons.cli.*;
 import tinkoff.cloud.stt.v1.Stt;
@@ -13,13 +13,13 @@ public class RequestBuilder {
     public static Stt.RecognitionConfig buildRecognizeRequestConfig(CommandLine commandLine) {
         Stt.RecognitionConfig.Builder recognitionConfigBuilder = Stt.RecognitionConfig.newBuilder();
 
-        String encoding = commandLine.getOptionValue(CommandLineParams.encoding);
+        String encoding = commandLine.getOptionValue(Params.encoding);
         recognitionConfigBuilder.setEncoding(parseAudioEncoding(encoding));
 
-        int sampleRate = Integer.parseInt(commandLine.getOptionValue(CommandLineParams.sampleRate));
+        int sampleRate = Integer.parseInt(commandLine.getOptionValue(Params.sampleRate));
         recognitionConfigBuilder.setSampleRateHertz(sampleRate);
 
-        int channelsCount = Integer.parseInt(commandLine.getOptionValue(CommandLineParams.channelsCount));
+        int channelsCount = Integer.parseInt(commandLine.getOptionValue(Params.channelsCount));
         recognitionConfigBuilder.setNumChannels(channelsCount);
 
         addAdditionalRecognizeOptions(recognitionConfigBuilder, commandLine);
@@ -72,7 +72,7 @@ public class RequestBuilder {
     }
 
     public static InputStream getAudioStream(CommandLine commandLine) throws FileNotFoundException {
-        String audioPath = commandLine.getOptionValue(CommandLineParams.audioPath);
+        String audioPath = commandLine.getOptionValue(Params.audioPath);
         return new FileInputStream(audioPath);
     }
 
@@ -88,31 +88,30 @@ public class RequestBuilder {
             case "RAW_OPUS":
                 return Stt.AudioEncoding.RAW_OPUS;
             default:
-                // TODO: may be throw exception
                 return Stt.AudioEncoding.ENCODING_UNSPECIFIED;
         }
     }
 
     static void addAdditionalRecognizeOptions(Stt.RecognitionConfig.Builder builder, CommandLine commandLine) {
-        if (commandLine.hasOption(CommandLineParams.maxAlternatives)) {
-            int maxAlternatives = Integer.parseInt(commandLine.getOptionValue(CommandLineParams.maxAlternatives));
+        if (commandLine.hasOption(Params.maxAlternatives)) {
+            int maxAlternatives = Integer.parseInt(commandLine.getOptionValue(Params.maxAlternatives));
             builder.setMaxAlternatives(maxAlternatives);
         }
 
-        if (commandLine.hasOption(CommandLineParams.doNotPerformedVAD)) {
-            boolean doNotPerformedVAD = Boolean.parseBoolean(commandLine.getOptionValue(CommandLineParams.doNotPerformedVAD));
+        if (commandLine.hasOption(Params.doNotPerformedVAD)) {
+            boolean doNotPerformedVAD = Boolean.parseBoolean(commandLine.getOptionValue(Params.doNotPerformedVAD));
             builder.setDoNotPerformVad(doNotPerformedVAD);
         }
 
-        if (commandLine.hasOption(CommandLineParams.disablePunctuation)) {
-            boolean disablePunctuation = Boolean.parseBoolean(commandLine.getOptionValue(CommandLineParams.disablePunctuation));
+        if (commandLine.hasOption(Params.disablePunctuation)) {
+            boolean disablePunctuation = Boolean.parseBoolean(commandLine.getOptionValue(Params.disablePunctuation));
             builder.setEnableAutomaticPunctuation(!disablePunctuation);
         } else {
             builder.setEnableAutomaticPunctuation(true);
         }
 
-        if (commandLine.hasOption(CommandLineParams.silenceDurationThreshold)) {
-            float silenceDurationThreshold = Float.parseFloat(commandLine.getOptionValue(CommandLineParams.silenceDurationThreshold));
+        if (commandLine.hasOption(Params.silenceDurationThreshold)) {
+            float silenceDurationThreshold = Float.parseFloat(commandLine.getOptionValue(Params.silenceDurationThreshold));
             Stt.VoiceActivityDetectionConfig VADConfig = Stt.VoiceActivityDetectionConfig
                     .newBuilder()
                     .setSilenceDurationThreshold(silenceDurationThreshold)
@@ -122,13 +121,13 @@ public class RequestBuilder {
     }
 
     static void addAdditionalStreamingRecognizeOptions(Stt.StreamingRecognitionConfig.Builder builder, CommandLine commandLine) {
-        if (commandLine.hasOption(CommandLineParams.singleUtterance)) {
-            boolean singleUtterance = Boolean.parseBoolean(commandLine.getOptionValue(CommandLineParams.singleUtterance));
+        if (commandLine.hasOption(Params.singleUtterance)) {
+            boolean singleUtterance = Boolean.parseBoolean(commandLine.getOptionValue(Params.singleUtterance));
             builder.setSingleUtterance(singleUtterance);
         }
 
-        if (commandLine.hasOption(CommandLineParams.enableInterimResults)) {
-            boolean enableInterimResults = Boolean.parseBoolean(commandLine.getOptionValue(CommandLineParams.enableInterimResults));
+        if (commandLine.hasOption(Params.enableInterimResults)) {
+            boolean enableInterimResults = Boolean.parseBoolean(commandLine.getOptionValue(Params.enableInterimResults));
             builder.setInterimResultsConfig(
                     Stt.InterimResultsConfig
                             .newBuilder()
@@ -141,19 +140,19 @@ public class RequestBuilder {
 class CommandLineOptions {
     static Options createRecognitionOptions() {
         Option audioPath = new Option("p", true, "");
-        audioPath.setLongOpt(CommandLineParams.audioPath);
+        audioPath.setLongOpt(Params.audioPath);
         audioPath.setRequired(true);
 
         Option sampleRate = new Option("r", true, "");
-        sampleRate.setLongOpt(CommandLineParams.sampleRate);
+        sampleRate.setLongOpt(Params.sampleRate);
         sampleRate.setRequired(true);
 
         Option channelCount = new Option("c", true, "");
-        channelCount.setLongOpt(CommandLineParams.channelsCount);
+        channelCount.setLongOpt(Params.channelsCount);
         channelCount.setRequired(true);
 
         Option audioEncoding = new Option("e", true, "");
-        audioEncoding.setLongOpt(CommandLineParams.encoding);
+        audioEncoding.setLongOpt(Params.encoding);
         audioEncoding.setRequired(true);
 
         Options additionalOptions = createAdditionalRecognizeOptions();
@@ -172,16 +171,16 @@ class CommandLineOptions {
 
     static Options createAdditionalRecognizeOptions() {
         Option maxAlternatives = new Option("ma", true, "");
-        maxAlternatives.setLongOpt(CommandLineParams.maxAlternatives);
+        maxAlternatives.setLongOpt(Params.maxAlternatives);
 
         Option doNotPerformVAD = new Option("pv", true, "");
-        doNotPerformVAD.setLongOpt(CommandLineParams.doNotPerformedVAD);
+        doNotPerformVAD.setLongOpt(Params.doNotPerformedVAD);
 
         Option silenceDuration = new Option("sd", true, "");
-        silenceDuration.setLongOpt(CommandLineParams.silenceDurationThreshold);
+        silenceDuration.setLongOpt(Params.silenceDurationThreshold);
 
         Option enablePunctuation = new Option("pc", true, "");
-        enablePunctuation.setLongOpt(CommandLineParams.disablePunctuation);
+        enablePunctuation.setLongOpt(Params.disablePunctuation);
 
         Options options = new Options();
         options.addOption(maxAlternatives);
@@ -206,10 +205,10 @@ class CommandLineOptions {
         Options options = new Options();
 
         Option enableInterimResults = new Option("eir", true, "");
-        enableInterimResults.setLongOpt(CommandLineParams.enableInterimResults);
+        enableInterimResults.setLongOpt(Params.enableInterimResults);
 
         Option singleUtterances = new Option("su", true, "");
-        singleUtterances.setLongOpt(CommandLineParams.singleUtterance);
+        singleUtterances.setLongOpt(Params.singleUtterance);
 
         options.addOption(enableInterimResults);
         options.addOption(singleUtterances);

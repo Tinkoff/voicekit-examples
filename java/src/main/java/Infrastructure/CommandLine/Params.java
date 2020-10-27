@@ -1,6 +1,6 @@
-package Infrastructure;
+package Infrastructure.CommandLine;
 
-public class CommandLineParams {
+public class Params {
     public final static String audioPath = "audio-path";
     public final static String sampleRate = "sample-rate";
     public final static String channelsCount = "channels-count";

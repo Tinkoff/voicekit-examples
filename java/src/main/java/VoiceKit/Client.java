@@ -1,5 +1,6 @@
 package VoiceKit;
 
+import VoiceKit.Utils.Printer;
 import VoiceKit.ResponseHandlers.SttRecognizeHandler;
 import VoiceKit.ResponseHandlers.SttStreamingRecognizeHandler;
 import VoiceKit.ResponseHandlers.TtsStreamingSynthesisHandler;
@@ -84,7 +85,7 @@ public class Client {
     public void RecognizeThrowMicrophone(Stt.StreamingRecognitionConfig config) throws LineUnavailableException {
         TargetDataLine linear = AudioParser.getMicrophoneStream();
         if (linear == null) {
-            System.out.println("Line not supported");
+            Printer.getPrinter().println("Line not supported");
             return;
         }
 
@@ -99,7 +100,7 @@ public class Client {
                     e.printStackTrace();
                 }
             }).start();
-
+            Printer.getPrinter().println("...record! Click enter for exit.");
             waitOnInput();
         }  finally {
             linear.stop();

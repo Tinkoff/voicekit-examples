@@ -1,5 +1,6 @@
-package Infrastructure;
+package Infrastructure.CommandLine;
 
+import VoiceKit.Utils.Printer;
 import VoiceKit.Client;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
@@ -9,7 +10,7 @@ import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class CommandLineInterface {
+public class Interface {
     static final String RecognizeCommand = "recognize";
     static final String StreamingRecognizeCommand = "streaming-recognize";
     static final String SynthesisCommand = "synthesize";
@@ -17,7 +18,7 @@ public class CommandLineInterface {
 
     Client _client;
 
-    public CommandLineInterface() {
+    public Interface() {
         String apiKey = System.getenv().get("VOICEKIT_API_KEY");
         String secretKey = System.getenv().get("VOICEKIT_SECRET_KEY");
 
@@ -58,7 +59,7 @@ public class CommandLineInterface {
             Stt.RecognitionConfig config = RequestBuilder.buildRecognizeRequestConfig(commandLine);
             InputStream stream = RequestBuilder.getAudioStream(commandLine);
 
-            System.out.println(_client.Recognize(config, stream));
+            Printer.getPrinter().println(_client.Recognize(config, stream));
         } catch (IOException | InterruptedException | ParseException e) {
             e.printStackTrace();
         }
@@ -79,11 +80,11 @@ public class CommandLineInterface {
     void executeSynthesis(String[] args) {
         try {
             CommandLine commandLine = RequestBuilder.parseSynthesisRequest(args);
-            String text = commandLine.getOptionValue(CommandLineParams.text);
-            String outputPath = commandLine.getOptionValue(CommandLineParams.output);
+            String text = commandLine.getOptionValue(Params.text);
+            String outputPath = commandLine.getOptionValue(Params.output);
             String voice;
-            if (commandLine.hasOption(CommandLineParams.voice)) {
-                voice = commandLine.getOptionValue(CommandLineParams.voice);
+            if (commandLine.hasOption(Params.voice)) {
+                voice = commandLine.getOptionValue(Params.voice);
             } else {
                 voice = "maxim";
             }

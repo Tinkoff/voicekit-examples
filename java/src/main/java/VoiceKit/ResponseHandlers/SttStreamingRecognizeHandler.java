@@ -1,4 +1,5 @@
 package VoiceKit.ResponseHandlers;
+import VoiceKit.Utils.Printer;
 import tinkoff.cloud.stt.v1.Stt;
 
 import java.util.List;
@@ -11,6 +12,6 @@ public class SttStreamingRecognizeHandler extends BaseHandler<Stt.StreamingRecog
                 .getRecognitionResult().getAlternativesList();
 
         for (Stt.SpeechRecognitionAlternative alter: alternativeList)
-            System.out.println(alter.getTranscript());
+            Printer.getPrinter().println(alter.getTranscript());
     }
 }

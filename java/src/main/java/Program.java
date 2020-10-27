@@ -1,7 +1,7 @@
-import Infrastructure.CommandLineInterface;
+import Infrastructure.CommandLine.Interface;
 
 public class Program {
-    static CommandLineInterface cli = new CommandLineInterface();
+    static Interface cli = new Interface();
 
     public static void main(String[] args) {
         cli.start(args);
