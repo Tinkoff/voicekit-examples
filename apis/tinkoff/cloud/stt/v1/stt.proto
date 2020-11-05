@@ -6,6 +6,7 @@ option objc_class_prefix = 'TVKSR';
 
 import "google/protobuf/duration.proto";
 import "google/api/annotations.proto";
+import "tinkoff/cloud/longrunning/v1/longrunning.proto";
 
 service SpeechToText { // Speech recognition.
   rpc Recognize(RecognizeRequest) returns (RecognizeResponse) { // Method to recognize whole audio at once: sending complete audio, getting complete recognition result.
