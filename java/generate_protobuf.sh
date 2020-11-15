@@ -1,6 +1,7 @@
+set -e
 
 
-#mkdir src/main/grpc -p
+mkdir src/main/grpc -p
 PROTOC_OPTIONS="-I../third_party/googleapis/ -I../apis/ --java_out=./src/main/java --grpc_out=./src/main/java"
 
 if [[ -z "$PATH_TO_JAVA_PLUGIN" ]]; then

@@ -2,10 +2,11 @@ package VoiceKit.ResponseHandlers;
 import tinkoff.cloud.stt.v1.Stt;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class SttRecognizeHandler extends BaseHandler<Stt.RecognizeResponse> {
-    LinkedList<Stt.RecognizeResponse> _responses = new LinkedList<>();
+    List<Stt.RecognizeResponse> _responses = new LinkedList<>();
 
     @Override
     public void onNext(Stt.RecognizeResponse value) {

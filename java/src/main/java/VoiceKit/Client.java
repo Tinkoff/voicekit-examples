@@ -1,10 +1,10 @@
 package VoiceKit;
 
-import VoiceKit.Utils.Printer;
 import VoiceKit.ResponseHandlers.SttRecognizeHandler;
 import VoiceKit.ResponseHandlers.SttStreamingRecognizeHandler;
 import VoiceKit.ResponseHandlers.TtsStreamingSynthesisHandler;
 import VoiceKit.Utils.AudioParser;
+import VoiceKit.Utils.Printer;
 import com.google.protobuf.ByteString;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
@@ -17,10 +17,8 @@ import tinkoff.cloud.tts.v1.Tts;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class Client {
     private static final int CHUNK_SIZE = 8192;
@@ -69,7 +67,7 @@ public class Client {
 
         byte[] audioBuffer = new byte[CHUNK_SIZE];
         try {
-            while(stream.read(audioBuffer) > 0) {
+            while (stream.read(audioBuffer) > 0) {
                 ByteString content = ByteString.copyFrom(audioBuffer);
                 Stt.StreamingRecognizeRequest request = builder.setAudioContent(content).build();
                 requestsHandler.onNext(request);
@@ -82,7 +80,7 @@ public class Client {
         responseHandler.waitOnComplete();
     }
 
-    public void RecognizeThrowMicrophone(Stt.StreamingRecognitionConfig config) throws LineUnavailableException {
+    public void RecognizeThroughMicrophone(Stt.StreamingRecognitionConfig config) throws LineUnavailableException {
         TargetDataLine linear = AudioParser.getMicrophoneStream();
         if (linear == null) {
             Printer.getPrinter().println("Line not supported");
@@ -91,7 +89,7 @@ public class Client {
 
         try {
             linear.start();
-            InputStream stream =new AudioInputStream(linear);
+            InputStream stream = new AudioInputStream(linear);
 
             new Thread(() -> {
                 try {
@@ -102,7 +100,7 @@ public class Client {
             }).start();
             Printer.getPrinter().println("...record! Click enter for exit.");
             waitOnInput();
-        }  finally {
+        } finally {
             linear.stop();
             linear.close();
         }
@@ -125,9 +123,9 @@ public class Client {
     }
 
     void waitOnInput() {
+        System.out.println();
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            br.readLine();
+            System.in.read();
         } catch (IOException e) {
             e.printStackTrace();
         }

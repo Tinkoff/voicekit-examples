@@ -14,7 +14,7 @@ public class Interface {
     static final String RecognizeCommand = "recognize";
     static final String StreamingRecognizeCommand = "streaming-recognize";
     static final String SynthesisCommand = "synthesize";
-    static final String RecognizeThrowMicrophoneCommand = "microphone";
+    static final String RecognizeThroughMicrophoneCommand = "microphone";
 
     Client _client;
 
@@ -38,7 +38,7 @@ public class Interface {
             case SynthesisCommand:
                 executeSynthesis(params);
                 break;
-            case RecognizeThrowMicrophoneCommand:
+            case RecognizeThroughMicrophoneCommand:
                 executeMicrophone(params);
                 break;
             default:
@@ -100,7 +100,7 @@ public class Interface {
             CommandLine commandLine = RequestBuilder.parseMicrophoneRequest(args);
 
             Stt.StreamingRecognitionConfig config = RequestBuilder.buildMicrophoneRecognizeConfig(commandLine);
-            _client.RecognizeThrowMicrophone(config);
+            _client.RecognizeThroughMicrophone(config);
         } catch (LineUnavailableException | ParseException e) {
             e.printStackTrace();
         }
