@@ -86,6 +86,8 @@ message RecognitionConfig { // Common regognition configuration.
     bool do_not_perform_vad = 13; // Flag to disable phrase range detection. All speech shall be recognized as single phrase with this flag set to true.
     VoiceActivityDetectionConfig vad_config = 14; // Structure to customize VAD settings.
   }
+  reserved 15;
+  bool enable_denormalization = 16; // Enables automatic denormalization for first (most probable) alternative of final result.
 }
 
 message RecognizeRequest { // Request to recognize using Recognize method.

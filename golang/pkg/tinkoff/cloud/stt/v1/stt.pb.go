@@ -330,6 +330,7 @@ type RecognitionConfig struct {
 	ProfanityFilter            bool             `protobuf:"varint,5,opt,name=profanity_filter,json=profanityFilter,proto3" json:"profanity_filter,omitempty"`
 	SpeechContexts             []*SpeechContext `protobuf:"bytes,6,rep,name=speech_contexts,json=speechContexts,proto3" json:"speech_contexts,omitempty"`
 	EnableAutomaticPunctuation bool             `protobuf:"varint,8,opt,name=enable_automatic_punctuation,json=enableAutomaticPunctuation,proto3" json:"enable_automatic_punctuation,omitempty"`
+    EnableDenormalization      bool             `protobuf:"varint,16,opt,name=enable_denormalization,json=enableDenormalization,proto3" json:"enable_denormalization,omitempty"`
 	Model                      string           `protobuf:"bytes,10,opt,name=model,proto3" json:"model,omitempty"`
 	NumChannels                uint32           `protobuf:"varint,12,opt,name=num_channels,json=numChannels,proto3" json:"num_channels,omitempty"`
 	// Types that are valid to be assigned to Vad:
