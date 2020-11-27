@@ -54,7 +54,7 @@ message SpeechContext { // <i>Currently unused.</i> Declares a vocabulary of wor
   repeated string words = 2; // Individual words to recognize with higher probability.
 }
 
-message WordInfo { // <i>Currently unsupported.</i> Detailed information on recognized word.
+message WordInfo { // Detailed information on recognized word.
   google.protobuf.Duration start_time = 1; // Word start time inside input audiostream.
   google.protobuf.Duration end_time = 2; // Word end time inside input audiostream.
   string word = 3; // Word inside phrase.
