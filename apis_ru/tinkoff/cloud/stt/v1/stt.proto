@@ -54,7 +54,7 @@ message SpeechContext { // <i>Не используется на данный м
   repeated string words = 2; // Отдельные слова для распознавания с повышенной вероятностью.
 }
 
-message WordInfo { // <i>Не поддерживается на данный момент.</i> Детальная информация по слову внутри фразы.
+message WordInfo { // Детальная информация по слову внутри фразы.
   google.protobuf.Duration start_time = 1; // Время начала слова внутри аудиопотока на входе.
   google.protobuf.Duration end_time = 2; // Время конца слова внутри аудиопотока на входе.
   string word = 3; // Слово внутри фразы.
@@ -101,7 +101,7 @@ message SpeechRecognitionAlternative { // Версия распознанной 
   repeated WordInfo words = 3; // <i>Не поддерживается на данный момент.</i> Список отдельных слов внутри фразы.
 }
 
-message SpeechRecognitionResult { // Распозная фраза для указанного аудио канала.
+message SpeechRecognitionResult { // Распознанная фраза для указанного аудио канала.
   repeated SpeechRecognitionAlternative alternatives = 1; // Список версий фразы отсортированных по убыванию confidence.
   int32 channel = 2; // Канал, к которому относится версия фразы (нумерация с 0).
   google.protobuf.Duration start_time = 3; // Время начала фразы внутри аудиопотока на входе.
