@@ -1,0 +1,5 @@
+namespace :protobuf do
+  task :generate do
+    `bundle exec grpc_tools_ruby_protoc -I protobuf/protos --ruby_out=protobuf/ruby --grpc_out=protobuf/ruby/ protobuf/protos/tinkoff_stt.proto `
+  end
+end

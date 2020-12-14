@@ -1,0 +1,133 @@
+syntax = "proto3";
+
+package tinkoff.cloud.stt.v1;
+option go_package = "github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1";
+option objc_class_prefix = 'TVKSR';
+
+import "google/protobuf/duration.proto";
+import "google/api/annotations.proto";
+
+service SpeechToText { // Speech recognition.
+  rpc Recognize(RecognizeRequest) returns (RecognizeResponse) { // Method to recognize whole audio at once: sending complete audio, getting complete recognition result.
+    option (google.api.http) = {
+      post: "/v1/stt:recognize"
+      body: "*"
+    };
+  }
+  rpc StreamingRecognize(stream StreamingRecognizeRequest)
+    returns (stream StreamingRecognizeResponse); // Method for streaming recognition.
+}
+
+enum AudioEncoding { // Audio encoding. Defines both codec and container.
+  ENCODING_UNSPECIFIED = 0; // <i>Unspecified - invalid value.</i> Used as default value to avoid accidental errors.
+  LINEAR16 = 1; // Raw PCM with signed integer 16-bit linear audio samples.
+  reserved "FLAC"; reserved 2;
+  MULAW = 3; // Raw PCM with Mu-law mapped 8-bit audio samples.
+  reserved "AMR"; reserved 4;
+  reserved "AMR_WB"; reserved 5;
+  reserved "OGG_OPUS"; reserved 6;
+  reserved "SPEEX_WITH_HEADER_BYTE"; reserved 7;
+  ALAW = 8; // Raw PCM with A-law mapped 8-bit audio samples.
+  reserved "LINEAR32F"; reserved 9; // Deprecated.
+  reserved "OGG_VORBIS"; reserved 10;
+  RAW_OPUS = 11; // Opus frames packed into Protobuf messages.<br/> NOTE: each Opus frame must be packed into "content" field of RecognitionAudio. Each Opus frame must be sent individually exactly as encoded since boundary information isn't included in Opus frame. I. e. you can't just concatenate multiple encoded Opus frames and put it as a single chunk inside "content".
+  MPEG_AUDIO = 12; // MPEG audio bitstream.
+}
+
+message RecognitionAudio { // Audio to recognize.
+  oneof audio_source {
+    bytes content = 1; // Input audio data chunk.
+    string uri = 2; // Currently unsupported. Input audio URI.
+  }
+}
+
+message SpeechContext { // <i>Currently unused.</i> Declares a vocabulary of words and phrases to be recognized with higher probability.
+  repeated string phrases = 1; // Phrases to recognize with higher probability.
+  repeated string words = 2; // Individual words to recognize with higher probability.
+}
+
+message WordInfo { // <i>Currently unsupported.</i> Detailed information on recognized word.
+  google.protobuf.Duration start_time = 1; // Word start time inside input audiostream.
+  google.protobuf.Duration end_time = 2; // Word end time inside input audiostream.
+  string word = 3; // Word inside phrase.
+  float confidence = 4; // Relative confidence factor (relative to other words of the phrase and to words of other alternatives for requets configuration with max_alternatives > 1).
+}
+
+message VoiceActivityDetectionConfig { // Structure to customize VAD (every field is optional).
+  float min_speech_duration = 1; // <i>Currently ignored.</i> Minimal duration of phrase to detect by VAD in seconds.
+  float max_speech_duration = 2; // <i>Currently ignored.</i> Maximal duration of phrase to detect by VAD in seconds.
+  float silence_duration_threshold = 3; // Duration of silence in seconds to consider phrase ended. Default value depends on service configuration.
+  float silence_prob_threshold = 4; // Threshold value for silence probability (in range from 0.0 to 1.0). If silence probabily is below threshold and audio fragment is considered silence. Default value depends on service configuration.
+  float aggressiveness = 5; // Currently unused.
+}
+
+message RecognitionConfig { // Common regognition configuration.
+  AudioEncoding encoding = 1; // Audio encoding. Specifies both container and codec. Must be specified explicitly.
+  uint32 sample_rate_hertz = 2; // Sample rate of input audio in Hertz. Must match actual bitstream sample rate for MPEG_AUDIO. Must be specified explicitly.
+  string language_code = 3; // <i>Currently ignored.</i> Language to recognize.
+  uint32 max_alternatives = 4; // Maximal number of phrase alternatives to return at each moment both for final and interim recognition results. Default value: 1.
+  bool profanity_filter = 5; // Currently unused.
+  repeated SpeechContext speech_contexts = 6; // Currently unsupported. Defines vocabulary of words and phrases to recognize with highter probability.
+  reserved "enable_word_time_offsets"; reserved 7;
+  bool enable_automatic_punctuation = 8; // Enables automatic punctuation for first (most probable) alternative of final result.
+  reserved "metadata"; reserved 9;
+  string model = 10; // Recognition model. Default model is used if not specified.
+  reserved "use_enhanced"; reserved 11;
+  uint32 num_channels = 12; // Channel count for input audio. Must match actual bitstream channel count for MPEG_AUDIO.
+  oneof vad {
+    bool do_not_perform_vad = 13; // Flag to disable phrase range detection. All speech shall be recognized as single phrase with this flag set to true.
+    VoiceActivityDetectionConfig vad_config = 14; // Structure to customize VAD settings.
+  }
+}
+
+message RecognizeRequest { // Request to recognize using Recognize method.
+  RecognitionConfig config = 1; // Recognition configuration.
+  RecognitionAudio audio = 2; // Audio to recognize.
+}
+
+message SpeechRecognitionAlternative { // Version of recognized text (or part of text in case of interim result).
+  string transcript = 1; // Recognized text.
+  float confidence = 2; // Relative confidence factor.
+  repeated WordInfo words = 3; // <i>Currently unsupported.</i> Array of individual words inside phrase.
+}
+
+message SpeechRecognitionResult { // Phrase recognized for channel specified here.
+  repeated SpeechRecognitionAlternative alternatives = 1; // Array of phrase alternatives sorted by confidence in descending order.
+  int32 channel = 2; // Channel where phrase alternative relates to (starting from 0).
+  google.protobuf.Duration start_time = 3; // Phrase start time inside input audiostream.
+  google.protobuf.Duration end_time = 4; // Phrase end time inside input audiostream.
+}
+
+message RecognizeResponse { // Response with recognized phrases using Recognize method.
+  repeated SpeechRecognitionResult results = 1; // Recognized phrases.
+}
+
+message InterimResultsConfig { // Configuration of interim results.
+  bool enable_interim_results = 1; // Flag to enable sending interim results. Disabled by default.
+  float interval = 2; // Desired interval in seconds for sending interim results. Actual interval between interim results depends on service internals and is selected for optimal give out of relevant data.
+}
+
+message StreamingRecognitionConfig { // Recognition configuration using StreamingRecognition method. Must be sent as first message only.
+  RecognitionConfig config = 1; // Recognition configuration.
+  bool single_utterance = 2; // Flag to enable single utterance mode. Recognition is finished by service at first recognized phrase in this mode.
+  InterimResultsConfig interim_results_config = 3; // Configuration of interim results. I. e., recognized text so far at a moment when only part of phrase audio was sent.
+}
+
+message StreamingRecognizeRequest { // Recognition request using StreamingRecognize method (message from client to server).<br/>First message must be sent with `streaming_config` filled while all next messages must be sent with `audio_content` filled.
+  oneof streaming_request {
+    StreamingRecognitionConfig streaming_config = 1; // Recognition configuration for streaming RPC. Must be sent as first message only.
+    bytes audio_content = 2; // Input audio data chunk. Must come after recognition configuration message.
+  }
+}
+
+message StreamingRecognitionResult { // Recognized phrase using StreamingRecognize method.
+  SpeechRecognitionResult recognition_result = 1; // Recognition result.
+  bool is_final = 2; // Set to true if final version of phrase is recognized. Value of false means interim result.
+  float stability = 3; // Currently unused. Stability factor.
+}
+
+message StreamingRecognizeResponse { // Response with regognized phrases (message from server to client).
+  reserved 1;
+  repeated StreamingRecognitionResult results = 2; // Recognition results for streaming request.
+  reserved 3;
+}
