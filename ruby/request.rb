@@ -1,5 +1,5 @@
-require_relative 'protobuf/ruby/tinkoff_stt_pb'
-require_relative 'protobuf/ruby/tinkoff_stt_services_pb'
+$LOAD_PATH.unshift 'protobuf/ruby'
+require 'tinkoff/cloud/stt/v1/stt_services_pb'
 require 'active_support/core_ext/numeric/time'
 require 'jwt'
 
