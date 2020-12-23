@@ -39,4 +39,8 @@ Usage:  [options]
     -e, --endpoint [ENDPOINT]        Network endpoint
 ```
 
+## Regenerating protobufs
 
+```
+rake protobuf:generate
+```
