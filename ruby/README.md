@@ -42,5 +42,5 @@ Usage:  [options]
 ## Regenerating protobufs
 
 ```
-rake protobuf:generate
+bundle exec rake protobuf:generate
 ```
