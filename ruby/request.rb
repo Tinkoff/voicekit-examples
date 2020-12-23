@@ -1,7 +1,9 @@
 $LOAD_PATH.unshift 'protobuf/ruby'
 require 'tinkoff/cloud/stt/v1/stt_services_pb'
 require 'active_support/core_ext/numeric/time'
+require 'active_support/core_ext/string/inflections'
 require 'jwt'
+require_relative 'audio'
 
 class BaseRequest
   def initialize api_key:, api_secret:, options: {}
@@ -52,4 +54,30 @@ class RecognitionRequest < BaseRequest
     { "authorization" => "Bearer #{JWT.encode(payload, Base64.urlsafe_decode64(@api_secret), 'HS256', { kid: @api_key, typ: 'JWT' })}" }
   end
 
+  class << self
+    def with type, options
+      missing = %w[VOICEKIT_API_KEY VOICEKIT_SECRET_KEY].select { |var| ENV[var].nil? }
+      raise ArgumentError, "Environment #{'variable'.pluralize missing.count} missing: #{missing.join ', '}" if missing.any?
+
+      pcm, sample_rate, num_channels, total_frames = Audio.read_frames options
+
+      new(
+        api_key: ENV['VOICEKIT_API_KEY'],
+        api_secret: ENV['VOICEKIT_SECRET_KEY'],
+        audio_frames: pcm,
+        sample_rate: sample_rate,
+        num_channels: num_channels,
+        format: type,
+        options: options
+      )
+    end
+
+    def grpc options
+      with :grpc, options
+    end
+
+    def rest options
+      with :json, options
+    end
+  end
 end
