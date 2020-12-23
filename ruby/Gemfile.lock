@@ -1,0 +1,42 @@
+GEM
+  specs:
+    activesupport (6.1.0)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+      zeitwerk (~> 2.3)
+    concurrent-ruby (1.1.7)
+    google-protobuf (3.14.0-universal-darwin)
+    googleapis-common-protos-types (1.0.5)
+      google-protobuf (~> 3.11)
+    grpc (1.34.0-universal-darwin)
+      google-protobuf (~> 3.13)
+      googleapis-common-protos-types (~> 1.0)
+    grpc-tools (1.34.0)
+    i18n (1.8.5)
+      concurrent-ruby (~> 1.0)
+    jwt (2.2.2)
+    miniaudio (0.3.0)
+    minitest (5.14.2)
+    rake (13.0.1)
+    tzinfo (2.0.4)
+      concurrent-ruby (~> 1.0)
+    zeitwerk (2.4.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activesupport
+  grpc
+  grpc-tools
+  jwt
+  miniaudio
+  rake
+
+RUBY VERSION
+   ruby 2.7.2p137
+
+BUNDLED WITH
+   2.1.4
