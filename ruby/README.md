@@ -1,30 +1,29 @@
-# Intro
+# Ruby Tinkoff Voicekit examples
 
-Ruby examples for STT Tinkoff VoiceKit
-
-# Installation
+## Installation
 
 Required Ruby version >= 2.5.
 
 ```
+cd <repo_dir>/ruby
 bundle install
 ```
 
-# Run examples
+## Run examples
 
-## REST
+### REST
 
 ```
 VOICEKIT_API_KEY=<your_api_key> VOICEKIT_SECRET_KEY=<your_secret_key> bundle exec ruby recognize_rest.rb -f <path/to/audio_file>
 ```
 
-## GRPC
+### GRPC
 
 ```
 VOICEKIT_API_KEY=<your_api_key> VOICEKIT_SECRET_KEY=<your_secret_key> bundle exec ruby recognize_grpc.rb -f <path/to/audio_file>
 ```
 
-# Options
+## Configurable Options
 
 ```
 bundle exec ruby recognize_rest.rb -h
