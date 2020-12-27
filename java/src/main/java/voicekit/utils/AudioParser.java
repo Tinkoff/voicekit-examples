@@ -1,4 +1,4 @@
-package VoiceKit.Utils;
+package voicekit.utils;
 
 import javax.sound.sampled.*;
 import java.io.ByteArrayInputStream;
@@ -6,6 +6,10 @@ import java.io.File;
 import java.io.IOException;
 
 public class AudioParser {
+    private AudioParser() {
+        throw new IllegalStateException("Utility class");
+    }
+
     static AudioFormat getAudioFormat(int sampleRate) {
         return new AudioFormat(sampleRate, 16, 1, true, false);
     }
@@ -25,9 +29,9 @@ public class AudioParser {
     public static void saveAudioInWAV(String outputAudioPath, byte[] audio, int sampleRate) throws IOException {
         File out = new File(outputAudioPath);
         AudioFormat format = getAudioFormat(sampleRate);
-        ByteArrayInputStream audioStream = new ByteArrayInputStream(audio);
-        AudioInputStream audioInputStream = new AudioInputStream(audioStream, format, audio.length);
-        AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, out);
-        audioInputStream.close();
+        try(ByteArrayInputStream audioStream = new ByteArrayInputStream(audio);
+            AudioInputStream audioInputStream = new AudioInputStream(audioStream, format, audio.length)) {
+            AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, out);
+        }
     }
 }

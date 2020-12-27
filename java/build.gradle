@@ -20,6 +20,7 @@ dependencies {
     implementation 'com.auth0:java-jwt:3.11.0'
     implementation 'io.grpc:grpc-netty-shaded:1.32.1'
     implementation 'io.grpc:grpc-protobuf:1.32.1'
+    implementation 'com.google.protobuf:protobuf-java-util:3.14.0'
     implementation 'io.grpc:grpc-stub:1.32.1'
     compileOnly 'org.apache.tomcat:annotations-api:6.0.53'
 }

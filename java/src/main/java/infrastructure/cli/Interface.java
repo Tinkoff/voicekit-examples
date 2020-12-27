@@ -1,7 +1,7 @@
-package Infrastructure.CommandLine;
+package infrastructure.cli;
 
-import VoiceKit.Utils.Printer;
-import VoiceKit.Client;
+import voicekit.utils.Printer;
+import voicekit.Client;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
 import tinkoff.cloud.stt.v1.Stt;
@@ -9,36 +9,41 @@ import tinkoff.cloud.stt.v1.Stt;
 import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Interface {
-    static final String RecognizeCommand = "recognize";
-    static final String StreamingRecognizeCommand = "streaming-recognize";
-    static final String SynthesisCommand = "synthesize";
-    static final String RecognizeThroughMicrophoneCommand = "microphone";
+    private static final Logger logger =
+            Logger.getLogger(Interface.class.getName());
 
-    Client _client;
+    static final String RECOGNIZE_COMMAND = "recognize";
+    static final String STREAMING_RECOGNIZE_COMMAND = "streaming-recognize";
+    static final String SYNTHESIS_COMMAND = "synthesize";
+    static final String RECOGNIZE_THROUGH_MICROPHONE_COMMAND = "microphone";
+
+    Client client;
 
     public Interface() {
         String apiKey = System.getenv().get("VOICEKIT_API_KEY");
         String secretKey = System.getenv().get("VOICEKIT_SECRET_KEY");
 
-        _client = new Client(apiKey, secretKey);
+        client = new Client(apiKey, secretKey);
     }
 
     public void start(String[] args) {
         String executableCommand = args[0];
         String[] params = getParams(args);
         switch (executableCommand) {
-            case RecognizeCommand:
+            case RECOGNIZE_COMMAND:
                 executeRecognize(params);
                 break;
-            case StreamingRecognizeCommand:
+            case STREAMING_RECOGNIZE_COMMAND:
                 executeStreamingRecognize(params);
                 break;
-            case SynthesisCommand:
+            case SYNTHESIS_COMMAND:
                 executeSynthesis(params);
                 break;
-            case RecognizeThroughMicrophoneCommand:
+            case RECOGNIZE_THROUGH_MICROPHONE_COMMAND:
                 executeMicrophone(params);
                 break;
             default:
@@ -48,8 +53,7 @@ public class Interface {
 
     private String[] getParams(String[] args) {
         String[] params = new String[args.length - 1];
-        if (params.length >= 0)
-            System.arraycopy(args, 1, params, 0, params.length);
+        System.arraycopy(args, 1, params, 0, params.length);
         return params;
     }
 
@@ -57,11 +61,11 @@ public class Interface {
         try {
             CommandLine commandLine = RequestBuilder.parseRecognizeRequest(args);
             Stt.RecognitionConfig config = RequestBuilder.buildRecognizeRequestConfig(commandLine);
-            InputStream stream = RequestBuilder.getAudioStream(commandLine);
-
-            Printer.getPrinter().println(_client.Recognize(config, stream));
-        } catch (IOException | InterruptedException | ParseException e) {
-            e.printStackTrace();
+            try(InputStream stream = RequestBuilder.getAudioStream(commandLine)) {
+                client.recognize(config, stream);
+            }
+        } catch (IOException | ParseException e) {
+            logger.log(Level.SEVERE, "Error in recognize", e);
         }
     }
 
@@ -69,29 +73,29 @@ public class Interface {
         try {
             CommandLine commandLine = RequestBuilder.parseStreamingRecognizeRequest(args);
             Stt.StreamingRecognitionConfig config = RequestBuilder.buildStreamingRecognizeRequestConfig(commandLine);
-            InputStream stream = RequestBuilder.getAudioStream(commandLine);
-
-            _client.StreamingRecognize(config, stream);
-        } catch (IOException | InterruptedException | ParseException e) {
-            e.printStackTrace();
+            try(InputStream stream = RequestBuilder.getAudioStream(commandLine)) {
+                client.streamingRecognize(config, stream);
+            }
+        } catch (IOException | ParseException e) {
+            logger.log(Level.SEVERE, "Error in streaming recognize", e);
         }
     }
 
     void executeSynthesis(String[] args) {
         try {
             CommandLine commandLine = RequestBuilder.parseSynthesisRequest(args);
-            String text = commandLine.getOptionValue(Params.text);
-            String outputPath = commandLine.getOptionValue(Params.output);
+            String text = commandLine.getOptionValue(Params.TEXT);
+            String outputPath = commandLine.getOptionValue(Params.OUTPUT);
             String voice;
-            if (commandLine.hasOption(Params.voice)) {
-                voice = commandLine.getOptionValue(Params.voice);
+            if (commandLine.hasOption(Params.VOICE)) {
+                voice = commandLine.getOptionValue(Params.VOICE);
             } else {
                 voice = "maxim";
             }
 
-            _client.StreamingSynthesis(text, outputPath, voice);
-        } catch (IOException | InterruptedException | ParseException e) {
-            e.printStackTrace();
+            client.streamingSynthesis(text, outputPath, voice);
+        } catch (IOException | ParseException e) {
+            logger.log(Level.SEVERE, "Error in streaming synthesis", e);
         }
     }
 
@@ -100,9 +104,9 @@ public class Interface {
             CommandLine commandLine = RequestBuilder.parseMicrophoneRequest(args);
 
             Stt.StreamingRecognitionConfig config = RequestBuilder.buildMicrophoneRecognizeConfig(commandLine);
-            _client.RecognizeThroughMicrophone(config);
-        } catch (LineUnavailableException | ParseException e) {
-            e.printStackTrace();
+            client.recognizeThroughMicrophone(config);
+        } catch (LineUnavailableException | ParseException | IOException e) {
+            logger.log(Level.SEVERE, "Error in microphone recognition", e);
         }
     }
 }

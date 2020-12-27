@@ -1,4 +1,4 @@
-import Infrastructure.CommandLine.Interface;
+import infrastructure.cli.Interface;
 
 public class Program {
     static Interface cli = new Interface();

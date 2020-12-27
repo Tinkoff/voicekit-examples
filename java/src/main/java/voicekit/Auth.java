@@ -1,4 +1,4 @@
-package VoiceKit;
+package voicekit;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -12,22 +12,22 @@ import java.util.concurrent.Executor;
 
 public class Auth extends CallCredentials {
     private static final long EXPIRATION = 5*60*1000;
-    String _apiKey;
-    String _secretKey;
-    String _endpoint;
+    String apiKey;
+    String secretKey;
+    String endpoint;
 
     public Auth(String apiKey, String secretKey, String endpoint) {
-        _apiKey = apiKey;
-        _secretKey = secretKey;
-        _endpoint = endpoint;
+        this.apiKey = apiKey;
+        this.secretKey = secretKey;
+        this.endpoint = endpoint;
     }
 
     String createToken() {
         return JWT.create()
-                .withKeyId(_apiKey)
-                .withClaim("aud", _endpoint)
+                .withKeyId(apiKey)
+                .withClaim("aud", endpoint)
                 .withExpiresAt(new Date(System.currentTimeMillis()+EXPIRATION))
-                .sign(Algorithm.HMAC256(Base64.decodeBase64(_secretKey)));
+                .sign(Algorithm.HMAC256(Base64.decodeBase64(secretKey)));
     }
 
     @Override
@@ -47,5 +47,6 @@ public class Auth extends CallCredentials {
 
     @Override
     public void thisUsesUnstableApi() {
+        throw new UnsupportedOperationException();
     }
 }
