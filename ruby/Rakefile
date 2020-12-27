@@ -1,0 +1,5 @@
+namespace :protobuf do
+  task :generate do
+    `bundle exec grpc_tools_ruby_protoc -I../apis -I../third_party/googleapis/ --ruby_out=protobuf/ruby --grpc_out=protobuf/ruby/ ../apis/tinkoff/cloud/stt/v1/stt.proto ../apis/tinkoff/cloud/longrunning/v1/longrunning.proto`
+  end
+end

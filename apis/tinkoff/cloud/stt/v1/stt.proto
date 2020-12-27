@@ -6,6 +6,7 @@ option objc_class_prefix = 'TVKSR';
 
 import "google/protobuf/duration.proto";
 import "google/api/annotations.proto";
+import "tinkoff/cloud/longrunning/v1/longrunning.proto";
 
 service SpeechToText { // Speech recognition.
   rpc Recognize(RecognizeRequest) returns (RecognizeResponse) { // Method to recognize whole audio at once: sending complete audio, getting complete recognition result.
@@ -16,6 +17,13 @@ service SpeechToText { // Speech recognition.
   }
   rpc StreamingRecognize(stream StreamingRecognizeRequest)
     returns (stream StreamingRecognizeResponse); // Method for streaming recognition.
+
+  rpc LongRunningRecognize(LongRunningRecognizeRequest) returns (longrunning.v1.Operation) { // Method to create longrunning recognition operation. Created operation will persist for a limited time and will be deleted after that time has expired.
+    option (google.api.http) = {
+      post: "/v1/stt:longrunningrecognize"
+      body: "*"
+    };
+  }
 }
 
 enum AudioEncoding { // Audio encoding. Defines both codec and container.
@@ -37,7 +45,7 @@ enum AudioEncoding { // Audio encoding. Defines both codec and container.
 message RecognitionAudio { // Audio to recognize.
   oneof audio_source {
     bytes content = 1; // Input audio data chunk.
-    string uri = 2; // Currently unsupported. Input audio URI.
+    string uri = 2; // Currently only supported for LongRunningRecognizeRequest. Input audio URI.<br/>URI format is ```storage://s3.api.tinkoff.ai/inbound/<file_name>```
   }
 }
 
@@ -46,11 +54,11 @@ message SpeechContext { // <i>Currently unused.</i> Declares a vocabulary of wor
   repeated string words = 2; // Individual words to recognize with higher probability.
 }
 
-message WordInfo { // <i>Currently unsupported.</i> Detailed information on recognized word.
+message WordInfo { // Detailed information on recognized word.
   google.protobuf.Duration start_time = 1; // Word start time inside input audiostream.
   google.protobuf.Duration end_time = 2; // Word end time inside input audiostream.
   string word = 3; // Word inside phrase.
-  float confidence = 4; // Relative confidence factor (relative to other words of the phrase and to words of other alternatives for requets configuration with max_alternatives > 1).
+  float confidence = 4; // Relative confidence factor (relative to other words of the phrase and to words of other alternatives for requets configuration with max_alternatives > 1). Value may be negative.
 }
 
 message VoiceActivityDetectionConfig { // Structure to customize VAD (every field is optional).
@@ -78,6 +86,8 @@ message RecognitionConfig { // Common regognition configuration.
     bool do_not_perform_vad = 13; // Flag to disable phrase range detection. All speech shall be recognized as single phrase with this flag set to true.
     VoiceActivityDetectionConfig vad_config = 14; // Structure to customize VAD settings.
   }
+  reserved 15;
+  bool enable_denormalization = 16; // Enables automatic conversion of numerals from text to numeric form. Applies only to the first (most likely) version of the final hypothesis.
 }
 
 message RecognizeRequest { // Request to recognize using Recognize method.
@@ -107,6 +117,12 @@ message InterimResultsConfig { // Configuration of interim results.
   float interval = 2; // Desired interval in seconds for sending interim results. Actual interval between interim results depends on service internals and is selected for optimal give out of relevant data.
 }
 
+message LongRunningRecognizeRequest { // Request for longrunning recognition using LongRunningRecognize method.
+  RecognitionConfig config = 1; // Recognition configuration.
+  RecognitionAudio audio = 2; // Audio to recognize.
+  string group = 3; // Group to assign to created operation.
+}
+
 message StreamingRecognitionConfig { // Recognition configuration using StreamingRecognition method. Must be sent as first message only.
   RecognitionConfig config = 1; // Recognition configuration.
   bool single_utterance = 2; // Flag to enable single utterance mode. Recognition is finished by service at first recognized phrase in this mode.
@@ -123,7 +139,7 @@ message StreamingRecognizeRequest { // Recognition request using StreamingRecogn
 message StreamingRecognitionResult { // Recognized phrase using StreamingRecognize method.
   SpeechRecognitionResult recognition_result = 1; // Recognition result.
   bool is_final = 2; // Set to true if final version of phrase is recognized. Value of false means interim result.
-  float stability = 3; // Currently unused. Stability factor.
+  float stability = 3; // <i>Currently unused.</i> Stability factor.
 }
 
 message StreamingRecognizeResponse { // Response with regognized phrases (message from server to client).

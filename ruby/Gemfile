@@ -1,0 +1,8 @@
+ruby '>=2.5.0'
+
+gem 'rake'
+gem 'miniaudio'
+gem 'grpc'
+gem 'grpc-tools'
+gem 'jwt'
+gem 'activesupport'

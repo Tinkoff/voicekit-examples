@@ -7,12 +7,12 @@ option objc_class_prefix = 'TVKSS';
 import "google/api/annotations.proto";
 
 service TextToSpeech { // Speech synthesis.
-  rpc ListVoices(ListVoicesRequest) returns (ListVoicesResponses) { // (Not implemented) Method for retrieving available voice list.
+  rpc ListVoices(ListVoicesRequest) returns (ListVoicesResponses) { // <i>Not implemented</i> Method for retrieving available voice list.
     option (google.api.http) = {
       get: "/v1/tts:list_voices"
     };
   }
-  rpc Synthesize(SynthesizeSpeechRequest) returns (SynthesizeSpeechResponse) { // (Not implemented) Method for fragment synthesis.
+  rpc Synthesize(SynthesizeSpeechRequest) returns (SynthesizeSpeechResponse) { // <i>Not implemented</i> Method for fragment synthesis.
     option (google.api.http) = {
       post: "/v1/tts:synthesize"
       body: "*"
@@ -32,15 +32,15 @@ enum AudioEncoding { // Audio encoding. Defines both codec and container.
   ENCODING_UNSPECIFIED = 0; // <i>Unspecified - invalid value.</i> Used as default value to avoid accidental errors.
   LINEAR16 = 1; // Raw PCM with signed integer 16-bit linear audio samples.
   reserved "FLAC"; reserved 2;
-  MULAW = 3; // Raw PCM with Mu-law mapped audio samples.
+  MULAW = 3; // Raw PCM with Mu-law mapped 8-bit audio samples (aka PCMU).
   reserved "AMR"; reserved 4;
   reserved "AMR_WB"; reserved 5;
   reserved "OGG_OPUS"; reserved 6;
   reserved "SPEEX_WITH_HEADER_BYTE"; reserved 7;
-  ALAW = 8; // Raw PCM with A-law mapped audio samples.
+  ALAW = 8; // Raw PCM with A-law mapped 8-bit audio samples (aka PCMA).
   reserved "LINEAR32F"; reserved 9;  // Deprecated.
   reserved "OGG_VORBIS"; reserved 10;
-  RAW_OPUS = 11; // Opus frames packed into Protobuf messages. NOTE: each Opus frame is packed into separate message with "audio_content" field. I. e. you can't just concatenate encoded Opus frames and push it as a single chuk into Opus decoder. Also although Opus is sample rate agnostic, estimated duration of synthesized audio is calculated in samples of specified sample rate.
+  RAW_OPUS = 11; // Opus frames packed into Protobuf messages. NOTE: each Opus frame is packed into separate message with "audio_content" field. I. e., you can't just concatenate encoded Opus frames and push it as a single chuk into Opus decoder. Also although Opus is sample rate agnostic, estimated duration of synthesized audio is calculated in samples of specified sample rate.
   reserved "MPEG_AUDIO"; reserved 12;
 }
 
@@ -72,7 +72,7 @@ message VoiceSelectionParams { // Configuration of preferred synthesis voice.
 
 message AudioConfig { // Configuration of synthesized audio.
   AudioEncoding audio_encoding = 1; // Audio encoding. Specifies both container and codec. Must be specified explicity.
-  double speaking_rate = 2; // Speaking rate of generated audio as a fraction of original speaking rate. Default value is "1.0".
+  double speaking_rate = 2; // <i>Currently ignored.</i> Speaking rate of generated audio as a fraction of original speaking rate. Default value is "1.0".
   reserved "pitch"; reserved 3;
   reserved "volume_gain_db"; reserved 4;
   int32 sample_rate_hertz = 5; // Sample rate of generated audio in Hertz. Must be specified explicity.
