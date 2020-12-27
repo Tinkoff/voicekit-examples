@@ -1,0 +1,6 @@
+.idea
+.gradle
+
+*.wav
+
+export.sh
