@@ -20,6 +20,7 @@ def set_recognition_config(config, args):
         config.vad_config.silence_duration_threshold = args.silence_duration_threshold
     config.language_code = args.language_code
     config.enable_automatic_punctuation = not args.disable_automatic_punctuation
+    config.enable_denormalization = not args.disable_denormalization
 
 
 def build_recognition_request(args, audio_reader, type="pb"):
@@ -162,6 +163,8 @@ class BaseRecognitionParser(CommonParser):
                           help="Language for speech recognition.")
         self.add_argument("--disable_automatic_punctuation", action="store_true",
                           help="Specify this to disable automatic punctuation in recognition results.")
+        self.add_argument("--disable_denormalization", action="store_true",
+                          help="Specify this to disable automatic text denormalization.")
         self.add_argument("--chunk_size", type=int, default=1024, help="Chunk size for streaming")
         self.add_argument("--pyaudio_max_seconds", type=float, default=None, help="Maximum length of pyaudio "
                           "recording in seconds.")

@@ -23,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'ZQgithub.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1\242\002\005TVKSR',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x1etinkoff/cloud/stt/v1/stt.proto\x12\x14tinkoff.cloud.stt.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1cgoogle/api/annotations.proto\x1a.tinkoff/cloud/longrunning/v1/longrunning.proto\"D\n\x10RecognitionAudio\x12\x11\n\x07\x63ontent\x18\x01 \x01(\x0cH\x00\x12\r\n\x03uri\x18\x02 \x01(\tH\x00\x42\x0e\n\x0c\x61udio_source\"/\n\rSpeechContext\x12\x0f\n\x07phrases\x18\x01 \x03(\t\x12\r\n\x05words\x18\x02 \x03(\t\"\x88\x01\n\x08WordInfo\x12-\n\nstart_time\x18\x01 \x01(\x0b\x32\x19.google.protobuf.Duration\x12+\n\x08\x65nd_time\x18\x02 \x01(\x0b\x32\x19.google.protobuf.Duration\x12\x0c\n\x04word\x18\x03 \x01(\t\x12\x12\n\nconfidence\x18\x04 \x01(\x02\"\xb4\x01\n\x1cVoiceActivityDetectionConfig\x12\x1b\n\x13min_speech_duration\x18\x01 \x01(\x02\x12\x1b\n\x13max_speech_duration\x18\x02 \x01(\x02\x12\"\n\x1asilence_duration_threshold\x18\x03 \x01(\x02\x12\x1e\n\x16silence_prob_threshold\x18\x04 \x01(\x02\x12\x16\n\x0e\x61ggressiveness\x18\x05 \x01(\x02\"\xec\x03\n\x11RecognitionConfig\x12\x35\n\x08\x65ncoding\x18\x01 \x01(\x0e\x32#.tinkoff.cloud.stt.v1.AudioEncoding\x12\x19\n\x11sample_rate_hertz\x18\x02 \x01(\r\x12\x15\n\rlanguage_code\x18\x03 \x01(\t\x12\x18\n\x10max_alternatives\x18\x04 \x01(\r\x12\x18\n\x10profanity_filter\x18\x05 \x01(\x08\x12<\n\x0fspeech_contexts\x18\x06 \x03(\x0b\x32#.tinkoff.cloud.stt.v1.SpeechContext\x12$\n\x1c\x65nable_automatic_punctuation\x18\x08 \x01(\x08\x12\r\n\x05model\x18\n \x01(\t\x12\x14\n\x0cnum_channels\x18\x0c \x01(\r\x12\x1c\n\x12\x64o_not_perform_vad\x18\r \x01(\x08H\x00\x12H\n\nvad_config\x18\x0e \x01(\x0b\x32\x32.tinkoff.cloud.stt.v1.VoiceActivityDetectionConfigH\x00\x42\x05\n\x03vadJ\x04\x08\x07\x10\x08J\x04\x08\t\x10\nJ\x04\x08\x0b\x10\x0cR\x18\x65nable_word_time_offsetsR\x08metadataR\x0cuse_enhanced\"\x82\x01\n\x10RecognizeRequest\x12\x37\n\x06\x63onfig\x18\x01 \x01(\x0b\x32\'.tinkoff.cloud.stt.v1.RecognitionConfig\x12\x35\n\x05\x61udio\x18\x02 \x01(\x0b\x32&.tinkoff.cloud.stt.v1.RecognitionAudio\"u\n\x1cSpeechRecognitionAlternative\x12\x12\n\ntranscript\x18\x01 \x01(\t\x12\x12\n\nconfidence\x18\x02 \x01(\x02\x12-\n\x05words\x18\x03 \x03(\x0b\x32\x1e.tinkoff.cloud.stt.v1.WordInfo\"\xd0\x01\n\x17SpeechRecognitionResult\x12H\n\x0c\x61lternatives\x18\x01 \x03(\x0b\x32\x32.tinkoff.cloud.stt.v1.SpeechRecognitionAlternative\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\x05\x12-\n\nstart_time\x18\x03 \x01(\x0b\x32\x19.google.protobuf.Duration\x12+\n\x08\x65nd_time\x18\x04 \x01(\x0b\x32\x19.google.protobuf.Duration\"S\n\x11RecognizeResponse\x12>\n\x07results\x18\x01 \x03(\x0b\x32-.tinkoff.cloud.stt.v1.SpeechRecognitionResult\"H\n\x14InterimResultsConfig\x12\x1e\n\x16\x65nable_interim_results\x18\x01 \x01(\x08\x12\x10\n\x08interval\x18\x02 \x01(\x02\"\x9c\x01\n\x1bLongRunningRecognizeRequest\x12\x37\n\x06\x63onfig\x18\x01 \x01(\x0b\x32\'.tinkoff.cloud.stt.v1.RecognitionConfig\x12\x35\n\x05\x61udio\x18\x02 \x01(\x0b\x32&.tinkoff.cloud.stt.v1.RecognitionAudio\x12\r\n\x05group\x18\x03 \x01(\t\"\xbb\x01\n\x1aStreamingRecognitionConfig\x12\x37\n\x06\x63onfig\x18\x01 \x01(\x0b\x32\'.tinkoff.cloud.stt.v1.RecognitionConfig\x12\x18\n\x10single_utterance\x18\x02 \x01(\x08\x12J\n\x16interim_results_config\x18\x03 \x01(\x0b\x32*.tinkoff.cloud.stt.v1.InterimResultsConfig\"\x97\x01\n\x19StreamingRecognizeRequest\x12L\n\x10streaming_config\x18\x01 \x01(\x0b\x32\x30.tinkoff.cloud.stt.v1.StreamingRecognitionConfigH\x00\x12\x17\n\raudio_content\x18\x02 \x01(\x0cH\x00\x42\x13\n\x11streaming_request\"\x8c\x01\n\x1aStreamingRecognitionResult\x12I\n\x12recognition_result\x18\x01 \x01(\x0b\x32-.tinkoff.cloud.stt.v1.SpeechRecognitionResult\x12\x10\n\x08is_final\x18\x02 \x01(\x08\x12\x11\n\tstability\x18\x03 \x01(\x02\"k\n\x1aStreamingRecognizeResponse\x12\x41\n\x07results\x18\x02 \x03(\x0b\x32\x30.tinkoff.cloud.stt.v1.StreamingRecognitionResultJ\x04\x08\x01\x10\x02J\x04\x08\x03\x10\x04*\xe0\x01\n\rAudioEncoding\x12\x18\n\x14\x45NCODING_UNSPECIFIED\x10\x00\x12\x0c\n\x08LINEAR16\x10\x01\x12\t\n\x05MULAW\x10\x03\x12\x08\n\x04\x41LAW\x10\x08\x12\x0c\n\x08RAW_OPUS\x10\x0b\x12\x0e\n\nMPEG_AUDIO\x10\x0c\"\x04\x08\x02\x10\x02\"\x04\x08\x04\x10\x04\"\x04\x08\x05\x10\x05\"\x04\x08\x06\x10\x06\"\x04\x08\x07\x10\x07\"\x04\x08\t\x10\t\"\x04\x08\n\x10\n*\x04\x46LAC*\x03\x41MR*\x06\x41MR_WB*\x08OGG_OPUS*\x16SPEEX_WITH_HEADER_BYTE*\tLINEAR32F*\nOGG_VORBIS2\xa5\x03\n\x0cSpeechToText\x12z\n\tRecognize\x12&.tinkoff.cloud.stt.v1.RecognizeRequest\x1a\'.tinkoff.cloud.stt.v1.RecognizeResponse\"\x1c\x82\xd3\xe4\x93\x02\x16\"\x11/v1/stt:recognize:\x01*\x12{\n\x12StreamingRecognize\x12/.tinkoff.cloud.stt.v1.StreamingRecognizeRequest\x1a\x30.tinkoff.cloud.stt.v1.StreamingRecognizeResponse(\x01\x30\x01\x12\x9b\x01\n\x14LongRunningRecognize\x12\x31.tinkoff.cloud.stt.v1.LongRunningRecognizeRequest\x1a\'.tinkoff.cloud.longrunning.v1.Operation\"\'\x82\xd3\xe4\x93\x02!\"\x1c/v1/stt:longrunningrecognize:\x01*B[ZQgithub.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1\xa2\x02\x05TVKSRb\x06proto3'
+  serialized_pb=b'\n\x1etinkoff/cloud/stt/v1/stt.proto\x12\x14tinkoff.cloud.stt.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1cgoogle/api/annotations.proto\x1a.tinkoff/cloud/longrunning/v1/longrunning.proto\"D\n\x10RecognitionAudio\x12\x11\n\x07\x63ontent\x18\x01 \x01(\x0cH\x00\x12\r\n\x03uri\x18\x02 \x01(\tH\x00\x42\x0e\n\x0c\x61udio_source\"/\n\rSpeechContext\x12\x0f\n\x07phrases\x18\x01 \x03(\t\x12\r\n\x05words\x18\x02 \x03(\t\"\x88\x01\n\x08WordInfo\x12-\n\nstart_time\x18\x01 \x01(\x0b\x32\x19.google.protobuf.Duration\x12+\n\x08\x65nd_time\x18\x02 \x01(\x0b\x32\x19.google.protobuf.Duration\x12\x0c\n\x04word\x18\x03 \x01(\t\x12\x12\n\nconfidence\x18\x04 \x01(\x02\"\xb4\x01\n\x1cVoiceActivityDetectionConfig\x12\x1b\n\x13min_speech_duration\x18\x01 \x01(\x02\x12\x1b\n\x13max_speech_duration\x18\x02 \x01(\x02\x12\"\n\x1asilence_duration_threshold\x18\x03 \x01(\x02\x12\x1e\n\x16silence_prob_threshold\x18\x04 \x01(\x02\x12\x16\n\x0e\x61ggressiveness\x18\x05 \x01(\x02\"\x92\x04\n\x11RecognitionConfig\x12\x35\n\x08\x65ncoding\x18\x01 \x01(\x0e\x32#.tinkoff.cloud.stt.v1.AudioEncoding\x12\x19\n\x11sample_rate_hertz\x18\x02 \x01(\r\x12\x15\n\rlanguage_code\x18\x03 \x01(\t\x12\x18\n\x10max_alternatives\x18\x04 \x01(\r\x12\x18\n\x10profanity_filter\x18\x05 \x01(\x08\x12<\n\x0fspeech_contexts\x18\x06 \x03(\x0b\x32#.tinkoff.cloud.stt.v1.SpeechContext\x12$\n\x1c\x65nable_automatic_punctuation\x18\x08 \x01(\x08\x12\r\n\x05model\x18\n \x01(\t\x12\x14\n\x0cnum_channels\x18\x0c \x01(\r\x12\x1c\n\x12\x64o_not_perform_vad\x18\r \x01(\x08H\x00\x12H\n\nvad_config\x18\x0e \x01(\x0b\x32\x32.tinkoff.cloud.stt.v1.VoiceActivityDetectionConfigH\x00\x12\x1e\n\x16\x65nable_denormalization\x18\x10 \x01(\x08\x42\x05\n\x03vadJ\x04\x08\x07\x10\x08J\x04\x08\t\x10\nJ\x04\x08\x0b\x10\x0cJ\x04\x08\x0f\x10\x10R\x18\x65nable_word_time_offsetsR\x08metadataR\x0cuse_enhanced\"\x82\x01\n\x10RecognizeRequest\x12\x37\n\x06\x63onfig\x18\x01 \x01(\x0b\x32\'.tinkoff.cloud.stt.v1.RecognitionConfig\x12\x35\n\x05\x61udio\x18\x02 \x01(\x0b\x32&.tinkoff.cloud.stt.v1.RecognitionAudio\"u\n\x1cSpeechRecognitionAlternative\x12\x12\n\ntranscript\x18\x01 \x01(\t\x12\x12\n\nconfidence\x18\x02 \x01(\x02\x12-\n\x05words\x18\x03 \x03(\x0b\x32\x1e.tinkoff.cloud.stt.v1.WordInfo\"\xd0\x01\n\x17SpeechRecognitionResult\x12H\n\x0c\x61lternatives\x18\x01 \x03(\x0b\x32\x32.tinkoff.cloud.stt.v1.SpeechRecognitionAlternative\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\x05\x12-\n\nstart_time\x18\x03 \x01(\x0b\x32\x19.google.protobuf.Duration\x12+\n\x08\x65nd_time\x18\x04 \x01(\x0b\x32\x19.google.protobuf.Duration\"S\n\x11RecognizeResponse\x12>\n\x07results\x18\x01 \x03(\x0b\x32-.tinkoff.cloud.stt.v1.SpeechRecognitionResult\"H\n\x14InterimResultsConfig\x12\x1e\n\x16\x65nable_interim_results\x18\x01 \x01(\x08\x12\x10\n\x08interval\x18\x02 \x01(\x02\"\x9c\x01\n\x1bLongRunningRecognizeRequest\x12\x37\n\x06\x63onfig\x18\x01 \x01(\x0b\x32\'.tinkoff.cloud.stt.v1.RecognitionConfig\x12\x35\n\x05\x61udio\x18\x02 \x01(\x0b\x32&.tinkoff.cloud.stt.v1.RecognitionAudio\x12\r\n\x05group\x18\x03 \x01(\t\"\xbb\x01\n\x1aStreamingRecognitionConfig\x12\x37\n\x06\x63onfig\x18\x01 \x01(\x0b\x32\'.tinkoff.cloud.stt.v1.RecognitionConfig\x12\x18\n\x10single_utterance\x18\x02 \x01(\x08\x12J\n\x16interim_results_config\x18\x03 \x01(\x0b\x32*.tinkoff.cloud.stt.v1.InterimResultsConfig\"\x97\x01\n\x19StreamingRecognizeRequest\x12L\n\x10streaming_config\x18\x01 \x01(\x0b\x32\x30.tinkoff.cloud.stt.v1.StreamingRecognitionConfigH\x00\x12\x17\n\raudio_content\x18\x02 \x01(\x0cH\x00\x42\x13\n\x11streaming_request\"\x8c\x01\n\x1aStreamingRecognitionResult\x12I\n\x12recognition_result\x18\x01 \x01(\x0b\x32-.tinkoff.cloud.stt.v1.SpeechRecognitionResult\x12\x10\n\x08is_final\x18\x02 \x01(\x08\x12\x11\n\tstability\x18\x03 \x01(\x02\"k\n\x1aStreamingRecognizeResponse\x12\x41\n\x07results\x18\x02 \x03(\x0b\x32\x30.tinkoff.cloud.stt.v1.StreamingRecognitionResultJ\x04\x08\x01\x10\x02J\x04\x08\x03\x10\x04*\xe0\x01\n\rAudioEncoding\x12\x18\n\x14\x45NCODING_UNSPECIFIED\x10\x00\x12\x0c\n\x08LINEAR16\x10\x01\x12\t\n\x05MULAW\x10\x03\x12\x08\n\x04\x41LAW\x10\x08\x12\x0c\n\x08RAW_OPUS\x10\x0b\x12\x0e\n\nMPEG_AUDIO\x10\x0c\"\x04\x08\x02\x10\x02\"\x04\x08\x04\x10\x04\"\x04\x08\x05\x10\x05\"\x04\x08\x06\x10\x06\"\x04\x08\x07\x10\x07\"\x04\x08\t\x10\t\"\x04\x08\n\x10\n*\x04\x46LAC*\x03\x41MR*\x06\x41MR_WB*\x08OGG_OPUS*\x16SPEEX_WITH_HEADER_BYTE*\tLINEAR32F*\nOGG_VORBIS2\xa5\x03\n\x0cSpeechToText\x12z\n\tRecognize\x12&.tinkoff.cloud.stt.v1.RecognizeRequest\x1a\'.tinkoff.cloud.stt.v1.RecognizeResponse\"\x1c\x82\xd3\xe4\x93\x02\x16\"\x11/v1/stt:recognize:\x01*\x12{\n\x12StreamingRecognize\x12/.tinkoff.cloud.stt.v1.StreamingRecognizeRequest\x1a\x30.tinkoff.cloud.stt.v1.StreamingRecognizeResponse(\x01\x30\x01\x12\x9b\x01\n\x14LongRunningRecognize\x12\x31.tinkoff.cloud.stt.v1.LongRunningRecognizeRequest\x1a\'.tinkoff.cloud.longrunning.v1.Operation\"\'\x82\xd3\xe4\x93\x02!\"\x1c/v1/stt:longrunningrecognize:\x01*B[ZQgithub.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1\xa2\x02\x05TVKSRb\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_duration__pb2.DESCRIPTOR,google_dot_api_dot_annotations__pb2.DESCRIPTOR,tinkoff_dot_cloud_dot_longrunning_dot_v1_dot_longrunning__pb2.DESCRIPTOR,])
 
@@ -67,8 +67,8 @@ _AUDIOENCODING = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2480,
-  serialized_end=2704,
+  serialized_start=2518,
+  serialized_end=2742,
 )
 _sym_db.RegisterEnumDescriptor(_AUDIOENCODING)
 
@@ -363,6 +363,13 @@ _RECOGNITIONCONFIG = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='enable_denormalization', full_name='tinkoff.cloud.stt.v1.RecognitionConfig.enable_denormalization', index=11,
+      number=16, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -381,7 +388,7 @@ _RECOGNITIONCONFIG = _descriptor.Descriptor(
     fields=[]),
   ],
   serialized_start=608,
-  serialized_end=1100,
+  serialized_end=1138,
 )
 
 
@@ -419,8 +426,8 @@ _RECOGNIZEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1103,
-  serialized_end=1233,
+  serialized_start=1141,
+  serialized_end=1271,
 )
 
 
@@ -465,8 +472,8 @@ _SPEECHRECOGNITIONALTERNATIVE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1235,
-  serialized_end=1352,
+  serialized_start=1273,
+  serialized_end=1390,
 )
 
 
@@ -518,8 +525,8 @@ _SPEECHRECOGNITIONRESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1355,
-  serialized_end=1563,
+  serialized_start=1393,
+  serialized_end=1601,
 )
 
 
@@ -550,8 +557,8 @@ _RECOGNIZERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1565,
-  serialized_end=1648,
+  serialized_start=1603,
+  serialized_end=1686,
 )
 
 
@@ -589,8 +596,8 @@ _INTERIMRESULTSCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1650,
-  serialized_end=1722,
+  serialized_start=1688,
+  serialized_end=1760,
 )
 
 
@@ -635,8 +642,8 @@ _LONGRUNNINGRECOGNIZEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1725,
-  serialized_end=1881,
+  serialized_start=1763,
+  serialized_end=1919,
 )
 
 
@@ -681,8 +688,8 @@ _STREAMINGRECOGNITIONCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1884,
-  serialized_end=2071,
+  serialized_start=1922,
+  serialized_end=2109,
 )
 
 
@@ -725,8 +732,8 @@ _STREAMINGRECOGNIZEREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=2074,
-  serialized_end=2225,
+  serialized_start=2112,
+  serialized_end=2263,
 )
 
 
@@ -771,8 +778,8 @@ _STREAMINGRECOGNITIONRESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2228,
-  serialized_end=2368,
+  serialized_start=2266,
+  serialized_end=2406,
 )
 
 
@@ -803,8 +810,8 @@ _STREAMINGRECOGNIZERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2370,
-  serialized_end=2477,
+  serialized_start=2408,
+  serialized_end=2515,
 )
 
 _RECOGNITIONAUDIO.oneofs_by_name['audio_source'].fields.append(
@@ -977,8 +984,8 @@ _SPEECHTOTEXT = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=2707,
-  serialized_end=3128,
+  serialized_start=2745,
+  serialized_end=3166,
   methods=[
   _descriptor.MethodDescriptor(
     name='Recognize',
