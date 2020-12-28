@@ -33,6 +33,16 @@ To disable automatic punctuation and get up to 3 recognition alternatives:
 $ python3 recognize.py -r 16000 -c 1 -e MPEG_AUDIO --disable_automatic_punctuation --max_alternatives 3 ../audio/sample_1.mp3
 ```
 
+Denormalization examples:  
+Enable:
+```
+$ python3 recognize.py -r 48000 -c 1 -e MPEG_AUDIO ../audio/sample_4.mp3
+```
+Disable:
+```
+$ python3 recognize.py -r 48000 -c 1 -e MPEG_AUDIO --disable_denormalization ../audio/sample_4.mp3
+```
+
 Also there is a REST-like API for non-streaming speech recognition:
 
 ```
