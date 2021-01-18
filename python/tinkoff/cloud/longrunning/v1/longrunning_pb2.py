@@ -25,7 +25,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'ZHstash.tcsbank.ru/stt/tinkoff_cloud_apis/pkg/tinkoff/cloud/longrunning/v1',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n.tinkoff/cloud/longrunning/v1/longrunning.proto\x12\x1ctinkoff.cloud.longrunning.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x19google/protobuf/any.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x17google/rpc/status.proto\"\xe4\x01\n\tOperation\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05group\x18\x02 \x01(\t\x12&\n\x08metadata\x18\x03 \x01(\x0b\x32\x14.google.protobuf.Any\x12;\n\x05state\x18\x04 \x01(\x0e\x32,.tinkoff.cloud.longrunning.v1.OperationState\x12#\n\x05\x65rror\x18\x05 \x01(\x0b\x32\x12.google.rpc.StatusH\x00\x12(\n\x08response\x18\x06 \x01(\x0b\x32\x14.google.protobuf.AnyH\x00\x42\x08\n\x06result\"\xbb\x02\n\x0fOperationFilter\x12\x1a\n\x10\x65xact_service_id\x18\x01 \x01(\tH\x00\x12\x30\n\x0e\x61ny_service_id\x18\x02 \x01(\x0b\x32\x16.google.protobuf.EmptyH\x00\x12\x12\n\x08\x65xact_id\x18\x03 \x01(\tH\x01\x12(\n\x06\x61ny_id\x18\x04 \x01(\x0b\x32\x16.google.protobuf.EmptyH\x01\x12\x15\n\x0b\x65xact_group\x18\x05 \x01(\tH\x02\x12+\n\tany_group\x18\x06 \x01(\x0b\x32\x16.google.protobuf.EmptyH\x02\x12;\n\x05state\x18\x07 \x03(\x0e\x32,.tinkoff.cloud.longrunning.v1.OperationStateB\x0c\n\nservice_idB\x04\n\x02idB\x07\n\x05group\"!\n\x13GetOperationRequest\x12\n\n\x02id\x18\x01 \x01(\t\"N\n\x14WaitOperationRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12*\n\x07timeout\x18\x02 \x01(\x0b\x32\x19.google.protobuf.Duration\"}\n\x15ListOperationsRequest\x12=\n\x06\x66ilter\x18\x01 \x01(\x0b\x32-.tinkoff.cloud.longrunning.v1.OperationFilter\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\"n\n\x16ListOperationsResponse\x12;\n\noperations\x18\x01 \x03(\x0b\x32\'.tinkoff.cloud.longrunning.v1.Operation\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"W\n\x16\x44\x65leteOperationRequest\x12=\n\x06\x66ilter\x18\x01 \x01(\x0b\x32-.tinkoff.cloud.longrunning.v1.OperationFilter\"W\n\x16\x43\x61ncelOperationRequest\x12=\n\x06\x66ilter\x18\x01 \x01(\x0b\x32-.tinkoff.cloud.longrunning.v1.OperationFilter\"s\n\x16WatchOperationsRequest\x12=\n\x06\x66ilter\x18\x01 \x01(\x0b\x32-.tinkoff.cloud.longrunning.v1.OperationFilter\x12\x1a\n\x12listen_for_updates\x18\x02 \x01(\x08\"U\n\x16OperationsInitialState\x12;\n\noperations\x18\x01 \x03(\x0b\x32\'.tinkoff.cloud.longrunning.v1.Operation\"O\n\x10OperationsUpdate\x12;\n\noperations\x18\x01 \x03(\x0b\x32\'.tinkoff.cloud.longrunning.v1.Operation\"\xe9\x01\n\x17WatchOperationsResponse\x12M\n\rinitial_state\x18\x01 \x01(\x0b\x32\x34.tinkoff.cloud.longrunning.v1.OperationsInitialStateH\x00\x12/\n\rinit_finished\x18\x02 \x01(\x0b\x32\x16.google.protobuf.EmptyH\x00\x12@\n\x06update\x18\x03 \x01(\x0b\x32..tinkoff.cloud.longrunning.v1.OperationsUpdateH\x00\x42\x0c\n\noperations*D\n\x0eOperationState\x12\x0c\n\x08\x45NQUEUED\x10\x00\x12\x0e\n\nPROCESSING\x10\x01\x12\x08\n\x04\x44ONE\x10\x02\x12\n\n\x06\x46\x41ILED\x10\x03\x32\xbf\x06\n\nOperations\x12\x87\x01\n\x0cGetOperation\x12\x31.tinkoff.cloud.longrunning.v1.GetOperationRequest\x1a\'.tinkoff.cloud.longrunning.v1.Operation\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/v1/operations/{id}\x12l\n\rWaitOperation\x12\x32.tinkoff.cloud.longrunning.v1.WaitOperationRequest\x1a\'.tinkoff.cloud.longrunning.v1.Operation\x12\x93\x01\n\x0eListOperations\x12\x33.tinkoff.cloud.longrunning.v1.ListOperationsRequest\x1a\x34.tinkoff.cloud.longrunning.v1.ListOperationsResponse\"\x16\x82\xd3\xe4\x93\x02\x10\x12\x0e/v1/operations\x12\x80\x01\n\x0fWatchOperations\x12\x34.tinkoff.cloud.longrunning.v1.WatchOperationsRequest\x1a\x35.tinkoff.cloud.longrunning.v1.WatchOperationsResponse0\x01\x12\x89\x01\n\x0f\x44\x65leteOperation\x12\x34.tinkoff.cloud.longrunning.v1.DeleteOperationRequest\x1a\x16.google.protobuf.Empty\"(\x82\xd3\xe4\x93\x02\"* /v1/operations/{filter.exact_id}\x12\x93\x01\n\x0f\x43\x61ncelOperation\x12\x34.tinkoff.cloud.longrunning.v1.CancelOperationRequest\x1a\x16.google.protobuf.Empty\"2\x82\xd3\xe4\x93\x02,\"\'/v1/operations/{filter.exact_id}:cancel:\x01*BJZHstash.tcsbank.ru/stt/tinkoff_cloud_apis/pkg/tinkoff/cloud/longrunning/v1b\x06proto3'
+  serialized_pb=b'\n.tinkoff/cloud/longrunning/v1/longrunning.proto\x12\x1ctinkoff.cloud.longrunning.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x19google/protobuf/any.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x17google/rpc/status.proto\"\x81\x02\n\tOperation\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05group\x18\x02 \x01(\t\x12&\n\x08metadata\x18\x03 \x01(\x0b\x32\x14.google.protobuf.Any\x12;\n\x05state\x18\x04 \x01(\x0e\x32,.tinkoff.cloud.longrunning.v1.OperationState\x12#\n\x05\x65rror\x18\x05 \x01(\x0b\x32\x12.google.rpc.StatusH\x00\x12(\n\x08response\x18\x06 \x01(\x0b\x32\x14.google.protobuf.AnyH\x00\x12\x1b\n\x13x_client_request_id\x18\x07 \x01(\tB\x08\n\x06result\"\xbb\x02\n\x0fOperationFilter\x12\x1a\n\x10\x65xact_service_id\x18\x01 \x01(\tH\x00\x12\x30\n\x0e\x61ny_service_id\x18\x02 \x01(\x0b\x32\x16.google.protobuf.EmptyH\x00\x12\x12\n\x08\x65xact_id\x18\x03 \x01(\tH\x01\x12(\n\x06\x61ny_id\x18\x04 \x01(\x0b\x32\x16.google.protobuf.EmptyH\x01\x12\x15\n\x0b\x65xact_group\x18\x05 \x01(\tH\x02\x12+\n\tany_group\x18\x06 \x01(\x0b\x32\x16.google.protobuf.EmptyH\x02\x12;\n\x05state\x18\x07 \x03(\x0e\x32,.tinkoff.cloud.longrunning.v1.OperationStateB\x0c\n\nservice_idB\x04\n\x02idB\x07\n\x05group\"!\n\x13GetOperationRequest\x12\n\n\x02id\x18\x01 \x01(\t\"N\n\x14WaitOperationRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12*\n\x07timeout\x18\x02 \x01(\x0b\x32\x19.google.protobuf.Duration\"}\n\x15ListOperationsRequest\x12=\n\x06\x66ilter\x18\x01 \x01(\x0b\x32-.tinkoff.cloud.longrunning.v1.OperationFilter\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\"n\n\x16ListOperationsResponse\x12;\n\noperations\x18\x01 \x03(\x0b\x32\'.tinkoff.cloud.longrunning.v1.Operation\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"W\n\x16\x44\x65leteOperationRequest\x12=\n\x06\x66ilter\x18\x01 \x01(\x0b\x32-.tinkoff.cloud.longrunning.v1.OperationFilter\"W\n\x16\x43\x61ncelOperationRequest\x12=\n\x06\x66ilter\x18\x01 \x01(\x0b\x32-.tinkoff.cloud.longrunning.v1.OperationFilter\"s\n\x16WatchOperationsRequest\x12=\n\x06\x66ilter\x18\x01 \x01(\x0b\x32-.tinkoff.cloud.longrunning.v1.OperationFilter\x12\x1a\n\x12listen_for_updates\x18\x02 \x01(\x08\"U\n\x16OperationsInitialState\x12;\n\noperations\x18\x01 \x03(\x0b\x32\'.tinkoff.cloud.longrunning.v1.Operation\"O\n\x10OperationsUpdate\x12;\n\noperations\x18\x01 \x03(\x0b\x32\'.tinkoff.cloud.longrunning.v1.Operation\"\xe9\x01\n\x17WatchOperationsResponse\x12M\n\rinitial_state\x18\x01 \x01(\x0b\x32\x34.tinkoff.cloud.longrunning.v1.OperationsInitialStateH\x00\x12/\n\rinit_finished\x18\x02 \x01(\x0b\x32\x16.google.protobuf.EmptyH\x00\x12@\n\x06update\x18\x03 \x01(\x0b\x32..tinkoff.cloud.longrunning.v1.OperationsUpdateH\x00\x42\x0c\n\noperations*D\n\x0eOperationState\x12\x0c\n\x08\x45NQUEUED\x10\x00\x12\x0e\n\nPROCESSING\x10\x01\x12\x08\n\x04\x44ONE\x10\x02\x12\n\n\x06\x46\x41ILED\x10\x03\x32\xbf\x06\n\nOperations\x12\x87\x01\n\x0cGetOperation\x12\x31.tinkoff.cloud.longrunning.v1.GetOperationRequest\x1a\'.tinkoff.cloud.longrunning.v1.Operation\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/v1/operations/{id}\x12l\n\rWaitOperation\x12\x32.tinkoff.cloud.longrunning.v1.WaitOperationRequest\x1a\'.tinkoff.cloud.longrunning.v1.Operation\x12\x93\x01\n\x0eListOperations\x12\x33.tinkoff.cloud.longrunning.v1.ListOperationsRequest\x1a\x34.tinkoff.cloud.longrunning.v1.ListOperationsResponse\"\x16\x82\xd3\xe4\x93\x02\x10\x12\x0e/v1/operations\x12\x80\x01\n\x0fWatchOperations\x12\x34.tinkoff.cloud.longrunning.v1.WatchOperationsRequest\x1a\x35.tinkoff.cloud.longrunning.v1.WatchOperationsResponse0\x01\x12\x89\x01\n\x0f\x44\x65leteOperation\x12\x34.tinkoff.cloud.longrunning.v1.DeleteOperationRequest\x1a\x16.google.protobuf.Empty\"(\x82\xd3\xe4\x93\x02\"* /v1/operations/{filter.exact_id}\x12\x93\x01\n\x0f\x43\x61ncelOperation\x12\x34.tinkoff.cloud.longrunning.v1.CancelOperationRequest\x1a\x16.google.protobuf.Empty\"2\x82\xd3\xe4\x93\x02,\"\'/v1/operations/{filter.exact_id}:cancel:\x01*BJZHstash.tcsbank.ru/stt/tinkoff_cloud_apis/pkg/tinkoff/cloud/longrunning/v1b\x06proto3'
   ,
   dependencies=[google_dot_api_dot_annotations__pb2.DESCRIPTOR,google_dot_protobuf_dot_any__pb2.DESCRIPTOR,google_dot_protobuf_dot_duration__pb2.DESCRIPTOR,google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,google_dot_rpc_dot_status__pb2.DESCRIPTOR,])
 
@@ -59,8 +59,8 @@ _OPERATIONSTATE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1825,
-  serialized_end=1893,
+  serialized_start=1854,
+  serialized_end=1922,
 )
 _sym_db.RegisterEnumDescriptor(_OPERATIONSTATE)
 
@@ -122,6 +122,13 @@ _OPERATION = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='x_client_request_id', full_name='tinkoff.cloud.longrunning.v1.Operation.x_client_request_id', index=6,
+      number=7, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -140,7 +147,7 @@ _OPERATION = _descriptor.Descriptor(
     fields=[]),
   ],
   serialized_start=224,
-  serialized_end=452,
+  serialized_end=481,
 )
 
 
@@ -228,8 +235,8 @@ _OPERATIONFILTER = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=455,
-  serialized_end=770,
+  serialized_start=484,
+  serialized_end=799,
 )
 
 
@@ -260,8 +267,8 @@ _GETOPERATIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=772,
-  serialized_end=805,
+  serialized_start=801,
+  serialized_end=834,
 )
 
 
@@ -299,8 +306,8 @@ _WAITOPERATIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=807,
-  serialized_end=885,
+  serialized_start=836,
+  serialized_end=914,
 )
 
 
@@ -345,8 +352,8 @@ _LISTOPERATIONSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=887,
-  serialized_end=1012,
+  serialized_start=916,
+  serialized_end=1041,
 )
 
 
@@ -384,8 +391,8 @@ _LISTOPERATIONSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1014,
-  serialized_end=1124,
+  serialized_start=1043,
+  serialized_end=1153,
 )
 
 
@@ -416,8 +423,8 @@ _DELETEOPERATIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1126,
-  serialized_end=1213,
+  serialized_start=1155,
+  serialized_end=1242,
 )
 
 
@@ -448,8 +455,8 @@ _CANCELOPERATIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1215,
-  serialized_end=1302,
+  serialized_start=1244,
+  serialized_end=1331,
 )
 
 
@@ -487,8 +494,8 @@ _WATCHOPERATIONSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1304,
-  serialized_end=1419,
+  serialized_start=1333,
+  serialized_end=1448,
 )
 
 
@@ -519,8 +526,8 @@ _OPERATIONSINITIALSTATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1421,
-  serialized_end=1506,
+  serialized_start=1450,
+  serialized_end=1535,
 )
 
 
@@ -551,8 +558,8 @@ _OPERATIONSUPDATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1508,
-  serialized_end=1587,
+  serialized_start=1537,
+  serialized_end=1616,
 )
 
 
@@ -602,8 +609,8 @@ _WATCHOPERATIONSRESPONSE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1590,
-  serialized_end=1823,
+  serialized_start=1619,
+  serialized_end=1852,
 )
 
 _OPERATION.fields_by_name['metadata'].message_type = google_dot_protobuf_dot_any__pb2._ANY
@@ -767,8 +774,8 @@ _OPERATIONS = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=1896,
-  serialized_end=2727,
+  serialized_start=1925,
+  serialized_end=2756,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetOperation',
