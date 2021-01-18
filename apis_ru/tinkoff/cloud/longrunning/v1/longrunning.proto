@@ -97,6 +97,9 @@ message Operation {
     // Для сервиса распознавания аудио результатом является ```RecognizeResponse```.
     google.protobuf.Any response = 6;
   }
+
+  // Метаполе x-client-request-id указанное при создании операции
+  string x_client_request_id = 7;
 }
 
 // Фильтр операций.<br/>

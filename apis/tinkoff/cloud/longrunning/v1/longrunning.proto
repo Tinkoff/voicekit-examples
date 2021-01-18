@@ -82,6 +82,9 @@ message Operation {
     // Operation response if successfully finished
     google.protobuf.Any response = 6;
   }
+
+  // Metafield x-client-request-id specified at operation creation
+  string x_client_request_id = 7;
 }
 
 message OperationFilter {
