@@ -58,7 +58,7 @@ message WordInfo { // Detailed information on recognized word.
   google.protobuf.Duration start_time = 1; // Word start time inside input audiostream.
   google.protobuf.Duration end_time = 2; // Word end time inside input audiostream.
   string word = 3; // Word inside phrase.
-  float confidence = 4; // Relative confidence factor (relative to other words of the phrase and to words of other alternatives for requets configuration with max_alternatives > 1). Value may be negative.
+  float confidence = 4; // Relative confidence factor (relative to other words of the phrase and to words of other alternatives for requests configuration with max_alternatives > 1). Value may be negative.
 }
 
 message VoiceActivityDetectionConfig { // Structure to customize VAD (every field is optional).
@@ -87,7 +87,7 @@ message RecognitionConfig { // Common regognition configuration.
     VoiceActivityDetectionConfig vad_config = 14; // Structure to customize VAD settings.
   }
   reserved 15;
-  bool enable_denormalization = 16; // Enables automatic conversion of numerals from text to numeric form. Applies only to the first (most likely) version of the final hypothesis.
+  bool enable_denormalization = 16; // Enables automatic conversion of numerals from text to numeric form. Applies only to the first (most likely) version of hypothesis.
 }
 
 message RecognizeRequest { // Request to recognize using Recognize method.
@@ -98,7 +98,7 @@ message RecognizeRequest { // Request to recognize using Recognize method.
 message SpeechRecognitionAlternative { // Version of recognized text (or part of text in case of interim result).
   string transcript = 1; // Recognized text.
   float confidence = 2; // Relative confidence factor.
-  repeated WordInfo words = 3; // <i>Currently unsupported.</i> Array of individual words inside phrase.
+  repeated WordInfo words = 3; // Array of individual words inside phrase.
 }
 
 message SpeechRecognitionResult { // Phrase recognized for channel specified here.
