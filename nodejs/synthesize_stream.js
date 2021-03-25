@@ -15,9 +15,7 @@ function main() {
     }
     const ttsClient = createTtsClient();
     const ttsStreamingCall = ttsClient.StreamingSynthesize({
-        input: {
-            text: argv.inputText,
-        },
+        input: argv.ssml ? {ssml: argv.inputText} : {text: argv.inputText},
         audioConfig: {
             audioEncoding: argv.encoding,
             sampleRateHertz: argv.rate,

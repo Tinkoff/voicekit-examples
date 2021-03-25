@@ -95,6 +95,11 @@ function streamingSynthesisOptions(yargs) {
             demandOption: true,
             choices: [8000, 16000, 24000, 48000],
         })
+        .option('ssml', {
+            describe: 'Use SSML',
+            type: 'boolean',
+            default: false,
+        })
 }
 
 const buildRecognizeCommand = () => {
