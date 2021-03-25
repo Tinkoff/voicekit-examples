@@ -19,6 +19,9 @@ function main() {
         audioConfig: {
             audioEncoding: argv.encoding,
             sampleRateHertz: argv.rate,
+        },
+        voice: {
+            name: argv.voice
         }
     });
 

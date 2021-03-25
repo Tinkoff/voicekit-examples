@@ -76,3 +76,11 @@ It is possible to use [SSML](https://en.wikipedia.org/wiki/Speech_Synthesis_Mark
 ```
 $ node synthesize_stream.js -r 48000 -e LINEAR16 --ssml "<speak><p><s>Оригинальная мысль?</s><s>Нет ничего легче.</s></p><break time='300ms'/><p><s>Библиотеки просто набиты ими.</s></p></speak>" output_5.wav
 ```
+
+#### Voice Selection
+
+You can specify voice name:
+
+```
+$ node synthesize_stream.js -r 48000 -e LINEAR16 --voice alyona "Привет! Меня зовут Алёна." output_6.wav
+```

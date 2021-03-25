@@ -100,6 +100,10 @@ function streamingSynthesisOptions(yargs) {
             type: 'boolean',
             default: false,
         })
+        .option('voice', {
+            describe: 'Voice name for speech synthesis.',
+            type: 'string',
+        })
 }
 
 const buildRecognizeCommand = () => {
