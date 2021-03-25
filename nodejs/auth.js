@@ -25,7 +25,7 @@ function generateJwt(apiKey, secretKey, payload) {
     const payloadBytes = JSON.stringify(payload);
     const data = base64Encode(headerBytes) + '.' + base64Encode(payloadBytes);
 
-    const hmac = crypto.createHmac('sha256', base64Decode(secretKey)).update(data,'utf8').digest();
+    const hmac = crypto.createHmac('sha256', base64Decode(secretKey)).update(data, 'utf8').digest();
     const signature = base64Encode(hmac);
 
     return data + '.' + signature;
@@ -47,6 +47,5 @@ function jwtMetadataGenerator(apiKey, secretKey, issuer, subject) {
 }
 
 module.exports = {
-    generateJwt,
     jwtMetadataGenerator,
 };

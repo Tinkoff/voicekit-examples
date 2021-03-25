@@ -1,9 +1,7 @@
-const fs = require('fs');
 const {createTtsClient} = require('./common.js');
 const {buildStreamingSynthesizeCommand} = require('./args.js');
 const stream = require('stream');
 const wav = require('wav');
-const util = require('util');
 
 
 const argv = buildStreamingSynthesizeCommand().parse();
@@ -32,7 +30,7 @@ function main() {
     });
     ttsStreamingCall.on('error', (error) => console.error("Error", error));
     let startedStreaming = false;
-    ttsStreamingCall.on('data', (response) => {
+    ttsStreamingCall.on('data', () => {
         if (!startedStreaming) {
             console.log("Started streaming back audio chunks");
             startedStreaming = true;
