@@ -63,7 +63,7 @@ Feel free to use arabic numerals and named entities:
 $ node synthesize_stream.js -r 48000 -e LINEAR16 "Газета Times, 03 января 2009 года - Канцлер на грани ради второго спасения банков." output_3.wav
 ```
 
-For now, `LINEAR16` does not support samples rates other than 48kHz. Use `RAW_OPUS` (`node-opus` required) to specify different sample rates:
+For now, `LINEAR16` does not support samples rates other than 48kHz. Use `RAW_OPUS` (`@discordjs/opus` required) to specify different sample rates:
 
 ```
 $ node synthesize_stream.js -r 16000 -e RAW_OPUS "Привет, мир." output_4.wav

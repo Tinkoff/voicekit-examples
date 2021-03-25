@@ -2,6 +2,7 @@ const {createTtsClient} = require('./common.js');
 const {buildStreamingSynthesizeCommand} = require('./args.js');
 const stream = require('stream');
 const wav = require('wav');
+const opus = require('@discordjs/opus')
 
 
 const argv = buildStreamingSynthesizeCommand().parse();
@@ -39,8 +40,7 @@ function main() {
 
     let opusDecoder = null;
     if (argv.encoding === 'RAW_OPUS') {
-        const opus = require('node-opus');
-        opusDecoder = new opus.OpusEncoder(argv.rate);
+        opusDecoder = new opus.OpusEncoder(argv.rate, 1);
     }
     const transformStream = new stream.Transform({
         writableObjectMode: true,
