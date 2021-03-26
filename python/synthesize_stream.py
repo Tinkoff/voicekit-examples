@@ -1,12 +1,12 @@
 #! /usr/bin/env python3
-from tinkoff.cloud.tts.v1 import tts_pb2_grpc, tts_pb2
-from auth import authorization_metadata
 from audio import audio_open_write
+from auth import authorization_metadata
 from common import (
     BaseSynthesisParser,
     make_channel,
     build_synthesis_request,
 )
+from tinkoff.cloud.tts.v1 import tts_pb2_grpc, tts_pb2
 
 
 def main():

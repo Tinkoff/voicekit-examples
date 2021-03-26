@@ -7,17 +7,16 @@ To work correctly all scripts should be run from this directory (`voicekit-examp
 
 ### Install the requirements
 
-
 ```
 $ python3 -m pip install -r requirements.txt
 ```
 
-You may install optional dependencies ([opuslib](https://github.com/orion-labs/opuslib) and [PyAudio](https://people.csail.mit.edu/hubert/pyaudio/)) to gain additional functionality:
+You may install optional dependencies ([opuslib](https://github.com/orion-labs/opuslib)
+and [PyAudio](https://people.csail.mit.edu/hubert/pyaudio/)) to gain additional functionality:
 
 ```
 $ python3 -m pip install -r requirements/all.txt
 ```
-
 
 ### Basic recognition examples
 
@@ -33,13 +32,16 @@ To disable automatic punctuation and get up to 3 recognition alternatives:
 $ python3 recognize.py -r 16000 -c 1 -e MPEG_AUDIO --disable_automatic_punctuation --max_alternatives 3 ../audio/sample_1.mp3
 ```
 
-#### Denormalization examples:  
+#### Denormalization examples:
 
 Enable:
+
 ```
 $ python3 recognize.py -r 48000 -c 1 -e MPEG_AUDIO ../audio/sample_4.mp3
 ```
+
 Disable:
+
 ```
 $ python3 recognize.py -r 48000 -c 1 -e MPEG_AUDIO --disable_denormalization ../audio/sample_4.mp3
 ```
@@ -119,7 +121,8 @@ Feel free to use arabic numerals and named entities:
 $ python3 synthesize_stream.py -r 48000 -e LINEAR16 "Газета Times, 03 января 2009 года - Канцлер на грани ради второго спасения банков." output_3.wav
 ```
 
-For now, `LINEAR16` does not support samples rates other than 48kHz. Use `RAW_OPUS` ([opuslib](https://github.com/orion-labs/opuslib) required) to specify different sample rates:
+For now, `LINEAR16` does not support samples rates other than 48kHz.
+Use `RAW_OPUS` ([opuslib](https://github.com/orion-labs/opuslib) required) to specify different sample rates:
 
 ```
 $ python3 synthesize_stream.py -r 16000 -e RAW_OPUS "Привет, мир." output_4.wav

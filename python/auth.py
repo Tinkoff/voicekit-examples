@@ -1,7 +1,7 @@
-import json
 import base64
-import hmac
 import copy
+import hmac
+import json
 from time import time
 
 TEN_MINUTES = 600  # seconds
@@ -31,9 +31,9 @@ def generate_jwt(api_key, secret_key, payload, expiration_time=TEN_MINUTES):
 
 def authorization_metadata(api_key, secret_key, scope, type=list):
     auth_payload = {
-       "iss": "test_issuer",
-       "sub": "test_user",
-       "aud": scope
+        "iss": "test_issuer",
+        "sub": "test_user",
+        "aud": scope
     }
 
     metadata = [

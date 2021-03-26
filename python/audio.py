@@ -1,9 +1,8 @@
 import abc
-import wave
-import math
-import struct
-import warnings
 import contextlib
+import struct
+import wave
+
 from tinkoff.cloud.stt.v1 import stt_pb2
 from tinkoff.cloud.tts.v1 import tts_pb2
 
@@ -190,7 +189,7 @@ class PyAudioWriter(AudioWriter):
 
 
 def audio_open_read(filename: str, encoding_hint: stt_pb2.AudioEncoding, sample_rate_hint: int,
-               num_channels_hint: int, max_chunk_size: int, pyaudio_max_seconds: int):
+                    num_channels_hint: int, max_chunk_size: int, pyaudio_max_seconds: int):
     if filename.startswith("pyaudio:"):
         return PyAudioReader(encoding_hint, sample_rate_hint, num_channels_hint, max_chunk_size,
                              pyaudio_max_seconds)
