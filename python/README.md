@@ -131,6 +131,12 @@ It is possible to use [SSML](https://en.wikipedia.org/wiki/Speech_Synthesis_Mark
 $ python3 synthesize_stream.py -r 48000 -e LINEAR16 --ssml "<speak><p><s>Оригинальная мысль?</s><s>Нет ничего легче.</s></p><break time='300ms'/><p><s>Библиотеки просто набиты ими.</s></p></speak>" output_5.wav
 ```
 
+You can also specify voice name:
+
+```
+$ python3 synthesize_stream.py -r 48000 -e LINEAR16 --voice alyona:funny "Привет! Я Алёна. Я помогу в озвучке книг, новостей, образовательных курсов, а также могу быть твоим напарником для медитации." output_6.wav
+```
+
 Synthesize and play audio directly through your speakers at the same time.
 This is faster than saving to file because of streaming (requires [PyAudio](https://people.csail.mit.edu/hubert/pyaudio/)):
 
