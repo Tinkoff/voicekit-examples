@@ -16,7 +16,7 @@ def main():
 
     with audio_open_write(args.output_file, args.encoding, args.rate) as audio_writer:
         stub = tts_pb2_grpc.TextToSpeechStub(make_channel(args))
-        request = build_synthesis_request(args, args.input_text)
+        request = build_synthesis_request(args)
         metadata = authorization_metadata(args.api_key, args.secret_key, "tinkoff.cloud.tts")
         responses = stub.StreamingSynthesize(request, metadata=metadata)
         for stream_response in responses:

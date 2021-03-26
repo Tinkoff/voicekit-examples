@@ -125,6 +125,12 @@ For now, `LINEAR16` does not support samples rates other than 48kHz. Use `RAW_OP
 $ python3 synthesize_stream.py -r 16000 -e RAW_OPUS "Привет, мир." output_4.wav
 ```
 
+It is possible to use [SSML](https://en.wikipedia.org/wiki/Speech_Synthesis_Markup_Language):
+
+```
+$ python3 synthesize_stream.py -r 48000 -e LINEAR16 --ssml "<speak><p><s>Оригинальная мысль?</s><s>Нет ничего легче.</s></p><break time='300ms'/><p><s>Библиотеки просто набиты ими.</s></p></speak>" output_5.wav
+```
+
 Synthesize and play audio directly through your speakers at the same time.
 This is faster than saving to file because of streaming (requires [PyAudio](https://people.csail.mit.edu/hubert/pyaudio/)):
 

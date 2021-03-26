@@ -193,12 +193,16 @@ class BaseSynthesisParser(CommonParser):
         self.add_argument("-r", "--rate", type=int, required=True, help="Audio sample rate",
                           choices=[8000, 16000, 24000, 48000])
         self.add_argument("-e", "--encoding", type=encoding, required=True, help="Audio encoding", choices=encoding)
+        self.add_argument("--ssml", action='store_true', help="Enable SSML")
         self.add_argument("input_text", type=str, help="Input text to synthesize")
         self.add_argument("output_file", type=str, help="Output wav to save or 'pyaudio:' to play with speakers.")
 
 
-def build_synthesis_request(args, text: str, *, type="pb"):
-    input = tts_pb2.SynthesisInput(text=text)
+def build_synthesis_request(args, *, type="pb"):
+    if args.ssml:
+        input = tts_pb2.SynthesisInput(ssml=args.input_text)
+    else:
+        input = tts_pb2.SynthesisInput(text=args.input_text)
     audio_config = tts_pb2.AudioConfig(
         audio_encoding=args.encoding,
         sample_rate_hertz=args.rate,
