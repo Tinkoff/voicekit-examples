@@ -1,6 +1,7 @@
 import argparse
 import os
 import warnings
+from functools import cached_property
 
 import grpc
 from google.protobuf.json_format import MessageToDict
@@ -109,17 +110,13 @@ class CommonParser(argparse.ArgumentParser):
                 warnings.warn("Using deprecated {} environment variable, consider migrating to {}".format(
                     deprecated_env_name, new_env_name
                 ))
-        if value is None:
-            self.error("Cannot infer {}, pass via --{} command line parameter or {} environment variable".format(
-                new_env_name, command_line_parameter, new_env_name
-            ))
         return value
 
-    @property
+    @cached_property
     def _default_api_key(self):
         return self._get_key("VOICEKIT_API_KEY", "STT_TEST_API_KEY", "api_key")
 
-    @property
+    @cached_property
     def _default_secret_key(self):
         return self._get_key("VOICEKIT_SECRET_KEY", "STT_TEST_SECRET_KEY", "secret_key")
 
@@ -133,9 +130,17 @@ class CommonParser(argparse.ArgumentParser):
                           help="API endpoint, secure channel will be used if port ends with 443 (443, 8443, etc). "
                           "Default will use stt.tinkoff.ru:443 for recognition and tts.tinkoff.ru:443 for "
                           "synthesis.")
-        self.add_argument("--api_key", type=str, default=self._default_api_key, help="API key for JWT authentication.")
-        self.add_argument("--secret_key", type=str, default=self._default_secret_key, help="Secret key for "
-                          "HMAC-based JWT authentication.")
+        if self._default_api_key is None:
+            self.add_argument("--api_key", type=str, required=True, help="API key for JWT authentication.")
+        else:
+            self.add_argument("--api_key", type=str, default=self._default_api_key,
+                              help="API key for JWT authentication.")
+        if self._default_secret_key is None:
+            self.add_argument("--secret_key", type=str, required=True,
+                              help="Secret key for HMAC-based JWT authentication.")
+        else:
+            self.add_argument("--secret_key", type=str, default=self._default_secret_key,
+                              help="Secret key for HMAC-based JWT authentication.")
         self.add_argument("--ca_file", type=str, default=None,
                           help="Custom root certificates file to use with non-default endpoint.")
 
