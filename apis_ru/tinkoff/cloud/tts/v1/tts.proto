@@ -54,7 +54,7 @@ message ListVoicesResponses { // Ответ со списком голосов.
 
 message SynthesisInput { // Входные данные для синтеза.
   string text = 1; // Сырой текст для синтеза.
-  string ssml = 2; // SSML для синтеза. Пока поддерживается только тег <speak>.
+  string ssml = 2; // SSML для синтеза.
 }
 
 message VoiceSelectionParams { // Конфигурация предпочитаемого голоса для синтеза.

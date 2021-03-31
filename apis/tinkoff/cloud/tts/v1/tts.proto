@@ -54,7 +54,7 @@ message ListVoicesResponses { // Response with voice list.
 
 message SynthesisInput { // Synthesis input.
   string text = 1; // Raw text to synthesize.
-  string ssml = 2; // The SSML document to synthesize. Only tag <speak> is supported for now.
+  string ssml = 2; // The SSML document to synthesize.
 }
 
 message VoiceSelectionParams { // Configuration of preferred synthesis voice.
