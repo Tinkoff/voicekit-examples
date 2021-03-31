@@ -148,5 +148,5 @@ you may regenerate Protobuf and gRPC definitions by simply running the following
 (no need to re-clone the whole repo):
 
 ```
-$ ./sh/generate_protobuf.sh
+$ ./generate_protobuf.sh
 ```
