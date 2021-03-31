@@ -21,13 +21,6 @@ service TextToSpeech { // Синтез речи.
   rpc StreamingSynthesize(SynthesizeSpeechRequest) returns (stream StreamingSynthesizeSpeechResponse); // Метод для поточного синтеза.
 }
 
-enum SsmlVoiceGender { // Пол предпочитаемого голоса, которым синтезируется текст.
-  SSML_VOICE_GENDER_UNSPECIFIED = 0; // Не задан
-  MALE = 1; // Мужской
-  FEMALE = 2; // Женский
-  NEUTRAL = 3; // Нейтральный
-}
-
 enum AudioEncoding { // Формат кодирования аудио. Задаёт и контейнер, и кодек.
   ENCODING_UNSPECIFIED = 0; // <i>Не задан - недопустимое значение.</i> Используется в качестве значения по умолчанию для исключения случайных ошибок.
   LINEAR16 = 1; // PCM без заголовков с целыми знаковыми 16-битными сэмплами в линейном распределении.
@@ -47,7 +40,7 @@ enum AudioEncoding { // Формат кодирования аудио. Зада
 message Voice { // Описание голоса при получении списка доступных голосов.
   repeated string language_codes = 1; // Код языка.
   string name = 2; // Название голоса.
-  SsmlVoiceGender ssml_gender = 3; // Пол голоса.
+  reserved "ssml_gender"; reserved 3; // Устаревшее.
   int32 natural_sample_rate_hertz = 4; // Исходная частота дискретизации. Т. е. большее значение говорит о более высоком качестве.
 }
 
@@ -67,7 +60,7 @@ message SynthesisInput { // Входные данные для синтеза.
 message VoiceSelectionParams { // Конфигурация предпочитаемого голоса для синтеза.
   string language_code = 1; // Код предпочитаемого голоса.
   string name = 2; // Явно заданное имя голоса.
-  SsmlVoiceGender ssml_gender = 3; // Предпочитаемый пол голоса.
+  reserved "ssml_gender"; reserved 3; // Устаревшее.
 }
 
 message AudioConfig { // Конфигурация аудио на выходе

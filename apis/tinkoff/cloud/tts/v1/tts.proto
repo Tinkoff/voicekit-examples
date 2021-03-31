@@ -21,13 +21,6 @@ service TextToSpeech { // Speech synthesis.
   rpc StreamingSynthesize(SynthesizeSpeechRequest) returns (stream StreamingSynthesizeSpeechResponse); // Method for streaming synthesis.
 }
 
-enum SsmlVoiceGender { // Gender of preferred voice to be used for synthesis.
-  SSML_VOICE_GENDER_UNSPECIFIED = 0; // Unspecified
-  MALE = 1; // Male
-  FEMALE = 2; // Female
-  NEUTRAL = 3; // Neutral
-}
-
 enum AudioEncoding { // Audio encoding. Defines both codec and container.
   ENCODING_UNSPECIFIED = 0; // <i>Unspecified - invalid value.</i> Used as default value to avoid accidental errors.
   LINEAR16 = 1; // Raw PCM with signed integer 16-bit linear audio samples.
@@ -47,7 +40,7 @@ enum AudioEncoding { // Audio encoding. Defines both codec and container.
 message Voice { // Voice description obtained by available voice request.
   repeated string language_codes = 1; // Code of voice spoken language.
   string name = 2; // Voice name.
-  SsmlVoiceGender ssml_gender = 3; // Gender of voice.
+  reserved "ssml_gender"; reserved 3; // Deprecated.
   int32 natural_sample_rate_hertz = 4; // Original sample rate. I. e., bigger value indicates higher quality.
 }
 
@@ -67,7 +60,7 @@ message SynthesisInput { // Synthesis input.
 message VoiceSelectionParams { // Configuration of preferred synthesis voice.
   string language_code = 1; // Code of preferrable voice spoken language.
   string name = 2; // Exact voice name.
-  SsmlVoiceGender ssml_gender = 3; // Preferrable voice gender.
+  reserved "ssml_gender"; reserved 3; // Deprecated.
 }
 
 message AudioConfig { // Configuration of synthesized audio.
