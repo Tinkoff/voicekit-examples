@@ -2,13 +2,14 @@ package main
 
 import (
 	"context"
-	"github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/args"
-	"github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/common"
-	sttPb "github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1"
 	"io"
 	"io/ioutil"
 	"os"
 	"strings"
+
+	"github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/args"
+	"github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/common"
+	sttPb "github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1"
 )
 
 func main() {
@@ -46,7 +47,7 @@ func main() {
 			SampleRateHertz:            uint32(*opts.Rate),
 			LanguageCode:               *opts.LanguageCode,
 			MaxAlternatives:            uint32(*opts.MaxAlternatives),
-			ProfanityFilter:            false,
+			ProfanityFilter:            !(*opts.DisableProfanityFilter),
 			EnableAutomaticPunctuation: !(*opts.DisableAutomaticPunctuation),
 			NumChannels:                uint32(*opts.NumChannels),
 		},

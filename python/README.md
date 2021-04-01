@@ -43,6 +43,17 @@ Disable:
 $ python3 recognize.py -r 48000 -c 1 -e MPEG_AUDIO --disable_denormalization ../audio/sample_4.mp3
 ```
 
+Profanity filter example:
+Enabled by default:
+```
+$ python3 recognize.py -r 16000 -c 1 -e MPEG_AUDIO ../audio/sample_5.mp3
+```
+
+Disable:
+```
+$ python3 recognize.py -r 16000 -c 1 -e MPEG_AUDIO --disable_profanity_filter ../audio/sample_5.mp3
+```
+
 Also there is a REST-like API for non-streaming speech recognition:
 
 ```

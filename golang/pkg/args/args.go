@@ -2,8 +2,9 @@ package args
 
 import (
 	"fmt"
-	"github.com/akamensky/argparse"
 	"os"
+
+	"github.com/akamensky/argparse"
 )
 
 type RecognizeOptions struct {
@@ -16,6 +17,7 @@ type RecognizeOptions struct {
 	SilenceDurationThreshold    *float64
 	LanguageCode                *string
 	DisableAutomaticPunctuation *bool
+	DisableProfanityFilter      *bool
 }
 
 type StreamingRecognizeOptions struct {
@@ -84,6 +86,11 @@ func addRecognizeOptions(parser *argparse.Parser) *RecognizeOptions {
 		Default: false,
 	})
 
+	disableProfanityFilter := parser.Flag("", "disable-profanity-filter", &argparse.Options{
+		Help:    "Specify this to disable profanity filter.",
+		Default: false,
+	})
+
 	return &RecognizeOptions{
 		InputFile:                   inputFile,
 		Encoding:                    encoding,
@@ -94,6 +101,7 @@ func addRecognizeOptions(parser *argparse.Parser) *RecognizeOptions {
 		SilenceDurationThreshold:    silenceDurationThreshold,
 		LanguageCode:                languageCode,
 		DisableAutomaticPunctuation: disableAutomaticPunctuation,
+		DisableProfanityFilter:      disableProfanityFilter,
 	}
 }
 
