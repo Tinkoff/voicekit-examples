@@ -74,10 +74,10 @@ message RecognitionConfig { // Common regognition configuration.
   uint32 sample_rate_hertz = 2; // Sample rate of input audio in Hertz. Must match actual bitstream sample rate for MPEG_AUDIO. Must be specified explicitly.
   string language_code = 3; // <i>Currently ignored.</i> Language to recognize.
   uint32 max_alternatives = 4; // Maximal number of phrase alternatives to return at each moment both for final and interim recognition results. Default value: 1.
-  bool profanity_filter = 5; // Currently unused.
+  bool profanity_filter = 5; // Enables profanity filter for first (most probable) alternative of final result. Words filtered out will contain the first letter and asterisks for the remaining characters.
   repeated SpeechContext speech_contexts = 6; // Currently unsupported. Defines vocabulary of words and phrases to recognize with highter probability.
   reserved "enable_word_time_offsets"; reserved 7;
-  bool enable_automatic_punctuation = 8; // Enables automatic punctuation for first (most probable) alternative of final result.
+  bool enable_automatic_punctuation = 8; // Enables automatic punctuation and capitalization for first (most probable) alternative of final result.
   reserved "metadata"; reserved 9;
   string model = 10; // Recognition model. Default model is used if not specified.
   reserved "use_enhanced"; reserved 11;

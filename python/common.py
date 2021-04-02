@@ -21,6 +21,7 @@ def set_recognition_config(config, args):
     config.language_code = args.language_code
     config.enable_automatic_punctuation = not args.disable_automatic_punctuation
     config.enable_denormalization = not args.disable_denormalization
+    config.profanity_filter = not args.disable_profanity_filter
 
 
 def build_recognition_request(args, audio_reader, type="pb"):
@@ -165,6 +166,8 @@ class BaseRecognitionParser(CommonParser):
                           help="Specify this to disable automatic punctuation in recognition results.")
         self.add_argument("--disable_denormalization", action="store_true",
                           help="Specify this to disable automatic text denormalization.")
+        self.add_argument("--disable_profanity_filter", action="store_true",
+                          help="Specify this to disable profanity filter.")
         self.add_argument("--chunk_size", type=int, default=1024, help="Chunk size for streaming")
         self.add_argument("--pyaudio_max_seconds", type=float, default=None, help="Maximum length of pyaudio "
                           "recording in seconds.")

@@ -42,6 +42,12 @@ To disable automatic punctuation and get up to 3 recognition alternatives:
 $ ./recognize -e MPEG_AUDIO -r 16000 -c 1 --disable-automatic-punctuation --max-alternatives 3 -i ../audio/sample_1.mp3
 ```
 
+To disable profanity filter:
+
+```
+$ ./recognize -e MPEG_AUDIO -r 16000 -c 1 --disable-profanity-filter -i ../audio/sample_5.mp3
+```
+
 Run streaming speech recognition with interim results:
 
 ```
