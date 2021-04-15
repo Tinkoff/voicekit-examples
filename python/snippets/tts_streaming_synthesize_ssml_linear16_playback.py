@@ -8,25 +8,38 @@ from auth import authorization_metadata
 import grpc
 import os
 import pyaudio
-import opuslib
 
 endpoint = os.environ.get("VOICEKIT_ENDPOINT") or "tts.tinkoff.ru:443"
 api_key = os.environ["VOICEKIT_API_KEY"]
 secret_key = os.environ["VOICEKIT_SECRET_KEY"]
 
-sample_rate = 16000
-# Should be calculated automatically depending on sample rate at proper Python libopus binding:
-MAX_ALLOWED_FRAME_RATE = 5760
+sample_rate = 48000
 
 
 def build_request():
     return tts_pb2.SynthesizeSpeechRequest(
         input=tts_pb2.SynthesisInput(
-            text="И мысли тоже тяжелые и медлительные, падают неторопливо и редко одна за другой, точно песчинки "
-                 "в разленившихся песочных часах."
+            ssml="""
+                <speak>
+                  <p>
+                    <s>
+                      Оригинальная мысль?
+                    </s>
+                    <s>
+                      Нет ничего легче.
+                    </s>
+                  </p>
+                  <break time='300ms'/>
+                  <p>
+                    <s>
+                      Библиотеки просто набиты ими.
+                    </s>
+                  </p>
+                </speak>
+            """
         ),
         audio_config=tts_pb2.AudioConfig(
-            audio_encoding=tts_pb2.RAW_OPUS,
+            audio_encoding=tts_pb2.LINEAR16,
             sample_rate_hertz=sample_rate,
         ),
     )
@@ -34,7 +47,6 @@ def build_request():
 
 pyaudio_lib = pyaudio.PyAudio()
 f = pyaudio_lib.open(output=True, channels=1, format=pyaudio.paInt16, rate=sample_rate)
-opus_decoder = opuslib.Decoder(sample_rate, 1)
 
 stub = tts_pb2_grpc.TextToSpeechStub(grpc.secure_channel(endpoint, grpc.ssl_channel_credentials()))
 request = build_request()
@@ -45,4 +57,4 @@ for key, value in responses.initial_metadata():
         print("Estimated audio duration is {:.2f} seconds".format(int(value) / sample_rate))
         break
 for stream_response in responses:
-    f.write(opus_decoder.decode(stream_response.audio_chunk, MAX_ALLOWED_FRAME_RATE))
+    f.write(stream_response.audio_chunk)
