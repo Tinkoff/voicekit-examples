@@ -137,7 +137,7 @@ $ python3 synthesize_stream.py -r 48000 -e LINEAR16 --ssml "<speak><p><s>Ори�
 You can also specify voice name:
 
 ```
-$ python3 synthesize_stream.py -r 48000 -e LINEAR16 --voice alyona:funny "Привет! Я Алёна. Я помогу в озвучке книг, новостей, образовательных курсов, а также могу быть твоим напарником для медитации." output_6.wav
+$ python3 synthesize_stream.py -r 48000 -e LINEAR16 --voice alyona "Привет! Я Алёна. Я помогу в озвучке книг, новостей, образовательных курсов, а также могу быть твоим напарником для медитации." output_6.wav
 ```
 
 Synthesize and play audio directly through your speakers at the same time.
