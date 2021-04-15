@@ -19,8 +19,8 @@ sample_rate = 48000
 def build_request():
     return tts_pb2.SynthesizeSpeechRequest(
         input=tts_pb2.SynthesisInput(
-            text="И мысли тоже тяжелые и медлительные, падают неторопливо и редко одна за другой, точно песчинки "
-                 "в разленившихся песочных часах."
+            text="И мысли тоже тяжелые и медлительные, падают неторопливо и редко "
+                 "одна за другой, точно песчинки в разленившихся песочных часах."
         ),
         audio_config=tts_pb2.AudioConfig(
             audio_encoding=tts_pb2.LINEAR16,
@@ -34,7 +34,8 @@ with wave.open("synthesized.wav", "wb") as f:
     f.setnchannels(1)
     f.setsampwidth(2)
 
-    stub = tts_pb2_grpc.TextToSpeechStub(grpc.secure_channel(endpoint, grpc.ssl_channel_credentials()))
+    stub = tts_pb2_grpc.TextToSpeechStub(
+        grpc.secure_channel(endpoint, grpc.ssl_channel_credentials()))
     request = build_request()
     metadata = authorization_metadata(api_key, secret_key, "tinkoff.cloud.tts")
     responses = stub.StreamingSynthesize(request, metadata=metadata)

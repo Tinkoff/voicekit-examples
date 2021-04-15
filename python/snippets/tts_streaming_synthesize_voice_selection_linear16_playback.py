@@ -19,15 +19,15 @@ sample_rate = 48000
 def build_request():
     return tts_pb2.SynthesizeSpeechRequest(
         input=tts_pb2.SynthesisInput(
-            text="Привет! Я Алёна. Я помогу в озвучке книг, новостей, образовательных курсов, а также могу быть "
-                 "твоим напарником для медитации."
+            text="Привет! Я Алёна. Я помогу в озвучке книг, новостей, образователь"
+                 "ных курсов, а также могу быть твоим напарником для медитации."
         ),
         audio_config=tts_pb2.AudioConfig(
             audio_encoding=tts_pb2.LINEAR16,
             sample_rate_hertz=sample_rate,
         ),
         voice=tts_pb2.VoiceSelectionParams(
-            name="alyona:funny"
+            name="alyona"
         ),
     )
 
