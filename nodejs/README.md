@@ -63,8 +63,24 @@ Feel free to use arabic numerals and named entities:
 $ node synthesize_stream.js -r 48000 -e LINEAR16 "Газета Times, 03 января 2009 года - Канцлер на грани ради второго спасения банков." output_3.wav
 ```
 
-For now, `LINEAR16` does not support samples rates other than 48kHz. Use `RAW_OPUS` (`node-opus` required) to specify different sample rates:
+For now, `LINEAR16` does not support samples rates other than 48kHz. Use `RAW_OPUS` (`@discordjs/opus` required) to specify different sample rates:
 
 ```
 $ node synthesize_stream.js -r 16000 -e RAW_OPUS "Привет, мир." output_4.wav
+```
+
+#### SSML
+
+It is possible to use [SSML](https://en.wikipedia.org/wiki/Speech_Synthesis_Markup_Language):
+
+```
+$ node synthesize_stream.js -r 48000 -e LINEAR16 --ssml "<speak><p><s>Оригинальная мысль?</s><s>Нет ничего легче.</s></p><break time='300ms'/><p><s>Библиотеки просто набиты ими.</s></p></speak>" output_5.wav
+```
+
+#### Voice Selection
+
+You can specify voice name:
+
+```
+$ node synthesize_stream.js -r 48000 -e LINEAR16 --voice alyona "Привет! Меня зовут Алёна." output_6.wav
 ```

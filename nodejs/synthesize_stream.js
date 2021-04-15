@@ -1,9 +1,8 @@
-const fs = require('fs');
 const {createTtsClient} = require('./common.js');
 const {buildStreamingSynthesizeCommand} = require('./args.js');
 const stream = require('stream');
 const wav = require('wav');
-const util = require('util');
+const opus = require('@discordjs/opus')
 
 
 const argv = buildStreamingSynthesizeCommand().parse();
@@ -15,12 +14,13 @@ function main() {
     }
     const ttsClient = createTtsClient();
     const ttsStreamingCall = ttsClient.StreamingSynthesize({
-        input: {
-            text: argv.inputText,
-        },
+        input: argv.ssml ? {ssml: argv.inputText} : {text: argv.inputText},
         audioConfig: {
             audioEncoding: argv.encoding,
             sampleRateHertz: argv.rate,
+        },
+        voice: {
+            name: argv.voice
         }
     });
 
@@ -31,7 +31,7 @@ function main() {
     });
     ttsStreamingCall.on('error', (error) => console.error("Error", error));
     let startedStreaming = false;
-    ttsStreamingCall.on('data', (response) => {
+    ttsStreamingCall.on('data', () => {
         if (!startedStreaming) {
             console.log("Started streaming back audio chunks");
             startedStreaming = true;
@@ -40,8 +40,7 @@ function main() {
 
     let opusDecoder = null;
     if (argv.encoding === 'RAW_OPUS') {
-        const opus = require('node-opus');
-        opusDecoder = new opus.OpusEncoder(argv.rate);
+        opusDecoder = new opus.OpusEncoder(argv.rate, 1);
     }
     const transformStream = new stream.Transform({
         writableObjectMode: true,

@@ -1,7 +1,6 @@
 const fs = require('fs');
-const {createSttClient, forEachRecognitionResult, checkWavFormat} = require('./common.js');
+const {createSttClient, checkWavFormat} = require('./common.js');
 const {buildRecognizeCommand} = require('./args.js');
-const stream = require('stream');
 const wav = require('wav');
 const concat = require('concat-stream');
 const util = require('util');

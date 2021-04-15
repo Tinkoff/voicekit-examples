@@ -6,6 +6,8 @@ const packageDefinition = protoLoader.loadSync(
     [
         __dirname + '/../apis/tinkoff/cloud/stt/v1/stt.proto',
         __dirname + '/../apis/tinkoff/cloud/tts/v1/tts.proto',
+        __dirname + '/../apis/tinkoff/cloud/longrunning/v1/longrunning.proto',
+        __dirname + '/../third_party/googleapis/google/rpc/status.proto',
     ],
     {
         keepCase: false,
