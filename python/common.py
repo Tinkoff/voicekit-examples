@@ -1,6 +1,7 @@
 import argparse
 import os
 import warnings
+from functools import cached_property
 
 import grpc
 from google.protobuf.json_format import MessageToDict
@@ -109,17 +110,13 @@ class CommonParser(argparse.ArgumentParser):
                 warnings.warn("Using deprecated {} environment variable, consider migrating to {}".format(
                     deprecated_env_name, new_env_name
                 ))
-        if value is None:
-            self.error("Cannot infer {}, pass via --{} command line parameter or {} environment variable".format(
-                new_env_name, command_line_parameter, new_env_name
-            ))
         return value
 
-    @property
+    @cached_property
     def _default_api_key(self):
         return self._get_key("VOICEKIT_API_KEY", "STT_TEST_API_KEY", "api_key")
 
-    @property
+    @cached_property
     def _default_secret_key(self):
         return self._get_key("VOICEKIT_SECRET_KEY", "STT_TEST_SECRET_KEY", "secret_key")
 
@@ -133,9 +130,17 @@ class CommonParser(argparse.ArgumentParser):
                           help="API endpoint, secure channel will be used if port ends with 443 (443, 8443, etc). "
                           "Default will use stt.tinkoff.ru:443 for recognition and tts.tinkoff.ru:443 for "
                           "synthesis.")
-        self.add_argument("--api_key", type=str, default=self._default_api_key, help="API key for JWT authentication.")
-        self.add_argument("--secret_key", type=str, default=self._default_secret_key, help="Secret key for "
-                          "HMAC-based JWT authentication.")
+        if self._default_api_key is None:
+            self.add_argument("--api_key", type=str, required=True, help="API key for JWT authentication.")
+        else:
+            self.add_argument("--api_key", type=str, default=self._default_api_key,
+                              help="API key for JWT authentication.")
+        if self._default_secret_key is None:
+            self.add_argument("--secret_key", type=str, required=True,
+                              help="Secret key for HMAC-based JWT authentication.")
+        else:
+            self.add_argument("--secret_key", type=str, default=self._default_secret_key,
+                              help="Secret key for HMAC-based JWT authentication.")
         self.add_argument("--ca_file", type=str, default=None,
                           help="Custom root certificates file to use with non-default endpoint.")
 
@@ -193,17 +198,22 @@ class BaseSynthesisParser(CommonParser):
         self.add_argument("-r", "--rate", type=int, required=True, help="Audio sample rate",
                           choices=[8000, 16000, 24000, 48000])
         self.add_argument("-e", "--encoding", type=encoding, required=True, help="Audio encoding", choices=encoding)
+        self.add_argument("--ssml", action='store_true', help="Enable SSML")
+        self.add_argument("--voice", type=str, help="Voice name")
         self.add_argument("input_text", type=str, help="Input text to synthesize")
         self.add_argument("output_file", type=str, help="Output wav to save or 'pyaudio:' to play with speakers.")
 
 
-def build_synthesis_request(args, text: str, *, type="pb"):
-    input = tts_pb2.SynthesisInput(text=text)
+def build_synthesis_request(args, *, type="pb"):
+    if args.ssml:
+        input = tts_pb2.SynthesisInput(ssml=args.input_text)
+    else:
+        input = tts_pb2.SynthesisInput(text=args.input_text)
     audio_config = tts_pb2.AudioConfig(
         audio_encoding=args.encoding,
         sample_rate_hertz=args.rate,
     )
-    voice = tts_pb2.VoiceSelectionParams()
+    voice = tts_pb2.VoiceSelectionParams(name=args.voice)
     request = tts_pb2.SynthesizeSpeechRequest(
         input=input,
         audio_config=audio_config,
