@@ -49,9 +49,15 @@ message RecognitionAudio { // Audio to recognize.
   }
 }
 
-message SpeechContext { // <i>Currently unused.</i> Declares a vocabulary of words and phrases to be recognized with higher probability.
-  repeated string phrases = 1; // Phrases to recognize with higher probability.
-  repeated string words = 2; // Individual words to recognize with higher probability.
+message SpeechContextPhrase { // Phrase to recognize with higher probability.
+  string text = 1; // Text of phrase to recognize with higher probability. Currenlty only single-worded phrases are supported. Specifying pharses shorter than 5 characters is discouraged.
+  float score = 2; // Score of phrase to recognize with higher probability. `1.0` is used if not specified. Specifying too high score is discouraged.
+}
+
+message SpeechContext { // Declares a set of phrases to be recognized with higher probability.
+  reserved 1; // Deprecated.
+  reserved 2; // Deprecated.
+  repeated SpeechContextPhrase phrases = 3; // Phrases to recognize with higher probability.
 }
 
 message WordInfo { // Detailed information on recognized word.
