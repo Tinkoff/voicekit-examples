@@ -52,8 +52,6 @@ def build_request():
     }
 
 
-assert build_request() == build_request_from_pb()
-
 pyaudio_lib = pyaudio.PyAudio()
 f = pyaudio_lib.open(output=True, channels=1, format=pyaudio.paInt16, rate=sample_rate)
 
