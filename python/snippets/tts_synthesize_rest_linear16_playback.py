@@ -52,8 +52,6 @@ def build_request():
     }
 
 
-print(build_request())
-print(build_request_from_pb())
 assert build_request() == build_request_from_pb()
 
 pyaudio_lib = pyaudio.PyAudio()
