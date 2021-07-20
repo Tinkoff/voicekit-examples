@@ -94,6 +94,8 @@ message RecognitionConfig { // Common regognition configuration.
   }
   reserved 15;
   bool enable_denormalization = 16; // Enables automatic conversion of numerals from text to numeric form. Applies only to the first (most likely) version of hypothesis.
+  bool enable_sentiment_analysis = 17; // Enables sentiment analysis for emotion classification: negative or neutral. Used for every final hypotheses
+  bool enable_gender_identification = 18; // Enables gender identification: male or female. Used for every final hypotheses
 }
 
 message RecognizeRequest { // Request to recognize using Recognize method.
@@ -107,11 +109,23 @@ message SpeechRecognitionAlternative { // Version of recognized text (or part of
   repeated WordInfo words = 3; // Array of individual words inside phrase.
 }
 
+message SpeechSentimentAnalysisResult { // Results of sentiment analysis
+  float negative_prob_audio = 1; // Probability of negative emotion given from audio phrase
+  float negative_prob_audio_text  = 2; // Probability of negative emotion given from audio phrase and recognized text
+}
+
+message SpeechGenderIdentificationResult {  // Results of gender identification
+  float male_proba = 1; // Probability that speaker is male
+  float female_proba = 2; // Probability that speaker is female. It's assume that male_proba + female_proba = 1
+}
+
 message SpeechRecognitionResult { // Phrase recognized for channel specified here.
   repeated SpeechRecognitionAlternative alternatives = 1; // Array of phrase alternatives sorted by confidence in descending order.
   int32 channel = 2; // Channel where phrase alternative relates to (starting from 0).
   google.protobuf.Duration start_time = 3; // Phrase start time inside input audiostream.
   google.protobuf.Duration end_time = 4; // Phrase end time inside input audiostream.
+  SpeechSentimentAnalysisResult sentiment_analysis_result = 5; // Result of sentiment analysis
+  SpeechGenderIdentificationResult gender_identification_result = 6; // Result of gender identification
 }
 
 message RecognizeResponse { // Response with recognized phrases using Recognize method.
