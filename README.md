@@ -42,4 +42,4 @@ If you can't find your favorite language here, don't worry: consult gRPC docs fo
 
 ## Note on endpoint format
 
-Use `stt.tinkoff.ru:443` for speech recognition and `tts.tinkoff.ru:443` for speech synthesis. Unencrypted endpoints (with port `80`) are not available.
+Use `api.tinkoff.ai:443`. Unencrypted endpoints (with port `80`) are not available.
