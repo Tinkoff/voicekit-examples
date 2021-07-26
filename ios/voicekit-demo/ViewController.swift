@@ -14,8 +14,8 @@ enum State {
 
 
 class ViewController: UIViewController {
-    private let sttClient = TVKSRSpeechToText(host: "stt.tinkoff.ru:443")
-    private let ttsClient = TVKSSTextToSpeech(host: "tts.tinkoff.ru:443")
+    private let sttClient = TVKSRSpeechToText(host: "api.tinkoff.ai:443")
+    private let ttsClient = TVKSSTextToSpeech(host: "api.tinkoff.ai:443")
     private let opusEncoder : CSIOpusEncoder = CSIOpusEncoder(sampleRate: Int32(Config.preferredSampleRate), channels: 1, frameDuration: 0.02)
     private let opusDecoder : CSIOpusDecoder = CSIOpusDecoder(sampleRate: Int32(Config.preferredSampleRate), channels: 1)
     private let recognizeDispatchQueue = DispatchQueue(label: "recognize-queue", qos: .userInteractive)

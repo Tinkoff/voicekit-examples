@@ -6,7 +6,7 @@ options = Options.parse
 
 request = RecognitionRequest.grpc options
 
-stub = Tinkoff::Cloud::Stt::V1::SpeechToText::Stub.new options[:endpoint] || 'stt.tinkoff.ru:443', GRPC::Core::ChannelCredentials.new
+stub = Tinkoff::Cloud::Stt::V1::SpeechToText::Stub.new options[:endpoint] || 'api.tinkoff.ai:443', GRPC::Core::ChannelCredentials.new
 begin
   response = stub.recognize request.body, metadata: request.headers
 rescue GRPC::BadStatus => e

@@ -69,7 +69,7 @@ func NewSttClient() (SpeechToTextClient, error) {
 	transportCredentials := credentials.NewTLS(&tls.Config{})
 	perRPCCredentials := auth.NewJwtPerRPCCredentials(keyPair, "test_issuer", "test_subject")
 
-	connection, err := grpc.Dial("stt.tinkoff.ru:443",
+	connection, err := grpc.Dial("api.tinkoff.ai:443",
 		grpc.WithTransportCredentials(transportCredentials),
 		grpc.WithPerRPCCredentials(perRPCCredentials))
 
@@ -88,7 +88,7 @@ func NewTtsClient() (TextToSpeechClient, error) {
 	transportCredentials := credentials.NewTLS(&tls.Config{})
 	perRPCCredentials := auth.NewJwtPerRPCCredentials(keyPair, "test_issuer", "test_subject")
 
-	connection, err := grpc.Dial("tts.tinkoff.ru:443",
+	connection, err := grpc.Dial("api.tinkoff.ai:443",
 		grpc.WithTransportCredentials(transportCredentials),
 		grpc.WithPerRPCCredentials(perRPCCredentials))
 

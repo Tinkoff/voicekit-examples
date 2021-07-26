@@ -128,8 +128,7 @@ class CommonParser(argparse.ArgumentParser):
         super().__init__()
         self.add_argument("--endpoint", type=str, default=self._default_endpoint,
                           help="API endpoint, secure channel will be used if port ends with 443 (443, 8443, etc). "
-                          "Default will use stt.tinkoff.ru:443 for recognition and tts.tinkoff.ru:443 for "
-                          "synthesis.")
+                          "Default will use api.tinkoff.ai:443 for both speech recognition and synthesis.")
         if self._default_api_key is None:
             self.add_argument("--api_key", type=str, required=True, help="API key for JWT authentication.")
         else:
@@ -148,7 +147,7 @@ class CommonParser(argparse.ArgumentParser):
 class BaseRecognitionParser(CommonParser):
     @property
     def _default_endpoint(self):
-        return "stt.tinkoff.ru:443"
+        return "api.tinkoff.ai:443"
 
     def __init__(self):
         super().__init__()
@@ -189,7 +188,7 @@ class StreamingRecognitionParser(BaseRecognitionParser):
 class BaseSynthesisParser(CommonParser):
     @property
     def _default_endpoint(self):
-        return "tts.tinkoff.ru:443"
+        return "api.tinkoff.ai:443"
 
     def __init__(self):
         super().__init__()

@@ -34,8 +34,8 @@ public class Client {
         sttAuth = new Auth(apiKey, secretKey, "tinkoff.cloud.stt");
         ttsAuth = new Auth(apiKey, secretKey, "tinkoff.cloud.tts");
 
-        Channel sttChannel = ManagedChannelBuilder.forTarget("stt.tinkoff.ru:443").build();
-        Channel ttsChannel = ManagedChannelBuilder.forTarget("tts.tinkoff.ru:443").build();
+        Channel sttChannel = ManagedChannelBuilder.forTarget("api.tinkoff.ai:443").build();
+        Channel ttsChannel = ManagedChannelBuilder.forTarget("api.tinkoff.ai:443").build();
 
         clientSTT = SpeechToTextGrpc.newStub(sttChannel).withCallCredentials(sttAuth);
         clientTTS = TextToSpeechGrpc.newStub(ttsChannel).withCallCredentials(ttsAuth);

@@ -23,8 +23,8 @@ namespace Tinkoff.VoiceKit
             _authTTS = new Auth(apiKey, secretKey, "tinkoff.cloud.tts");
 
             var cred = new SslCredentials();
-            var channelSTT = new Channel("stt.tinkoff.ru:443", cred);
-            var channelTTS = new Channel("tts.tinkoff.ru:443", cred);
+            var channelSTT = new Channel("api.tinkoff.ai:443", cred);
+            var channelTTS = new Channel("api.tinkoff.ai:443", cred);
 
             _clientSTT = new SpeechToText.SpeechToTextClient(channelSTT);
             _clientTTS = new TextToSpeech.TextToSpeechClient(channelTTS);
