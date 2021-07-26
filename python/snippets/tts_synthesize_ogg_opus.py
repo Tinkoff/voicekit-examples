@@ -33,5 +33,5 @@ request = build_request()
 metadata = authorization_metadata(api_key, secret_key, "tinkoff.cloud.tts")
 response = stub.Synthesize(request, metadata=metadata)
 
-with open("synthesised.ogg", "wb") as f:
+with open("synthesized.ogg", "wb") as f:
     f.write(response.audio_content)
