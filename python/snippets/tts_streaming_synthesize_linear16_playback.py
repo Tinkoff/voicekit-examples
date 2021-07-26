@@ -37,8 +37,8 @@ request = build_request()
 metadata = authorization_metadata(api_key, secret_key, "tinkoff.cloud.tts")
 responses = stub.StreamingSynthesize(request, metadata=metadata)
 for key, value in responses.initial_metadata():
-    if key == "x-audio-num-samples":
-        print("Estimated audio duration is {:.2f} seconds".format(int(value) / sample_rate))
+    if key == "x-audio-duration-seconds":
+        print("Estimated audio duration is {:.2f} seconds".format(float(value)))
         break
 for stream_response in responses:
     f.write(stream_response.audio_chunk)
