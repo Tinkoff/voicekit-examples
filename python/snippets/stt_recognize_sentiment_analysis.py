@@ -8,7 +8,7 @@ from auth import authorization_metadata
 import grpc
 import os
 
-endpoint = os.environ.get("VOICEKIT_ENDPOINT") or "stt.tinkoff.ru:443"
+endpoint = os.environ.get("VOICEKIT_ENDPOINT") or "api.tinkoff.ai:443"
 api_key = os.environ["VOICEKIT_API_KEY"]
 secret_key = os.environ["VOICEKIT_SECRET_KEY"]
 
