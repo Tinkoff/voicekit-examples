@@ -22,4 +22,4 @@ JWT=$(./gen_jwt.sh --api_key ${VOICEKIT_API_KEY} --secret_key ${VOICEKIT_SECRET_
 curl --header "Content-Type: application/json" \
      --header "Authorization: Bearer ${JWT}" \
      --request GET \
-      https://tts.tinkoff.ru:443/v1/tts:list_voices | jq
+      https://api.tinkoff.ai:443/v1/tts:list_voices | jq

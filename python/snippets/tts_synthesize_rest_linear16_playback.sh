@@ -52,4 +52,4 @@ curl --header "Content-Type: application/json" \
      --header "Authorization: Bearer ${JWT}" \
      --request POST \
      --data "${request}" \
-      https://tts.tinkoff.ru:443/v1/tts:synthesize | jq --raw-output .audio_content | base64 -d | play --type s16 --rate "${SAMPLE_RATE}" --channels 1 -
+      https://api.tinkoff.ai:443/v1/tts:synthesize | jq --raw-output .audio_content | base64 -d | play --type s16 --rate "${SAMPLE_RATE}" --channels 1 -
