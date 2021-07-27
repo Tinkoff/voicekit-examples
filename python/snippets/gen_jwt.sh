@@ -117,8 +117,8 @@ header=$(
   jq --null-input \
     --arg kid "${API_KEY}" \
     '
-    .alg = "HS256" |
     .typ = "JWT" |
+    .alg = "HS256" |
     .kid = $kid
     ' | base64 | tr -d '=\n' | tr '/+' '_-'
 )
