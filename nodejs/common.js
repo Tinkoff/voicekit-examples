@@ -35,11 +35,11 @@ function createAuthCredentials() {
 }
 
 function createSttClient() {
-    return new sttProto.SpeechToText("stt.tinkoff.ru:443", createAuthCredentials());
+    return new sttProto.SpeechToText("api.tinkoff.ai:443", createAuthCredentials());
 }
 
 function createTtsClient() {
-    return new ttsProto.TextToSpeech("tts.tinkoff.ru:443", createAuthCredentials());
+    return new ttsProto.TextToSpeech("api.tinkoff.ai:443", createAuthCredentials());
 }
 
 function checkWavFormat(format, argv) {

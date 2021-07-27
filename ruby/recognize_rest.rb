@@ -6,7 +6,7 @@ options = Options.parse
 
 request = RecognitionRequest.rest options
 
-uri = URI.parse options[:endpoint] || 'https://stt.tinkoff.ru/v1/stt:recognize'
+uri = URI.parse options[:endpoint] || 'https://api.tinkoff.ai/v1/stt:recognize'
 http = Net::HTTP.new uri.host, uri.port
 http.use_ssl = true
 post = Net::HTTP::Post.new(uri, request.headers)
