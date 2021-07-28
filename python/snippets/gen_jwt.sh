@@ -60,8 +60,8 @@ done
 
 if [ "${HELP}" == "y" ]; then
   echo "${0}: generate JWT token for Tinkoff VoiceKit"
-  echo "" >&2
-  print_usage >&2
+  echo ""
+  print_usage
   exit ${?}
 fi
 
