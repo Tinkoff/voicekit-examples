@@ -17,7 +17,13 @@ elif [ -z "${VOICEKIT_SECRET_KEY}" ]; then
 fi
 
 TEN_MINUTES=600
-JWT=$(./gen_jwt.sh --api_key ${VOICEKIT_API_KEY} --secret_key ${VOICEKIT_SECRET_KEY} --scope tinkoff.cloud.tts --exp $(("$(date +%s)" + "${TEN_MINUTES}")))
+JWT=$(
+  ./gen_jwt.sh --api_key "${VOICEKIT_API_KEY}" \
+               --secret_key "${VOICEKIT_SECRET_KEY}" \
+               --scope tinkoff.cloud.tts \
+               --exp $(("$(date +%s)" + "${TEN_MINUTES}"))
+)
+
 SAMPLE_RATE=48000
 
 request="$(
