@@ -16,7 +16,7 @@ endpoint = os.environ.get("VOICEKIT_ENDPOINT") or "api.tinkoff.ai:443"
 api_key = os.environ["VOICEKIT_API_KEY"]
 secret_key = os.environ["VOICEKIT_SECRET_KEY"]
 
-sample_rate = 48000
+sample_rate = 22050
 
 
 def build_request_from_pb():

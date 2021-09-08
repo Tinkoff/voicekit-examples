@@ -26,6 +26,9 @@ def build_request():
             audio_encoding=tts_pb2.LINEAR16,
             sample_rate_hertz=sample_rate,
         ),
+        voice=tts_pb2.VoiceSelectionParams(
+            name="maxim",
+        ),
     )
 
 

@@ -24,7 +24,7 @@ JWT=$(
                --exp $(("$(date +%s)" + "${TEN_MINUTES}"))
 )
 
-SAMPLE_RATE=48000
+SAMPLE_RATE=22050
 
 request="$(
   jq --null-input \
@@ -47,7 +47,7 @@ request="$(
 #  },
 #  "audioConfig": {
 #    "audioEncoding": "LINEAR16",
-#    "sampleRateHertz": 48000
+#    "sampleRateHertz": 22050
 #  },
 #  "voice": {
 #    "name": "alyona:funny"
