@@ -230,7 +230,7 @@ message WatchOperationsResponse {
     // Признак того, что вся информация об исходном состоянии была передана.
     google.protobuf.Empty init_finished = 2;
 
-    // Описание нового состояни изменившихся операций.
+    // Описание нового состояния изменившихся операций.
     OperationsUpdate update = 3;
   }
 }

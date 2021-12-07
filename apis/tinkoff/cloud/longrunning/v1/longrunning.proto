@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package tinkoff.cloud.longrunning.v1;
-option go_package = "stash.tcsbank.ru/stt/tinkoff_cloud_apis/pkg/tinkoff/cloud/longrunning/v1";
+option go_package = "github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/longrunning/v1";
 
 import "google/api/annotations.proto";
 import "google/protobuf/any.proto";
@@ -31,14 +31,14 @@ service Operations {
   // Watch operations
   rpc WatchOperations(WatchOperationsRequest) returns (stream WatchOperationsResponse);
 
-  // Deletes spepcified operations
+  // Deletes specified operations
   rpc DeleteOperation(DeleteOperationRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/v1/operations/{filter.exact_id}"
     };
   }
 
-  // Cancels spepcified operations
+  // Cancels specified operations
   rpc CancelOperation(CancelOperationRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/v1/operations/{filter.exact_id}:cancel"
@@ -61,6 +61,7 @@ enum OperationState {
   FAILED = 3;
 }
 
+// A message that represents long-running operation and its state. This message also encapsulates any service-specific results of the operation and its metadata.
 message Operation {
   // Operation ID
   string id = 1;
@@ -74,26 +75,27 @@ message Operation {
   // Operation state
   OperationState state = 4;
 
-  // Operation result
+  // This can either be the result of finished operation or an error.
   oneof result {
-    // Operation error if error occured
+    // Operation status if any error occurred
     google.rpc.Status error = 5;
 
-    // Operation response if successfully finished
+    // Operation response if the operation successfully finished
     google.protobuf.Any response = 6;
   }
 
-  // Metafield x-client-request-id specified at operation creation
+  // This field contains optional client request id, which can be passed via 'x-client-request-id' HTTP header to the method that created the operation (e.g. LongRunningRecognize).
   string x_client_request_id = 7;
 }
 
+// OperationFilter message can be used to filter the long list of operations in the methods which support it.
 message OperationFilter {
-  // Service ID filter
+  // Service ID filter. Use this field to filter the list of operations by service identifier.
   oneof service_id {
-    // For single specific value
+    // Set this field to get only those results which have service id equal to the string specified.
     string exact_service_id = 1;
 
-    // For any value
+    // Set this field to get results with any service id.
     google.protobuf.Empty any_service_id = 2;
   }
 

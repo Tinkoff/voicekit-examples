@@ -7,12 +7,12 @@ option objc_class_prefix = 'TVKSS';
 import "google/api/annotations.proto";
 
 service TextToSpeech { // Синтез речи.
-  rpc ListVoices(ListVoicesRequest) returns (ListVoicesResponses) { // <i>Не реализован</i> Метод для получения списка доступных голосов.
+  rpc ListVoices(ListVoicesRequest) returns (ListVoicesResponses) { // Метод для получения списка доступных голосов.
     option (google.api.http) = {
       get: "/v1/tts:list_voices"
     };
   }
-  rpc Synthesize(SynthesizeSpeechRequest) returns (SynthesizeSpeechResponse) { // <i>Не реализован</i> Метод для синтеза аудио.
+  rpc Synthesize(SynthesizeSpeechRequest) returns (SynthesizeSpeechResponse) { // Метод для синтеза аудио.
     option (google.api.http) = {
       post: "/v1/tts:synthesize"
       body: "*"
@@ -25,7 +25,7 @@ enum AudioEncoding { // Формат кодирования аудио. Зада
   ENCODING_UNSPECIFIED = 0; // <i>Не задан - недопустимое значение.</i> Используется в качестве значения по умолчанию для исключения случайных ошибок.
   LINEAR16 = 1; // PCM без заголовков с целыми знаковыми 16-битными семплами в линейном распределении.
   reserved "FLAC"; reserved 2;
-  MULAW = 3; // PCM без заголовков с 8-битными семплами в распределении Mu-law (aka PCMU).
+  reserved "MULAW"; reserved 3; // <i>Не поддерживается на данный момент.</i> PCM без заголовков с 8-битными семплами в распределении Mu-law (aka PCMU).
   reserved "AMR"; reserved 4;
   reserved "AMR_WB"; reserved 5;
   reserved "OGG_OPUS"; reserved 6;
@@ -33,19 +33,19 @@ enum AudioEncoding { // Формат кодирования аудио. Зада
   ALAW = 8; // PCM без заголовков с 8-битными семплами в распределении A-law (aka PCMA).
   reserved "LINEAR32F"; reserved 9;  // Устаревшее.
   reserved "OGG_VORBIS"; reserved 10;
-  RAW_OPUS = 11; // Фреймы Opus, запакованные в сообщения Protobuf.<br/><b>ВАЖНО</b>: каждый фрейм Opus запакован в отдельное сообщение с полем `audio_content`.<br/>Т. е. нельзя просто так взять и сконкатенировать фреймы Opus и отправить их одним куском в декодер Opus.<br/>Кроме того, несмотря на то, что Opus не привязан к частоте дискретизации на стадии кодирования, предполагаемая длительность синтезируемого аудио возвращается в семплах указанной частоты дискретизации.<br/>Работает только в потоковом режиме.
+  RAW_OPUS = 11; // Фреймы Opus, запакованные в сообщения Protobuf.<br/><b>ВАЖНО</b>: каждый фрейм Opus запакован в отдельное сообщение с полем `audio_content`.<br/>Т. е. нельзя просто так взять и сконкатенировать фреймы Opus и отправить их одним куском в декодер Opus.<br/>Кроме того, несмотря на то, что Opus не привязан к частоте дискретизации на стадии кодирования, предполагаемая длительность синтезируемого аудио возвращается в семплах указанной частоты дискретизации.<br/>Не поддерживается для непотокового метода `Synthesize`.
   reserved "MPEG_AUDIO"; reserved 12;
 }
 
 message Voice { // Описание голоса при получении списка доступных голосов.
-  repeated string language_codes = 1; // Код языка.
+  reserved "language_codes"; reserved 1; // <i>Игнорируется на данный момент.</i> Код языка (локаль) голоса.
   string name = 2; // Название голоса.
   reserved "ssml_gender"; reserved 3; // Устаревшее.
-  int32 natural_sample_rate_hertz = 4; // Исходная частота дискретизации. Т. е. большее значение говорит о более высоком качестве.
+  reserved "natural_sample_rate_hertz"; reserved 4; // <i>Игнорируется на данный момент.</i> Исходная частота дискретизации. Т. е. большее значение говорит о более высоком качестве.
 }
 
 message ListVoicesRequest { // Запрос списка голосов.
-  string language_code = 1; // Код языка для получения списка голосов.
+  reserved "language_code"; reserved 1; // <i>Игнорируется на данный момент.</i> Код языка (локаль) для получения списка голосов.
 }
 
 message ListVoicesResponses { // Ответ со списком голосов.
@@ -58,23 +58,23 @@ message SynthesisInput { // Входные данные для синтеза.
 }
 
 message VoiceSelectionParams { // Конфигурация предпочитаемого голоса для синтеза.
-  string language_code = 1; // Код предпочитаемого голоса.
+  reserved "language_code"; reserved 1; // <i>Игнорируется на данный момент.</i> Код языка (локаль) для предпочитаемого голоса.
   string name = 2; // Явно заданное имя голоса.
   reserved "ssml_gender"; reserved 3; // Устаревшее.
 }
 
 message AudioConfig { // Конфигурация аудио на выходе
-  AudioEncoding audio_encoding = 1; // Формат кодирования аудио. Задаёт и контейнер, и кодек. Должен задаваться явно.
-  double speaking_rate = 2; // <i>Игнорируется на данный момент.</i> Скорость синтезируемого аудио в долях от исходной скорости. Значение по умолчанию: `1.0`.
+  AudioEncoding audio_encoding = 1; // Формат кодирования аудио. Задаёт и контейнер, и кодек. Обязательный параметр, должен быть задан явно.
+  reserved "speaking_rate"; reserved 2; // <i>Игнорируется на данный момент.</i> Скорость синтезируемого аудио в долях от скорости речи спикера. Значение по умолчанию: `1.0`.
   reserved "pitch"; reserved 3;
   reserved "volume_gain_db"; reserved 4;
-  int32 sample_rate_hertz = 5; // Частота дискретизации аудио на выходе в герцах. Должна задаваться явно.
+  int32 sample_rate_hertz = 5; // Частота дискретизации аудио на выходе в герцах. Обязательный параметр, должен быть задан явно.
 }
 
 message SynthesizeSpeechRequest { // Запрос к методам `Synthesize` и `StreamingSynthesize`.
   SynthesisInput input = 1; // Входящие данные для синтеза.
   VoiceSelectionParams voice = 2; // Параметры выбора голоса.
-  AudioConfig audio_config = 3; // Конфигурация аудио.
+  AudioConfig audio_config = 3; // Конфигурация аудио. Обязательный параметр, должен быть задан явно.
 }
 
 message SynthesizeSpeechResponse { // Ответ в методе `Synthesize`.
@@ -82,5 +82,5 @@ message SynthesizeSpeechResponse { // Ответ в методе `Synthesize`.
 }
 
 message StreamingSynthesizeSpeechResponse { // Фрагмент синтезированного аудио в методе `StreamingSynthesize`. См. `AudioEncoding = RAW_OPUS` для подробностей по работе с кодеком Opus.
-  bytes audio_chunk = 1; // Аудио содержимое: либо семплы в случае с `LINEAR16`, `MULAW` и `ALAW`, либо одиночный фрейм в случае `RAW_OPUS`.
+  bytes audio_chunk = 1; // Аудио содержимое: либо семплы в случае с `LINEAR16`, либо одиночный фрейм в случае `RAW_OPUS`.
 }
