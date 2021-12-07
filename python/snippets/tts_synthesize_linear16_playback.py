@@ -41,3 +41,5 @@ metadata = authorization_metadata(api_key, secret_key, "tinkoff.cloud.tts")
 response = stub.Synthesize(request, metadata=metadata)
 
 f.write(response.audio_content)
+f.stop_stream()
+f.close()

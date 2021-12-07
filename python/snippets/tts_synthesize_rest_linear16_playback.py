@@ -64,3 +64,6 @@ if response.status_code != 200:
 else:
     response = response.json()
     f.write(base64.b64decode(response["audio_content"]))
+
+f.stop_stream()
+f.close()

@@ -46,3 +46,5 @@ for key, value in responses.initial_metadata():
         break
 for stream_response in responses:
     f.write(opus_decoder.decode(stream_response.audio_chunk, MAX_ALLOWED_FRAME_RATE))
+f.stop_stream()
+f.close()
