@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'ZQgithub.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1\242\002\005TVKSS',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x1etinkoff/cloud/tts/v1/tts.proto\x12\x14tinkoff.cloud.tts.v1\x1a\x1cgoogle/api/annotations.proto\"c\n\x05Voice\x12\x16\n\x0elanguage_codes\x18\x01 \x03(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12!\n\x19natural_sample_rate_hertz\x18\x04 \x01(\x05J\x04\x08\x03\x10\x04R\x0bssml_gender\"*\n\x11ListVoicesRequest\x12\x15\n\rlanguage_code\x18\x01 \x01(\t\"B\n\x13ListVoicesResponses\x12+\n\x06voices\x18\x01 \x03(\x0b\x32\x1b.tinkoff.cloud.tts.v1.Voice\",\n\x0eSynthesisInput\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x0c\n\x04ssml\x18\x02 \x01(\t\"N\n\x14VoiceSelectionParams\x12\x15\n\rlanguage_code\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\tJ\x04\x08\x03\x10\x04R\x0bssml_gender\"\x9f\x01\n\x0b\x41udioConfig\x12;\n\x0e\x61udio_encoding\x18\x01 \x01(\x0e\x32#.tinkoff.cloud.tts.v1.AudioEncoding\x12\x15\n\rspeaking_rate\x18\x02 \x01(\x01\x12\x19\n\x11sample_rate_hertz\x18\x05 \x01(\x05J\x04\x08\x03\x10\x04J\x04\x08\x04\x10\x05R\x05pitchR\x0evolume_gain_db\"\xc2\x01\n\x17SynthesizeSpeechRequest\x12\x33\n\x05input\x18\x01 \x01(\x0b\x32$.tinkoff.cloud.tts.v1.SynthesisInput\x12\x39\n\x05voice\x18\x02 \x01(\x0b\x32*.tinkoff.cloud.tts.v1.VoiceSelectionParams\x12\x37\n\x0c\x61udio_config\x18\x03 \x01(\x0b\x32!.tinkoff.cloud.tts.v1.AudioConfig\"1\n\x18SynthesizeSpeechResponse\x12\x15\n\raudio_content\x18\x01 \x01(\x0c\"8\n!StreamingSynthesizeSpeechResponse\x12\x13\n\x0b\x61udio_chunk\x18\x01 \x01(\x0c*\xe2\x01\n\rAudioEncoding\x12\x18\n\x14\x45NCODING_UNSPECIFIED\x10\x00\x12\x0c\n\x08LINEAR16\x10\x01\x12\t\n\x05MULAW\x10\x03\x12\x08\n\x04\x41LAW\x10\x08\x12\x0c\n\x08RAW_OPUS\x10\x0b\"\x04\x08\x02\x10\x02\"\x04\x08\x04\x10\x04\"\x04\x08\x05\x10\x05\"\x04\x08\x06\x10\x06\"\x04\x08\x07\x10\x07\"\x04\x08\t\x10\t\"\x04\x08\n\x10\n\"\x04\x08\x0c\x10\x0c*\x04\x46LAC*\x03\x41MR*\x06\x41MR_WB*\x08OGG_OPUS*\x16SPEEX_WITH_HEADER_BYTE*\tLINEAR32F*\nOGG_VORBIS*\nMPEG_AUDIO2\x9b\x03\n\x0cTextToSpeech\x12}\n\nListVoices\x12\'.tinkoff.cloud.tts.v1.ListVoicesRequest\x1a).tinkoff.cloud.tts.v1.ListVoicesResponses\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/v1/tts:list_voices\x12\x8a\x01\n\nSynthesize\x12-.tinkoff.cloud.tts.v1.SynthesizeSpeechRequest\x1a..tinkoff.cloud.tts.v1.SynthesizeSpeechResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\"\x12/v1/tts:synthesize:\x01*\x12\x7f\n\x13StreamingSynthesize\x12-.tinkoff.cloud.tts.v1.SynthesizeSpeechRequest\x1a\x37.tinkoff.cloud.tts.v1.StreamingSynthesizeSpeechResponse0\x01\x42[ZQgithub.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1\xa2\x02\x05TVKSSb\x06proto3'
+  serialized_pb=b'\n\x1etinkoff/cloud/tts/v1/tts.proto\x12\x14tinkoff.cloud.tts.v1\x1a\x1cgoogle/api/annotations.proto\"_\n\x05Voice\x12\x0c\n\x04name\x18\x02 \x01(\tJ\x04\x08\x01\x10\x02J\x04\x08\x03\x10\x04J\x04\x08\x04\x10\x05R\x0elanguage_codesR\x0bssml_genderR\x19natural_sample_rate_hertz\"(\n\x11ListVoicesRequestJ\x04\x08\x01\x10\x02R\rlanguage_code\"B\n\x13ListVoicesResponses\x12+\n\x06voices\x18\x01 \x03(\x0b\x32\x1b.tinkoff.cloud.tts.v1.Voice\",\n\x0eSynthesisInput\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x0c\n\x04ssml\x18\x02 \x01(\t\"L\n\x14VoiceSelectionParams\x12\x0c\n\x04name\x18\x02 \x01(\tJ\x04\x08\x01\x10\x02J\x04\x08\x03\x10\x04R\rlanguage_codeR\x0bssml_gender\"\x9d\x01\n\x0b\x41udioConfig\x12;\n\x0e\x61udio_encoding\x18\x01 \x01(\x0e\x32#.tinkoff.cloud.tts.v1.AudioEncoding\x12\x19\n\x11sample_rate_hertz\x18\x05 \x01(\x05J\x04\x08\x02\x10\x03J\x04\x08\x03\x10\x04J\x04\x08\x04\x10\x05R\rspeaking_rateR\x05pitchR\x0evolume_gain_db\"\xc2\x01\n\x17SynthesizeSpeechRequest\x12\x33\n\x05input\x18\x01 \x01(\x0b\x32$.tinkoff.cloud.tts.v1.SynthesisInput\x12\x39\n\x05voice\x18\x02 \x01(\x0b\x32*.tinkoff.cloud.tts.v1.VoiceSelectionParams\x12\x37\n\x0c\x61udio_config\x18\x03 \x01(\x0b\x32!.tinkoff.cloud.tts.v1.AudioConfig\"1\n\x18SynthesizeSpeechResponse\x12\x15\n\raudio_content\x18\x01 \x01(\x0c\"8\n!StreamingSynthesizeSpeechResponse\x12\x13\n\x0b\x61udio_chunk\x18\x01 \x01(\x0c*\xe4\x01\n\rAudioEncoding\x12\x18\n\x14\x45NCODING_UNSPECIFIED\x10\x00\x12\x0c\n\x08LINEAR16\x10\x01\x12\x08\n\x04\x41LAW\x10\x08\x12\x0c\n\x08RAW_OPUS\x10\x0b\"\x04\x08\x02\x10\x02\"\x04\x08\x03\x10\x03\"\x04\x08\x04\x10\x04\"\x04\x08\x05\x10\x05\"\x04\x08\x06\x10\x06\"\x04\x08\x07\x10\x07\"\x04\x08\t\x10\t\"\x04\x08\n\x10\n\"\x04\x08\x0c\x10\x0c*\x04\x46LAC*\x05MULAW*\x03\x41MR*\x06\x41MR_WB*\x08OGG_OPUS*\x16SPEEX_WITH_HEADER_BYTE*\tLINEAR32F*\nOGG_VORBIS*\nMPEG_AUDIO2\x9b\x03\n\x0cTextToSpeech\x12}\n\nListVoices\x12\'.tinkoff.cloud.tts.v1.ListVoicesRequest\x1a).tinkoff.cloud.tts.v1.ListVoicesResponses\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/v1/tts:list_voices\x12\x8a\x01\n\nSynthesize\x12-.tinkoff.cloud.tts.v1.SynthesizeSpeechRequest\x1a..tinkoff.cloud.tts.v1.SynthesizeSpeechResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\"\x12/v1/tts:synthesize:\x01*\x12\x7f\n\x13StreamingSynthesize\x12-.tinkoff.cloud.tts.v1.SynthesizeSpeechRequest\x1a\x37.tinkoff.cloud.tts.v1.StreamingSynthesizeSpeechResponse0\x01\x42[ZQgithub.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1\xa2\x02\x05TVKSSb\x06proto3'
   ,
   dependencies=[google_dot_api_dot_annotations__pb2.DESCRIPTOR,])
 
@@ -43,32 +43,26 @@ _AUDIOENCODING = _descriptor.EnumDescriptor(
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='MULAW', index=2, number=3,
+      name='ALAW', index=2, number=8,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='ALAW', index=3, number=8,
-      serialized_options=None,
-      type=None,
-      create_key=_descriptor._internal_create_key),
-    _descriptor.EnumValueDescriptor(
-      name='RAW_OPUS', index=4, number=11,
+      name='RAW_OPUS', index=3, number=11,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=894,
-  serialized_end=1120,
+  serialized_start=884,
+  serialized_end=1112,
 )
 _sym_db.RegisterEnumDescriptor(_AUDIOENCODING)
 
 AudioEncoding = enum_type_wrapper.EnumTypeWrapper(_AUDIOENCODING)
 ENCODING_UNSPECIFIED = 0
 LINEAR16 = 1
-MULAW = 3
 ALAW = 8
 RAW_OPUS = 11
 
@@ -83,23 +77,9 @@ _VOICE = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='language_codes', full_name='tinkoff.cloud.tts.v1.Voice.language_codes', index=0,
-      number=1, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='name', full_name='tinkoff.cloud.tts.v1.Voice.name', index=1,
+      name='name', full_name='tinkoff.cloud.tts.v1.Voice.name', index=0,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='natural_sample_rate_hertz', full_name='tinkoff.cloud.tts.v1.Voice.natural_sample_rate_hertz', index=2,
-      number=4, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -116,7 +96,7 @@ _VOICE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=86,
-  serialized_end=185,
+  serialized_end=181,
 )
 
 
@@ -128,13 +108,6 @@ _LISTVOICESREQUEST = _descriptor.Descriptor(
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
-    _descriptor.FieldDescriptor(
-      name='language_code', full_name='tinkoff.cloud.tts.v1.ListVoicesRequest.language_code', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -147,8 +120,8 @@ _LISTVOICESREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=187,
-  serialized_end=229,
+  serialized_start=183,
+  serialized_end=223,
 )
 
 
@@ -179,8 +152,8 @@ _LISTVOICESRESPONSES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=231,
-  serialized_end=297,
+  serialized_start=225,
+  serialized_end=291,
 )
 
 
@@ -218,8 +191,8 @@ _SYNTHESISINPUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=299,
-  serialized_end=343,
+  serialized_start=293,
+  serialized_end=337,
 )
 
 
@@ -232,14 +205,7 @@ _VOICESELECTIONPARAMS = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='language_code', full_name='tinkoff.cloud.tts.v1.VoiceSelectionParams.language_code', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='name', full_name='tinkoff.cloud.tts.v1.VoiceSelectionParams.name', index=1,
+      name='name', full_name='tinkoff.cloud.tts.v1.VoiceSelectionParams.name', index=0,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -257,8 +223,8 @@ _VOICESELECTIONPARAMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=345,
-  serialized_end=423,
+  serialized_start=339,
+  serialized_end=415,
 )
 
 
@@ -278,14 +244,7 @@ _AUDIOCONFIG = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='speaking_rate', full_name='tinkoff.cloud.tts.v1.AudioConfig.speaking_rate', index=1,
-      number=2, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='sample_rate_hertz', full_name='tinkoff.cloud.tts.v1.AudioConfig.sample_rate_hertz', index=2,
+      name='sample_rate_hertz', full_name='tinkoff.cloud.tts.v1.AudioConfig.sample_rate_hertz', index=1,
       number=5, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -303,8 +262,8 @@ _AUDIOCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=426,
-  serialized_end=585,
+  serialized_start=418,
+  serialized_end=575,
 )
 
 
@@ -349,8 +308,8 @@ _SYNTHESIZESPEECHREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=588,
-  serialized_end=782,
+  serialized_start=578,
+  serialized_end=772,
 )
 
 
@@ -381,8 +340,8 @@ _SYNTHESIZESPEECHRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=784,
-  serialized_end=833,
+  serialized_start=774,
+  serialized_end=823,
 )
 
 
@@ -413,8 +372,8 @@ _STREAMINGSYNTHESIZESPEECHRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=835,
-  serialized_end=891,
+  serialized_start=825,
+  serialized_end=881,
 )
 
 _LISTVOICESRESPONSES.fields_by_name['voices'].message_type = _VOICE
@@ -507,8 +466,8 @@ _TEXTTOSPEECH = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=1123,
-  serialized_end=1534,
+  serialized_start=1115,
+  serialized_end=1526,
   methods=[
   _descriptor.MethodDescriptor(
     name='ListVoices',
