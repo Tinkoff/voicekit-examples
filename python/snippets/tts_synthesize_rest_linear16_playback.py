@@ -30,7 +30,7 @@ def build_request_from_pb():
             sample_rate_hertz=sample_rate,
         ),
         voice=tts_pb2.VoiceSelectionParams(
-            name="dorofeev:drama",
+            name="alyona:sad",
         ),
     )
     return MessageToDict(pb_request)
@@ -47,7 +47,7 @@ def build_request():
             "sampleRateHertz": sample_rate,
         },
         "voice": {
-            "name": "dorofeev:drama",
+            "name": "alyona:sad",
         }
     }
 
