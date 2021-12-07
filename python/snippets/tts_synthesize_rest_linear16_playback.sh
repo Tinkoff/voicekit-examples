@@ -21,7 +21,7 @@ JWT=$(
   ./gen_jwt.sh --api_key "${VOICEKIT_API_KEY}" \
                --secret_key "${VOICEKIT_SECRET_KEY}" \
                --scope tinkoff.cloud.tts \
-               --exp $(("$(date +%s)" + "${TEN_MINUTES}"))
+               --exp $(($(date +%s) + TEN_MINUTES))
 )
 
 SAMPLE_RATE=22050
