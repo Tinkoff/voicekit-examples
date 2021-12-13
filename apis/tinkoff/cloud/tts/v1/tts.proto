@@ -22,30 +22,30 @@ service TextToSpeech { // Speech synthesis.
 }
 
 enum AudioEncoding { // Audio encoding. Defines both codec and container.
-  ENCODING_UNSPECIFIED = 0; // <i>Unspecified - invalid value.</i> Used as default value to avoid accidental errors.
+  ENCODING_UNSPECIFIED = 0; // <i>Unspecified — invalid value.</i>gk
   LINEAR16 = 1; // Raw PCM with signed integer 16-bit linear audio samples.
   reserved "FLAC"; reserved 2;
-  reserved "MULAW"; reserved 3; // <i>Currently unsupported.</i> Raw PCM with Mu-law mapped 8-bit audio samples (aka PCMU).
+  reserved "MULAW"; reserved 3; // Raw PCM with Mu-law mapped 8-bit audio samples (aka PCMU).
   reserved "AMR"; reserved 4;
   reserved "AMR_WB"; reserved 5;
   reserved "OGG_OPUS"; reserved 6;
   reserved "SPEEX_WITH_HEADER_BYTE"; reserved 7;
   ALAW = 8; // Raw PCM with A-law mapped 8-bit audio samples (aka PCMA).
-  reserved "LINEAR32F"; reserved 9;  // Deprecated.
+  reserved "LINEAR32F"; reserved 9;
   reserved "OGG_VORBIS"; reserved 10;
   RAW_OPUS = 11; // Opus frames packed into Protobuf messages.<br/><b>NOTE</b>: each Opus frame is packed into separate message with `audio_content` field. I. e., you can't just concatenate encoded Opus frames and push it as a single chunk into Opus decoder. Also although Opus is sample rate agnostic, estimated duration of synthesized audio is calculated in samples of specified sample rate.<br/><b>NOTE</b>: Not supported in the Synthesize method.
   reserved "MPEG_AUDIO"; reserved 12;
 }
 
 message Voice { // Voice description obtained by available voice request.
-  reserved "language_codes"; reserved 1; // <i>Currently ignored.</i> Code of voice spoken language.
+  reserved "language_codes"; reserved 1; // Code of voice spoken language.
   string name = 2; // Voice name.
   reserved "ssml_gender"; reserved 3; // Deprecated.
-  reserved "natural_sample_rate_hertz"; reserved 4; // <i>Currently ignored.</i> Original sample rate. I. e., bigger value indicates higher quality.
+  reserved "natural_sample_rate_hertz"; reserved 4; // Original sample rate. I. e., bigger value indicates higher quality.
 }
 
 message ListVoicesRequest { // Request for available voices.
-  reserved "language_code"; reserved 1; // <i>Currently ignored.</i> Code of language to get list of voices for.
+  reserved "language_code"; reserved 1; // Code of language to get list of voices for.
 }
 
 message ListVoicesResponses { // Response with voice list.
@@ -58,14 +58,14 @@ message SynthesisInput { // Synthesis input.
 }
 
 message VoiceSelectionParams { // Configuration of preferred synthesis voice.
-  reserved "language_code"; reserved 1; // <i>Currently ignored.</i> Code of preferred voice spoken language.
+  reserved "language_code"; reserved 1; // Code of preferred voice spoken language.
   string name = 2; // Exact voice name.
   reserved "ssml_gender"; reserved 3; // Deprecated.
 }
 
 message AudioConfig { // Configuration of synthesized audio.
   AudioEncoding audio_encoding = 1; // Audio encoding. Specifies both container and codec. Must be specified explicitly.
-  reserved "speaking_rate"; reserved 2; // <i>Currently ignored.</i> Speaking rate of generated audio as a fraction of original speaking rate. Default value is "1.0".
+  reserved "speaking_rate"; reserved 2; // Speaking rate of generated audio as a fraction of original speaking rate. Default value is "1.0".
   reserved "pitch"; reserved 3;
   reserved "volume_gain_db"; reserved 4;
   int32 sample_rate_hertz = 5; // Sample rate of generated audio in Hertz. Must be specified explicitly.
