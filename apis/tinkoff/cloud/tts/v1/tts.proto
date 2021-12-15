@@ -25,7 +25,7 @@ enum AudioEncoding { // Audio encoding. Defines both codec and container.
   ENCODING_UNSPECIFIED = 0; // <i>Unspecified — invalid value.</i>gk
   LINEAR16 = 1; // Raw PCM with signed integer 16-bit linear audio samples.
   reserved "FLAC"; reserved 2;
-  reserved "MULAW"; reserved 3; // Raw PCM with Mu-law mapped 8-bit audio samples (aka PCMU).
+  reserved "MULAW"; reserved 3;
   reserved "AMR"; reserved 4;
   reserved "AMR_WB"; reserved 5;
   reserved "OGG_OPUS"; reserved 6;
@@ -38,14 +38,14 @@ enum AudioEncoding { // Audio encoding. Defines both codec and container.
 }
 
 message Voice { // Voice description obtained by available voice request.
-  reserved "language_codes"; reserved 1; // Code of voice spoken language.
+  reserved "language_codes"; reserved 1;
   string name = 2; // Voice name.
-  reserved "ssml_gender"; reserved 3; // Deprecated.
-  reserved "natural_sample_rate_hertz"; reserved 4; // Original sample rate. I. e., bigger value indicates higher quality.
+  reserved "ssml_gender"; reserved 3;
+  reserved "natural_sample_rate_hertz"; reserved 4;
 }
 
 message ListVoicesRequest { // Request for available voices.
-  reserved "language_code"; reserved 1; // Code of language to get list of voices for.
+  reserved "language_code"; reserved 1;
 }
 
 message ListVoicesResponses { // Response with voice list.
@@ -58,14 +58,14 @@ message SynthesisInput { // Synthesis input.
 }
 
 message VoiceSelectionParams { // Configuration of preferred synthesis voice.
-  reserved "language_code"; reserved 1; // Code of preferred voice spoken language.
+  reserved "language_code"; reserved 1;
   string name = 2; // Exact voice name.
-  reserved "ssml_gender"; reserved 3; // Deprecated.
+  reserved "ssml_gender"; reserved 3;
 }
 
 message AudioConfig { // Configuration of synthesized audio.
   AudioEncoding audio_encoding = 1; // Audio encoding. Specifies both container and codec. Must be specified explicitly.
-  reserved "speaking_rate"; reserved 2; // Speaking rate of generated audio as a fraction of original speaking rate. Default value is "1.0".
+  reserved "speaking_rate"; reserved 2;
   reserved "pitch"; reserved 3;
   reserved "volume_gain_db"; reserved 4;
   int32 sample_rate_hertz = 5; // Sample rate of generated audio in Hertz. Must be specified explicitly.

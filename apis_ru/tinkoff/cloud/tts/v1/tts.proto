@@ -25,7 +25,7 @@ enum AudioEncoding { // Формат кодирования аудио. Зада
   ENCODING_UNSPECIFIED = 0; // <i>Недопустимое значение.</i>
   LINEAR16 = 1; // PCM без заголовков с целыми знаковыми 16-битными семплами в линейном распределении.
   reserved "FLAC"; reserved 2;
-  reserved "MULAW"; reserved 3; // PCM без заголовков с 8-битными семплами в распределении Mu-law (aka PCMU).
+  reserved "MULAW"; reserved 3;
   reserved "AMR"; reserved 4;
   reserved "AMR_WB"; reserved 5;
   reserved "OGG_OPUS"; reserved 6;
@@ -38,14 +38,14 @@ enum AudioEncoding { // Формат кодирования аудио. Зада
 }
 
 message Voice { // Описание голоса при получении списка доступных голосов.
-  reserved "language_codes"; reserved 1; // Код языка (локаль) голоса.
+  reserved "language_codes"; reserved 1;
   string name = 2; // Название голоса.
-  reserved "ssml_gender"; reserved 3; // Устаревшее.
-  reserved "natural_sample_rate_hertz"; reserved 4; // Исходная частота дискретизации. Т. е. большее значение говорит о более высоком качестве.
+  reserved "ssml_gender"; reserved 3;
+  reserved "natural_sample_rate_hertz"; reserved 4;
 }
 
 message ListVoicesRequest { // Запрос списка голосов.
-  reserved "language_code"; reserved 1; // Код языка (локаль) для получения списка голосов.
+  reserved "language_code"; reserved 1;
 }
 
 message ListVoicesResponses { // Ответ со списком голосов.
@@ -58,14 +58,14 @@ message SynthesisInput { // Входные данные для синтеза.
 }
 
 message VoiceSelectionParams { // Конфигурация предпочитаемого голоса для синтеза.
-  reserved "language_code"; reserved 1; // Код языка (локаль) для предпочитаемого голоса.
+  reserved "language_code"; reserved 1;
   string name = 2; // Явно заданное имя голоса.
-  reserved "ssml_gender"; reserved 3; // Устаревшее.
+  reserved "ssml_gender"; reserved 3;
 }
 
 message AudioConfig { // Конфигурация аудио на выходе
   AudioEncoding audio_encoding = 1; // Формат кодирования аудио. Задаёт и контейнер, и кодек. Обязательный параметр, должен быть задан явно.
-  reserved "speaking_rate"; reserved 2; // Скорость синтезируемого аудио в долях от скорости речи спикера. Значение по умолчанию: `1.0`.
+  reserved "speaking_rate"; reserved 2;
   reserved "pitch"; reserved 3;
   reserved "volume_gain_db"; reserved 4;
   int32 sample_rate_hertz = 5; // Частота дискретизации аудио на выходе в герцах. Обязательный параметр, должен быть задан явно.
