@@ -42,6 +42,7 @@ for key, value in responses.initial_metadata():
         print("Estimated audio duration is {:.2f} seconds".format(float(value)))
         break
 for stream_response in responses:
-    f.write(audioop.alaw2lin(stream_response.audio_chunk, 2))
+    pcm_chunk = audioop.alaw2lin(stream_response.audio_chunk, 2)
+    f.write(pcm_chunk)
 f.stop_stream()
 f.close()

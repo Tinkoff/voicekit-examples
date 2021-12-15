@@ -31,14 +31,13 @@ def build_request():
         ),
     )
 
+stub = tts_pb2_grpc.TextToSpeechStub(grpc.secure_channel(endpoint, grpc.ssl_channel_credentials()))
+request = build_request()
+metadata = authorization_metadata(api_key, secret_key, "tinkoff.cloud.tts")
+response = stub.Synthesize(request, metadata=metadata)
 
 with wave.open("synthesized.wav", "wb") as f:
     f.setframerate(sample_rate)
     f.setnchannels(1)
     f.setsampwidth(2)
-
-    stub = tts_pb2_grpc.TextToSpeechStub(grpc.secure_channel(endpoint, grpc.ssl_channel_credentials()))
-    request = build_request()
-    metadata = authorization_metadata(api_key, secret_key, "tinkoff.cloud.tts")
-    response = stub.Synthesize(request, metadata=metadata)
     f.writeframes(response.audio_content)

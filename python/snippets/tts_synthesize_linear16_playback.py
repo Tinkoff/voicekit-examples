@@ -31,15 +31,13 @@ def build_request():
         ),
     )
 
-
-pyaudio_lib = pyaudio.PyAudio()
-f = pyaudio_lib.open(output=True, channels=1, format=pyaudio.paInt16, rate=sample_rate)
-
 stub = tts_pb2_grpc.TextToSpeechStub(grpc.secure_channel(endpoint, grpc.ssl_channel_credentials()))
 request = build_request()
 metadata = authorization_metadata(api_key, secret_key, "tinkoff.cloud.tts")
 response = stub.Synthesize(request, metadata=metadata)
 
+pyaudio_lib = pyaudio.PyAudio()
+f = pyaudio_lib.open(output=True, channels=1, format=pyaudio.paInt16, rate=sample_rate)
 f.write(response.audio_content)
 f.stop_stream()
 f.close()

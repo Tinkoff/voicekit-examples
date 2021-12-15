@@ -47,13 +47,11 @@ def build_request():
             "sampleRateHertz": sample_rate,
         },
         "voice": {
-            "name": "alyona:sad",
+            "name": "alyona",
         }
     }
 
 
-pyaudio_lib = pyaudio.PyAudio()
-f = pyaudio_lib.open(output=True, channels=1, format=pyaudio.paInt16, rate=sample_rate)
 
 request = build_request()
 metadata = authorization_metadata(api_key, secret_key, "tinkoff.cloud.tts", type=dict)
@@ -63,7 +61,8 @@ if response.status_code != 200:
     print(f"REST failed with HTTP code {response.status_code}\nHeaders: {response.headers}\nBody: {response.text}")
 else:
     response = response.json()
+    pyaudio_lib = pyaudio.PyAudio()
+    f = pyaudio_lib.open(output=True, channels=1, format=pyaudio.paInt16, rate=sample_rate)
     f.write(base64.b64decode(response["audio_content"]))
-
-f.stop_stream()
-f.close()
+    f.stop_stream()
+    f.close()
