@@ -68,7 +68,7 @@ message AudioConfig { // Конфигурация аудио на выходе
   reserved "speaking_rate"; reserved 2;
   reserved "pitch"; reserved 3;
   reserved "volume_gain_db"; reserved 4;
-  int32 sample_rate_hertz = 5; // Частота дискретизации аудио на выходе в герцах. Обязательный параметр, должен быть задан явно.
+  int32 sample_rate_hertz = 5; // Частота дискретизации аудио на выходе в герцах. Обязательный параметр, должен быть задан явно. Поддерживаются частоты от 1000&nbsp;Гц до 48000&nbsp;Гц включительно.
 }
 
 message SynthesizeSpeechRequest { // Запрос к методам `Synthesize` и `StreamingSynthesize`.
