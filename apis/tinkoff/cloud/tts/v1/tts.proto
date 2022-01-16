@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package tinkoff.cloud.tts.v1;
-option go_package = "github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1";
+option go_package = "github.com/Tinkoff/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1";
 option objc_class_prefix = 'TVKSS';
 
 import "google/api/annotations.proto";

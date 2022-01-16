@@ -8,7 +8,7 @@ package v1
 
 import (
 	context "context"
-	v1 "github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/longrunning/v1"
+	v1 "github.com/Tinkoff/voicekit-examples/golang/pkg/tinkoff/cloud/longrunning/v1"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
