@@ -22,7 +22,7 @@ service TextToSpeech { // Speech synthesis.
 }
 
 enum AudioEncoding { // Audio encoding. Defines both codec and container.
-  ENCODING_UNSPECIFIED = 0; // <i>Unspecified — invalid value.</i>gk
+  ENCODING_UNSPECIFIED = 0; // <i>Invalid value.</i>
   LINEAR16 = 1; // Raw PCM with signed integer 16-bit linear audio samples.
   reserved "FLAC"; reserved 2;
   reserved "MULAW"; reserved 3;
