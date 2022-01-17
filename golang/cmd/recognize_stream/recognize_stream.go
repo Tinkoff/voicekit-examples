@@ -7,9 +7,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/args"
-	"github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/common"
-	sttPb "github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1"
+	"github.com/Tinkoff/voicekit-examples/golang/pkg/args"
+	"github.com/Tinkoff/voicekit-examples/golang/pkg/common"
+	sttPb "github.com/Tinkoff/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1"
 )
 
 func main() {

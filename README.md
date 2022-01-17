@@ -7,7 +7,7 @@ https://voicekit.tinkoff.ru
 ### Clone this repo
 
 ```
-$ git clone --recursive https://github.com/TinkoffCreditSystems/voicekit-examples.git
+$ git clone --recursive https://github.com/Tinkoff/voicekit-examples.git
 $ cd voicekit-examples
 ```
 

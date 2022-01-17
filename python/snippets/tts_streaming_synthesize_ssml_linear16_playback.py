@@ -20,22 +20,26 @@ def build_request():
     return tts_pb2.SynthesizeSpeechRequest(
         input=tts_pb2.SynthesisInput(
             ssml="""
-                <speak>
-                  <p>
-                    <s>
-                      Оригинальная мысль?
-                    </s>
-                    <s>
-                      Нет ничего легче.
-                    </s>
-                  </p>
-                  <break time='300ms'/>
-                  <p>
-                    <s>
-                      Библиотеки просто набиты ими.
-                    </s>
-                  </p>
-                </speak>
+<speak>
+  <voice name="alyona">
+    <p>
+      <s>
+        <emphasis level="strong">Оригинальная</emphasis> мысль?
+      </s>
+      <s>
+        Нет ничего легче.
+      </s>
+    </p>
+    <break time='300ms'/>
+    <p>
+      <s>
+        <voice name="alyona:funny">
+          Библиотеки просто набиты ими.
+        </voice>
+      </s>
+    </p>
+  </voice>
+</speak>
             """
         ),
         audio_config=tts_pb2.AudioConfig(
@@ -58,3 +62,5 @@ for key, value in responses.initial_metadata():
         break
 for stream_response in responses:
     f.write(stream_response.audio_chunk)
+f.stop_stream()
+f.close()

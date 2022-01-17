@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
                    by Sam Leitch. Patch for Swift and libopus-rs by Andrew Stepanov.
                    DESC
 
-  s.source = { :git => 'https://github.com/TinkoffCreditSystems/voicekit-examples.git' }
+  s.source = { :git => 'https://github.com/Tinkoff/voicekit-examples.git' }
   s.author       = "Andrew Stepanov"
   s.platform     = :ios
   s.requires_arc = true

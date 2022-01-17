@@ -45,3 +45,5 @@ for key, value in responses.initial_metadata():
         break
 for stream_response in responses:
     f.write(stream_response.audio_chunk)
+f.stop_stream()
+f.close()

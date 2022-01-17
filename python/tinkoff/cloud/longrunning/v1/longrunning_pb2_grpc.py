@@ -80,14 +80,14 @@ class OperationsServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def DeleteOperation(self, request, context):
-        """Deletes spepcified operations
+        """Deletes specified operations
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def CancelOperation(self, request, context):
-        """Cancels spepcified operations
+        """Cancels specified operations
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')

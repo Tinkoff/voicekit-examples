@@ -15550,7 +15550,7 @@ public final class Stt {
       "\n\022StreamingRecognize\022/.tinkoff.cloud.stt" +
       ".v1.StreamingRecognizeRequest\0320.tinkoff." +
       "cloud.stt.v1.StreamingRecognizeResponse(" +
-      "\0010\001B[ZQgithub.com/TinkoffCreditSystems/v" +
+      "\0010\001B[ZQgithub.com/Tinkoff/v" +
       "oicekit-examples/golang/pkg/tinkoff/clou" +
       "d/stt/v1\242\002\005TVKSRb\006proto3"
     };

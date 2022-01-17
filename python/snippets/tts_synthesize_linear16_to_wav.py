@@ -7,13 +7,13 @@ from tinkoff.cloud.tts.v1 import tts_pb2_grpc, tts_pb2
 from auth import authorization_metadata
 import grpc
 import os
-import pyaudio
+import wave
 
 endpoint = os.environ.get("VOICEKIT_ENDPOINT") or "api.tinkoff.ai:443"
 api_key = os.environ["VOICEKIT_API_KEY"]
 secret_key = os.environ["VOICEKIT_SECRET_KEY"]
 
-sample_rate = 48000
+sample_rate = 16000
 
 
 def build_request():
@@ -26,21 +26,18 @@ def build_request():
             audio_encoding=tts_pb2.LINEAR16,
             sample_rate_hertz=sample_rate,
         ),
+        voice=tts_pb2.VoiceSelectionParams(
+            name="alyona",
+        ),
     )
-
-
-pyaudio_lib = pyaudio.PyAudio()
-f = pyaudio_lib.open(output=True, channels=1, format=pyaudio.paInt16, rate=sample_rate)
 
 stub = tts_pb2_grpc.TextToSpeechStub(grpc.secure_channel(endpoint, grpc.ssl_channel_credentials()))
 request = build_request()
 metadata = authorization_metadata(api_key, secret_key, "tinkoff.cloud.tts")
-responses = stub.StreamingSynthesize(request, metadata=metadata)
-for key, value in responses.initial_metadata():
-    if key == "x-audio-duration-seconds":
-        print("Estimated audio duration is {:.2f} seconds".format(float(value)))
-        break
-for stream_response in responses:
-    f.write(stream_response.audio_chunk)
-f.stop_stream()
-f.close()
+response = stub.Synthesize(request, metadata=metadata)
+
+with wave.open("synthesized.wav", "wb") as f:
+    f.setframerate(sample_rate)
+    f.setnchannels(1)
+    f.setsampwidth(2)
+    f.writeframes(response.audio_content)

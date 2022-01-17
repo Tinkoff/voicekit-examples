@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.authors  = { 'Tinkoff VoiceKit Team' => 'speech@tinkoff.ru' }
   s.homepage = "https://voicekit.tinkoff.ru"
   s.summary = "VocieKit gRPC APIs"
-  s.source = { :git => 'https://github.com/TinkoffCreditSystems/voicekit-examples.git' }
+  s.source = { :git => 'https://github.com/Tinkoff/voicekit-examples.git' }
   s.platform = :ios
 
   s.ios.deployment_target = "10.0"

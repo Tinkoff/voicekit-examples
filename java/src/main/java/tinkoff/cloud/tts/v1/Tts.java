@@ -7855,7 +7855,7 @@ public final class Tts {
       "\022-.tinkoff.cloud.tts.v1.SynthesizeSpeech" +
       "Request\0327.tinkoff.cloud.tts.v1.Streaming" +
       "SynthesizeSpeechResponse0\001B[ZQgithub.com" +
-      "/TinkoffCreditSystems/voicekit-examples/" +
+      "/Tinkoff/voicekit-examples/" +
       "golang/pkg/tinkoff/cloud/tts/v1\242\002\005TVKSSb" +
       "\006proto3"
     };

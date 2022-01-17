@@ -22,6 +22,6 @@ protoc $PROTOC_OPTS ../apis/tinkoff/cloud/tts/v1/*.proto
 
 rm -rf pkg/tinkoff
 
-mv temp/github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/* pkg
+mv temp/github.com/Tinkoff/voicekit-examples/golang/pkg/* pkg
 
 rm -rf temp/

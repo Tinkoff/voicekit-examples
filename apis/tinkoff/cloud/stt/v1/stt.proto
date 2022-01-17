@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package tinkoff.cloud.stt.v1;
-option go_package = "github.com/TinkoffCreditSystems/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1";
+option go_package = "github.com/Tinkoff/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1";
 option objc_class_prefix = 'TVKSR';
 
 import "google/protobuf/duration.proto";
@@ -49,15 +49,15 @@ message RecognitionAudio { // Audio to recognize.
   }
 }
 
-message SpeechContextPhrase { // Phrase to recognize with higher probability.
-  string text = 1; // Text of phrase to recognize with higher probability. Currenlty only single-worded phrases are supported. Specifying pharses shorter than 5 characters is discouraged.
-  float score = 2; // Score of phrase to recognize with higher probability. `1.0` is used if not specified. Specifying too high score is discouraged.
+message SpeechContextPhrase { // Phrase to recognize with higher (or lower) probability.
+  string text = 1; // Phrase text. Specifying phrases shorter than 5 characters is discouraged.
+  float score = 2; // Phrase score. Recommended range of scores is `[1.0, 10.0]`, `1.0` is used if no value is provided. Specifying higher score for a phrase increases its chances to be recognised, but large values might degrade overall recognition quality.  Specifying negative values in the range `[-10.0, -1.0]` reduces chances for a phrase to be recognised. In this case, smaller score corresponds to more significant reduction in recognition probability for the phrase.
 }
 
-message SpeechContext { // Declares a set of phrases to be recognized with higher probability.
+message SpeechContext { // Declares a set of phrases to be recognized with higher (or lower) probability.
   reserved 1; // Deprecated.
   reserved 2; // Deprecated.
-  repeated SpeechContextPhrase phrases = 3; // Phrases to recognize with higher probability.
+  repeated SpeechContextPhrase phrases = 3; // Phrases to recognize with higher (or lower) probability.
 }
 
 message WordInfo { // Detailed information on recognized word.
@@ -71,17 +71,17 @@ message VoiceActivityDetectionConfig { // Structure to customize VAD (every fiel
   float min_speech_duration = 1; // <i>Currently ignored.</i> Minimal duration of phrase to detect by VAD in seconds.
   float max_speech_duration = 2; // <i>Currently ignored.</i> Maximal duration of phrase to detect by VAD in seconds.
   float silence_duration_threshold = 3; // Duration of silence in seconds to consider phrase ended. Default value depends on service configuration.
-  float silence_prob_threshold = 4; // Threshold value for silence probability (in range from 0.0 to 1.0). If silence probabily is below threshold and audio fragment is considered silence. Default value depends on service configuration.
+  float silence_prob_threshold = 4; // Threshold value for silence probability (in range from 0.0 to 1.0). If silence probability is below threshold and audio fragment is considered silence. Default value depends on service configuration.
   float aggressiveness = 5; // Currently unused.
 }
 
-message RecognitionConfig { // Common regognition configuration.
+message RecognitionConfig { // Common recognition configuration.
   AudioEncoding encoding = 1; // Audio encoding. Specifies both container and codec. Must be specified explicitly.
   uint32 sample_rate_hertz = 2; // Sample rate of input audio in Hertz. Must match actual bitstream sample rate for MPEG_AUDIO. Must be specified explicitly.
   string language_code = 3; // <i>Currently ignored.</i> Language to recognize.
   uint32 max_alternatives = 4; // Maximal number of phrase alternatives to return at each moment both for final and interim recognition results. Default value: 1.
   bool profanity_filter = 5; // Enables profanity filter for first (most probable) alternative of final result. Words filtered out will contain the first letter and asterisks for the remaining characters.
-  repeated SpeechContext speech_contexts = 6; // Currently unsupported. Defines vocabulary of words and phrases to recognize with highter probability.
+  repeated SpeechContext speech_contexts = 6; // A set of phrases to be recognised with higher (or lower) probability.
   reserved "enable_word_time_offsets"; reserved 7;
   bool enable_automatic_punctuation = 8; // Enables automatic punctuation and capitalization for first (most probable) alternative of final result.
   reserved "metadata"; reserved 9;
@@ -94,11 +94,11 @@ message RecognitionConfig { // Common regognition configuration.
   }
   reserved 15;
   bool enable_denormalization = 16; // Enables automatic conversion of numerals from text to numeric form. Applies only to the first (most likely) version of hypothesis.
-  bool enable_sentiment_analysis = 17; // Enables sentiment analysis for emotion classification: negative or neutral. Used for every final hypotheses
-  bool enable_gender_identification = 18; // Enables gender identification: male or female. Used for every final hypotheses
+  bool enable_sentiment_analysis = 17; // Enables sentiment analysis. Emotions supported: negative and neutral. Applies to every final hypothesis. Currently in beta. Works only in Recognize.
+  bool enable_gender_identification = 18; // Enables gender identification: male or female. Applies to every final hypothesis. Currently in beta.
 }
 
-message RecognizeRequest { // Request to recognize using Recognize method.
+message RecognizeRequest { // Request to recognize using Recognize method. Max message size — 32 MB.
   RecognitionConfig config = 1; // Recognition configuration.
   RecognitionAudio audio = 2; // Audio to recognize.
 }
@@ -109,14 +109,14 @@ message SpeechRecognitionAlternative { // Version of recognized text (or part of
   repeated WordInfo words = 3; // Array of individual words inside phrase.
 }
 
-message SpeechSentimentAnalysisResult { // Results of sentiment analysis
-  float negative_prob_audio = 1; // Probability of negative emotion given from audio phrase
-  float negative_prob_audio_text  = 2; // Probability of negative emotion given from audio phrase and recognized text
+message SpeechSentimentAnalysisResult { // Sentiment analysis results.
+  float negative_prob_audio = 1; // Probability of negative emotion derived from audio phrase.
+  float negative_prob_audio_text  = 2; // Probability of negative emotion derived from audio phrase and recognized text.
 }
 
-message SpeechGenderIdentificationResult {  // Results of gender identification
-  float male_proba = 1; // Probability that speaker is male
-  float female_proba = 2; // Probability that speaker is female. It's assume that male_proba + female_proba = 1
+message SpeechGenderIdentificationResult {  // Gender identification results.
+  float male_proba = 1; // Probability that speaker is male.
+  float female_proba = 2; // Probability that speaker is female. The following is always true: male_proba + female_proba = 1.
 }
 
 message SpeechRecognitionResult { // Phrase recognized for channel specified here.
@@ -124,8 +124,8 @@ message SpeechRecognitionResult { // Phrase recognized for channel specified her
   int32 channel = 2; // Channel where phrase alternative relates to (starting from 0).
   google.protobuf.Duration start_time = 3; // Phrase start time inside input audiostream.
   google.protobuf.Duration end_time = 4; // Phrase end time inside input audiostream.
-  SpeechSentimentAnalysisResult sentiment_analysis_result = 5; // Result of sentiment analysis
-  SpeechGenderIdentificationResult gender_identification_result = 6; // Result of gender identification
+  SpeechSentimentAnalysisResult sentiment_analysis_result = 5; // Sentiment analysis results.
+  SpeechGenderIdentificationResult gender_identification_result = 6; // Gender identification results.
 }
 
 message RecognizeResponse { // Response with recognized phrases using Recognize method.
@@ -149,7 +149,7 @@ message StreamingRecognitionConfig { // Recognition configuration using Streamin
   InterimResultsConfig interim_results_config = 3; // Configuration of interim results. I. e., recognized text so far at a moment when only part of phrase audio was sent.
 }
 
-message StreamingRecognizeRequest { // Recognition request using StreamingRecognize method (message from client to server).<br/>First message must be sent with `streaming_config` filled while all next messages must be sent with `audio_content` filled.
+message StreamingRecognizeRequest { // Recognition request using StreamingRecognize method (message from client to server).<br/>First message must be sent with `streaming_config` filled while all next messages must be sent with `audio_content` filled. Max message size — 32 MB.
   oneof streaming_request {
     StreamingRecognitionConfig streaming_config = 1; // Recognition configuration for streaming RPC. Must be sent as first message only.
     bytes audio_content = 2; // Input audio data chunk. Must come after recognition configuration message.
@@ -162,7 +162,7 @@ message StreamingRecognitionResult { // Recognized phrase using StreamingRecogni
   float stability = 3; // <i>Currently unused.</i> Stability factor.
 }
 
-message StreamingRecognizeResponse { // Response with regognized phrases (message from server to client).
+message StreamingRecognizeResponse { // Response with recognized phrases (message from server to client).
   reserved 1;
   repeated StreamingRecognitionResult results = 2; // Recognition results for streaming request.
   reserved 3;

@@ -8,22 +8,23 @@ from auth import authorization_metadata
 import grpc
 import os
 import pyaudio
+import audioop
 
 endpoint = os.environ.get("VOICEKIT_ENDPOINT") or "api.tinkoff.ai:443"
 api_key = os.environ["VOICEKIT_API_KEY"]
 secret_key = os.environ["VOICEKIT_SECRET_KEY"]
 
-sample_rate = 48000
+sample_rate = 8000
 
 
 def build_request():
     return tts_pb2.SynthesizeSpeechRequest(
         input=tts_pb2.SynthesisInput(
-            text="И мысли тоже тяжелые и медлительные, падают неторопливо и редко одна за другой, точно песчинки "
-                 "в разленившихся песочных часах."
+            text="Все ищут во мне тайну. А во мне нет тайны, во мне все просто и ясно. Никаких тайн. Я привык с жизнью "
+                 "встречаться прямо. Не отличая большого от малого."
         ),
         audio_config=tts_pb2.AudioConfig(
-            audio_encoding=tts_pb2.LINEAR16,
+            audio_encoding=tts_pb2.ALAW,
             sample_rate_hertz=sample_rate,
         ),
     )
@@ -41,6 +42,7 @@ for key, value in responses.initial_metadata():
         print("Estimated audio duration is {:.2f} seconds".format(float(value)))
         break
 for stream_response in responses:
-    f.write(stream_response.audio_chunk)
+    pcm_chunk = audioop.alaw2lin(stream_response.audio_chunk, 2)
+    f.write(pcm_chunk)
 f.stop_stream()
 f.close()

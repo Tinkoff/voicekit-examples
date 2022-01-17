@@ -37,14 +37,14 @@ class TextToSpeechServicer(object):
     """
 
     def ListVoices(self, request, context):
-        """<i>Not implemented</i> Method for retrieving available voice list.
+        """Method for retrieving available voices list.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def Synthesize(self, request, context):
-        """<i>Not implemented</i> Method for fragment synthesis.
+        """Method for the non-streaming synthesis.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
