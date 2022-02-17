@@ -27,7 +27,7 @@ def build_first_request(sample_rate_hertz, num_channels, context):
 
 def generate_requests(context):
     try:
-        with wave.open("../../audio/stierlitz.wav") as f:
+        with wave.open("../../audio/numbers.wav") as f:
             yield build_first_request(f.getframerate(), f.getnchannels(), context)
             frame_samples = f.getframerate()//10 # Send 100ms at a time
             for data in iter(lambda:f.readframes(frame_samples), b''):
@@ -44,11 +44,7 @@ def generate_requests(context):
         raise
 
 def generate_repeated_requests(times_repeated):
-    context = stt_pb2.SpeechContext(phrases = [
-        stt_pb2.SpeechContextPhrase(text = "мюллер", score = 10.0),
-        stt_pb2.SpeechContextPhrase(text = "волгаволга", score = 10.0),
-        stt_pb2.SpeechContextPhrase(text = "во время", score = 10.0)
-    ])
+    context = stt_pb2.SpeechContext(speech_context_dictionary_id = "numbers")
     null_context = stt_pb2.SpeechContext(phrases = [])
     # Контекст может быть указан несколько раз во время стриминговой сессии
     # В этом примере чередуется добавление контекста и его сброс
