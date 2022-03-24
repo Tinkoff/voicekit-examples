@@ -1,2 +1,2 @@
 -r all.txt
-grpcio-tools==1.24.3
+grpcio-tools==1.45.0
