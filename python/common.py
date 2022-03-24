@@ -39,6 +39,10 @@ def build_first_streaming_recognition_request(args):
     request.streaming_config.single_utterance = args.single_utterance
     return request
 
+def build_first_streaming_unary_recognition_request(args):
+    request = stt_pb2.StreamingUnaryRecognizeRequest()
+    set_recognition_config(request.config, args)
+    return request
 
 def make_channel(args):
     target = args.endpoint

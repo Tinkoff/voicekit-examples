@@ -24,6 +24,13 @@ service SpeechToText { // Speech recognition.
       body: "*"
     };
   }
+
+  rpc StreamingUnaryRecognize(stream StreamingUnaryRecognizeRequest) returns (RecognizeResponse) { // Method to synchronous recognize audio stream. Returns recognition result after all audio has been sent and processed.
+    option (google.api.http) = {
+      post: "/v1/stt:streaming_unary_recognize";
+      body: "*";
+    };
+  }
 }
 
 enum AudioEncoding { // Audio encoding. Defines both codec and container.
@@ -166,4 +173,11 @@ message StreamingRecognizeResponse { // Response with recognized phrases (messag
   reserved 1;
   repeated StreamingRecognitionResult results = 2; // Recognition results for streaming request.
   reserved 3;
+}
+
+message StreamingUnaryRecognizeRequest { // Recognition request using StreamingUnaryRecognize method (message from client to server).<br/>First message must be sent with `config` filled while all next messages must be sent with `audio_content` filled. Max message size — 32 MB.
+  oneof streaming_unary_request {
+    RecognitionConfig config = 1; // Recognition configuration. Must be sent as first message only.
+    bytes audio_content = 2; // Input audio data chunk. Must come after recognition configuration message.
+  }
 }

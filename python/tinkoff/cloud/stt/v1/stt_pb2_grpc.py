@@ -31,6 +31,11 @@ class SpeechToTextStub(object):
                 request_serializer=tinkoff_dot_cloud_dot_stt_dot_v1_dot_stt__pb2.LongRunningRecognizeRequest.SerializeToString,
                 response_deserializer=tinkoff_dot_cloud_dot_longrunning_dot_v1_dot_longrunning__pb2.Operation.FromString,
                 )
+        self.StreamingUnaryRecognize = channel.stream_unary(
+                '/tinkoff.cloud.stt.v1.SpeechToText/StreamingUnaryRecognize',
+                request_serializer=tinkoff_dot_cloud_dot_stt_dot_v1_dot_stt__pb2.StreamingUnaryRecognizeRequest.SerializeToString,
+                response_deserializer=tinkoff_dot_cloud_dot_stt_dot_v1_dot_stt__pb2.RecognizeResponse.FromString,
+                )
 
 
 class SpeechToTextServicer(object):
@@ -58,6 +63,13 @@ class SpeechToTextServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def StreamingUnaryRecognize(self, request_iterator, context):
+        """Method to synchronous recognize audio stream. Returns recognition result after all audio has been sent and processed.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_SpeechToTextServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -75,6 +87,11 @@ def add_SpeechToTextServicer_to_server(servicer, server):
                     servicer.LongRunningRecognize,
                     request_deserializer=tinkoff_dot_cloud_dot_stt_dot_v1_dot_stt__pb2.LongRunningRecognizeRequest.FromString,
                     response_serializer=tinkoff_dot_cloud_dot_longrunning_dot_v1_dot_longrunning__pb2.Operation.SerializeToString,
+            ),
+            'StreamingUnaryRecognize': grpc.stream_unary_rpc_method_handler(
+                    servicer.StreamingUnaryRecognize,
+                    request_deserializer=tinkoff_dot_cloud_dot_stt_dot_v1_dot_stt__pb2.StreamingUnaryRecognizeRequest.FromString,
+                    response_serializer=tinkoff_dot_cloud_dot_stt_dot_v1_dot_stt__pb2.RecognizeResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -135,5 +152,22 @@ class SpeechToText(object):
         return grpc.experimental.unary_unary(request, target, '/tinkoff.cloud.stt.v1.SpeechToText/LongRunningRecognize',
             tinkoff_dot_cloud_dot_stt_dot_v1_dot_stt__pb2.LongRunningRecognizeRequest.SerializeToString,
             tinkoff_dot_cloud_dot_longrunning_dot_v1_dot_longrunning__pb2.Operation.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def StreamingUnaryRecognize(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(request_iterator, target, '/tinkoff.cloud.stt.v1.SpeechToText/StreamingUnaryRecognize',
+            tinkoff_dot_cloud_dot_stt_dot_v1_dot_stt__pb2.StreamingUnaryRecognizeRequest.SerializeToString,
+            tinkoff_dot_cloud_dot_stt_dot_v1_dot_stt__pb2.RecognizeResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

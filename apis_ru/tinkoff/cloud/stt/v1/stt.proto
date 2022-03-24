@@ -24,6 +24,13 @@ service SpeechToText { // Распознавание речи.
       body: "*"
     };
   }
+
+  rpc StreamingUnaryRecognize(stream StreamingUnaryRecognizeRequest) returns (RecognizeResponse) { // Метод для синхронного распознавания аудио: загружаем аудио по частям, получаем результат после загрузки всего аудио.
+    option (google.api.http) = {
+      post: "/v1/stt:streaming_unary_recognize";
+      body: "*";
+    };
+  }
 }
 
 enum AudioEncoding { // Формат кодирования аудио. Задаёт и контейнер, и кодек.
@@ -166,4 +173,11 @@ message StreamingRecognizeResponse { // Ответ с распознанными
   reserved 1;
   repeated StreamingRecognitionResult results = 2; // Распознанные фразы.
   reserved 3;
+}
+
+message StreamingUnaryRecognizeRequest { // Запрос на распознавание аудио по методу StreamingUnaryRecognize.<br/>Первым должно быть отправлено сообщение с заполненным `config`, а все последующие сообщения должны отправляться с заполненным `audio_content`. Максимальный размер сообщения — 32 Мб.
+  oneof streaming_unary_request {
+    RecognitionConfig config = 1; // Конфигурация распознавания. Должна отправляться строго в первом сообщении вызова.
+    bytes audio_content = 2; // Фрагмент аудио. Фрагменты должны отправляться после сообщения с конфигурацией распознавания.
+  }
 }
