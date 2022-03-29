@@ -8,10 +8,9 @@ require (
 	github.com/go-audio/audio v1.0.0
 	github.com/go-audio/wav v1.0.0
 	github.com/golang/protobuf v1.5.2
-	github.com/stretchr/testify v1.4.0 // indirect
 	github.com/tidwall/pretty v1.0.0
-	golang.org/x/sys v0.0.0-20190222072716-a9d3bda3a223 // indirect
-	google.golang.org/genproto v0.0.0-20191028173616-919d9bdd9fe6
-	google.golang.org/grpc v1.24.0
+	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013
+	google.golang.org/grpc v1.44.0
+	google.golang.org/protobuf v1.26.0
 	gopkg.in/hraban/opus.v2 v2.0.0-20180426093920-0f2e0b4fc6cd
 )
