@@ -1,4 +1,4 @@
-# Golang NodeJS examples
+# Golang examples
 
 You will need go with modules support and opus to run this examples.
 
@@ -86,7 +86,7 @@ Feel free to use arabic numerals and named entities:
 $ ./synthesize_stream -r 48000 -e LINEAR16 -i "Газета Times, 03 января 2009 года - Канцлер на грани ради второго спасения банков." -o output_3.wav
 ```
 
-For now, `LINEAR16` does not support samples rates other than 48kHz. Use `RAW_OPUS` (`node-opus` required) to specify different sample rates:
+For now, `LINEAR16` does not support samples rates other than 48kHz. Use `RAW_OPUS` to specify different sample rates:
 
 ```
 $ ./synthesize_stream -r 16000 -e RAW_OPUS -i "Привет, мир." -o output_4.wav

@@ -30,7 +30,7 @@ func main() {
 		dataReader = opts.InputFile
 	}
 
-	client, err := common.NewSttClient()
+	client, err := common.NewSttClient(opts.CommonOptions)
 	if err != nil {
 		panic(err)
 	}
