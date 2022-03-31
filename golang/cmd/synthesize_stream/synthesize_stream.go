@@ -4,14 +4,15 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	"io"
+	"os"
+
 	"github.com/Tinkoff/voicekit-examples/golang/pkg/args"
 	"github.com/Tinkoff/voicekit-examples/golang/pkg/common"
-	"gopkg.in/hraban/opus.v2"
 	ttsPb "github.com/Tinkoff/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1"
 	"github.com/go-audio/audio"
 	"github.com/go-audio/wav"
-	"io"
-	"os"
+	"gopkg.in/hraban/opus.v2"
 )
 
 const (
@@ -36,7 +37,7 @@ func main() {
 	encoder := wav.NewEncoder(opts.OutputFile, *opts.Rate, kBitDepthLinear16, kMonoNumChannels, kAudioFormatPCM)
 	defer encoder.Close()
 
-	client, err := common.NewTtsClient()
+	client, err := common.NewTtsClient(opts.CommonOptions)
 	if err != nil {
 		panic(err)
 	}
@@ -91,7 +92,7 @@ func main() {
 		} else {
 			elementSize := kBitDepthLinear16 / 8
 			for i := 0; i < len(msg.AudioChunk); i += elementSize {
-				samples = append(samples, int(int16(binary.LittleEndian.Uint16(msg.AudioChunk[i : i + elementSize]))))
+				samples = append(samples, int(int16(binary.LittleEndian.Uint16(msg.AudioChunk[i:i+elementSize]))))
 			}
 		}
 

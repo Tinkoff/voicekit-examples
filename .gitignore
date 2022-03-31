@@ -1,6 +1,9 @@
-__pycache__
-*.py[cod]
 .idea
+.vscode
+
+__pycache__
+.venv
+*.py[cod]
 
 /nodejs/node_modules
 /nodejs/package-lock.json
@@ -9,7 +12,6 @@ __pycache__
 /ios/Pods
 /ios/Podfile.lock
 /ios/*.xcworkspace
-
 
 # Xcode
 #
@@ -43,3 +45,6 @@ csharp/obj
 csharp/bin
 csharp/.vscode
 csharp/*.wav
+
+## User-specific dev runtime environment variables
+.env

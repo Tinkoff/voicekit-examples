@@ -7,7 +7,13 @@ import (
 	"github.com/akamensky/argparse"
 )
 
+type CommonOptions struct {
+	Endpoint *string
+	CAfile   *string
+}
+
 type RecognizeOptions struct {
+	*CommonOptions
 	InputFile                   *os.File
 	Encoding                    *string
 	Rate                        *int
@@ -27,10 +33,28 @@ type StreamingRecognizeOptions struct {
 }
 
 type StreamingSynthesizeOptions struct {
+	*CommonOptions
 	InputText  *string
 	OutputFile *os.File
 	Encoding   *string
 	Rate       *int
+}
+
+func addCommonOptions(parser *argparse.Parser) *CommonOptions {
+	endpoint := parser.String("", "endpoint", &argparse.Options{
+		Help: `API endpoint, a secure channel will be used if a port ends with 443 (443, 8443, etc).
+Default will use api.tinkoff.ai:443 for both speech recognition and synthesis.`,
+		Default: "api.tinkoff.ai:443",
+	})
+
+	cafile := parser.String("", "ca_file", &argparse.Options{
+		Help: "Custom root certificates file to use with a non-default endpoint.",
+	})
+
+	return &CommonOptions{
+		Endpoint: endpoint,
+		CAfile:   cafile,
+	}
 }
 
 func addRecognizeOptions(parser *argparse.Parser) *RecognizeOptions {
@@ -92,6 +116,7 @@ func addRecognizeOptions(parser *argparse.Parser) *RecognizeOptions {
 	})
 
 	return &RecognizeOptions{
+		CommonOptions:               addCommonOptions(parser),
 		InputFile:                   inputFile,
 		Encoding:                    encoding,
 		Rate:                        rate,
@@ -141,10 +166,11 @@ func addStreamingSynthesizeOptions(parser *argparse.Parser) *StreamingSynthesize
 	})
 
 	return &StreamingSynthesizeOptions{
-		InputText:  inputText,
-		OutputFile: outputFile,
-		Encoding:   encoding,
-		Rate:       rate,
+		CommonOptions: addCommonOptions(parser),
+		InputText:     inputText,
+		OutputFile:    outputFile,
+		Encoding:      encoding,
+		Rate:          rate,
 	}
 }
 

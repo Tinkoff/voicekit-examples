@@ -2,19 +2,24 @@ package common
 
 import (
 	"crypto/tls"
+	"crypto/x509"
 	"errors"
 	"fmt"
+	"io"
+	"os"
+	"strings"
+
+	"github.com/Tinkoff/voicekit-examples/golang/pkg/args"
 	"github.com/Tinkoff/voicekit-examples/golang/pkg/auth"
 	sttPb "github.com/Tinkoff/voicekit-examples/golang/pkg/tinkoff/cloud/stt/v1"
 	ttsPb "github.com/Tinkoff/voicekit-examples/golang/pkg/tinkoff/cloud/tts/v1"
 	"github.com/go-audio/wav"
-	"github.com/golang/protobuf/jsonpb"
-	"github.com/golang/protobuf/proto"
 	"github.com/tidwall/pretty"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
-	"io"
-	"os"
+	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/protobuf/encoding/protojson"
+	"google.golang.org/protobuf/proto"
 )
 
 func GetAuthorizationKeysFromEnv() (auth.KeyPair, error) {
@@ -26,11 +31,40 @@ func GetAuthorizationKeysFromEnv() (auth.KeyPair, error) {
 	}
 
 	return auth.KeyPair{
-		ApiKey: apiKey,
+		ApiKey:    apiKey,
 		SecretKey: secretKey,
 	}, nil
 }
 
+func makeConnection(opts *args.CommonOptions, creds *auth.JwtPerRPCCredentials) (*grpc.ClientConn, error) {
+	if strings.HasSuffix(*opts.Endpoint, "443") {
+		var rootCAs *x509.CertPool
+		if *opts.CAfile != "" {
+			pemServerCA, err := os.ReadFile(*opts.CAfile)
+			if err != nil {
+				return nil, err
+			}
+
+			rootCAs = x509.NewCertPool()
+			if !rootCAs.AppendCertsFromPEM(pemServerCA) {
+				return nil, fmt.Errorf("failed to add server CA's certificate")
+			}
+		}
+
+		return grpc.Dial(
+			*opts.Endpoint,
+			grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{
+				RootCAs: rootCAs,
+			})),
+			grpc.WithPerRPCCredentials(creds),
+		)
+	}
+
+	return grpc.Dial(
+		*opts.Endpoint,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
+}
 
 type SpeechToTextClient interface {
 	sttPb.SpeechToTextClient
@@ -60,49 +94,41 @@ func (client *textToSpeechClient) Close() error {
 	return client.conn.Close()
 }
 
-func NewSttClient() (SpeechToTextClient, error) {
+func NewSttClient(opts *args.CommonOptions) (SpeechToTextClient, error) {
 	keyPair, err := GetAuthorizationKeysFromEnv()
 	if err != nil {
 		return nil, err
 	}
 
-	transportCredentials := credentials.NewTLS(&tls.Config{})
 	perRPCCredentials := auth.NewJwtPerRPCCredentials(keyPair, "test_issuer", "test_subject")
-
-	connection, err := grpc.Dial("api.tinkoff.ai:443",
-		grpc.WithTransportCredentials(transportCredentials),
-		grpc.WithPerRPCCredentials(perRPCCredentials))
+	connection, err := makeConnection(opts, perRPCCredentials)
 
 	return &speechToTextClient{
 		SpeechToTextClient: sttPb.NewSpeechToTextClient(connection),
-		conn: connection,
+		conn:               connection,
 	}, err
 }
 
-func NewTtsClient() (TextToSpeechClient, error) {
+func NewTtsClient(opts *args.CommonOptions) (TextToSpeechClient, error) {
 	keyPair, err := GetAuthorizationKeysFromEnv()
 	if err != nil {
 		return nil, err
 	}
 
-	transportCredentials := credentials.NewTLS(&tls.Config{})
 	perRPCCredentials := auth.NewJwtPerRPCCredentials(keyPair, "test_issuer", "test_subject")
-
-	connection, err := grpc.Dial("api.tinkoff.ai:443",
-		grpc.WithTransportCredentials(transportCredentials),
-		grpc.WithPerRPCCredentials(perRPCCredentials))
+	connection, err := makeConnection(opts, perRPCCredentials)
 
 	return &textToSpeechClient{
 		TextToSpeechClient: ttsPb.NewTextToSpeechClient(connection),
-		conn: connection,
+		conn:               connection,
 	}, err
 }
 
 func PrettyPrintProtobuf(message proto.Message) error {
-	marshaller := &jsonpb.Marshaler{
-		Indent:       "  ",
+	marshaller := protojson.MarshalOptions{
+		Indent: "  ",
 	}
-	jsonMessage, err := marshaller.MarshalToString(message)
+	jsonMessage, err := marshaller.Marshal(message)
 	if err != nil {
 		return err
 	}
@@ -116,14 +142,14 @@ func OpenWavFormat(file *os.File, expectedEncoding string, expectedNumChannels i
 	wavDecoder.ReadInfo()
 
 	encodingAudioFormat := map[string]uint16{
-		"LINEAR16":  0x0001,
-		"ALAW":      0x0006,
-		"MULAW":     0x0007,
+		"LINEAR16": 0x0001,
+		"ALAW":     0x0006,
+		"MULAW":    0x0007,
 	}
 	encodingBitDepth := map[string]uint16{
-		"LINEAR16":  16,
-		"ALAW":      8,
-		"MULAW":     8,
+		"LINEAR16": 16,
+		"ALAW":     8,
+		"MULAW":    8,
 	}
 	if encodingAudioFormat[expectedEncoding] != wavDecoder.WavAudioFormat {
 		return nil, fmt.Errorf("bad audio format, expected %s, found %v", expectedEncoding, wavDecoder.WavAudioFormat)

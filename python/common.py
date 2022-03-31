@@ -131,7 +131,7 @@ class CommonParser(argparse.ArgumentParser):
     def __init__(self):
         super().__init__()
         self.add_argument("--endpoint", type=str, default=self._default_endpoint,
-                          help="API endpoint, secure channel will be used if port ends with 443 (443, 8443, etc). "
+                          help="API endpoint, a secure channel will be used if a port ends with 443 (443, 8443, etc). "
                           "Default will use api.tinkoff.ai:443 for both speech recognition and synthesis.")
         if self._default_api_key is None:
             self.add_argument("--api_key", type=str, required=True, help="API key for JWT authentication.")
