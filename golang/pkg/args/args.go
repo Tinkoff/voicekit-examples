@@ -42,8 +42,7 @@ type StreamingSynthesizeOptions struct {
 
 func addCommonOptions(parser *argparse.Parser) *CommonOptions {
 	endpoint := parser.String("", "endpoint", &argparse.Options{
-		Help: `API endpoint, a secure channel will be used if a port ends with 443 (443, 8443, etc).
-Default will use api.tinkoff.ai:443 for both speech recognition and synthesis.`,
+		Help:    `API endpoint. A secure channel will be used (with JWT credentials) if the port is 443. A default endpoint is api.tinkoff.ai:443 for both speech recognition and synthesis.`,
 		Default: "api.tinkoff.ai:443",
 	})
 

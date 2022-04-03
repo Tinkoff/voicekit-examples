@@ -36,8 +36,17 @@ func GetAuthorizationKeysFromEnv() (auth.KeyPair, error) {
 	}, nil
 }
 
+func isEndpointSecure(endpoint string) bool {
+	parts := strings.Split(endpoint, ":")
+	if len(parts) != 2 {
+		return false
+	}
+
+	return parts[1] == "443"
+}
+
 func makeConnection(opts *args.CommonOptions, creds *auth.JwtPerRPCCredentials) (*grpc.ClientConn, error) {
-	if strings.HasSuffix(*opts.Endpoint, "443") {
+	if isEndpointSecure(*opts.Endpoint) {
 		var rootCAs *x509.CertPool
 		if *opts.CAfile != "" {
 			pemServerCA, err := os.ReadFile(*opts.CAfile)
