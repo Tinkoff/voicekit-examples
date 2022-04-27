@@ -11,7 +11,7 @@ if ! [[ -x "$(command -v protoc-gen-go)" ]]; then
   fi
 fi
 
-PROTOC_OPTS="-I../third_party/googleapis/ -I../apis/ --go_out=plugins=grpc:temp"
+PROTOC_OPTS="-I../third_party/googleapis/ -I../apis/ --go_out=temp --go-grpc_out=temp"
 
 mkdir -p temp/
 
