@@ -67,6 +67,7 @@ func addRecognizeOptions(parser *argparse.Parser) *RecognizeOptions {
 		"MPEG_AUDIO",
 		"ALAW",
 		"MULAW",
+		"ADTS_AAC",
 	}, &argparse.Options{
 		Required: true,
 		Help:     "Audio encoding.",
