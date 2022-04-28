@@ -156,7 +156,7 @@ class BaseRecognitionParser(CommonParser):
     def __init__(self):
         super().__init__()
         encoding = ProtobufEnumChoices(stt_pb2.AudioEncoding,
-                                       ["MPEG_AUDIO", "LINEAR16", "ALAW", "MULAW", "RAW_OPUS"])
+                                       ["MPEG_AUDIO", "LINEAR16", "ALAW", "MULAW", "RAW_OPUS", "ADTS_AAC"])
         self.add_argument("-r", "--rate", type=int, required=True, help="Audio sampling rate.")
         self.add_argument("-c", "--num_channels", type=int, required=True, help="Number of audio channels.")
         self.add_argument("-e", "--encoding", type=encoding, required=True, help="Audio encoding.", choices=encoding)

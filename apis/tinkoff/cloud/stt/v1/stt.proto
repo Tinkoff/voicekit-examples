@@ -47,6 +47,9 @@ enum AudioEncoding { // Audio encoding. Defines both codec and container.
   reserved "OGG_VORBIS"; reserved 10;
   RAW_OPUS = 11; // Opus frames packed into Protobuf messages.<br/> NOTE: each Opus frame must be packed into "content" field of RecognitionAudio. Each Opus frame must be sent individually exactly as encoded since boundary information isn't included in Opus frame. I. e. you can't just concatenate multiple encoded Opus frames and put it as a single chunk inside "content".
   MPEG_AUDIO = 12; // MPEG audio bitstream.
+  ADTS_AAC = 13; // AAC audio in ADTS stream
+  RAW_AAC_LC = 14; // Raw AAC LC (Low Complexity) frames packed into Protobuf messages. Supported only in steam methods.<br/> NOTE: Like in RAW_OPUS encoding, each frame must be sent individually in stream
+  RAW_ER_AAC_LD = 15; // Raw ER AAC LD frames packed into Protobuf messages. Supported only in steam methods.<br/> NOTE: Like in RAW_OPUS encoding, each frame must be sent individually in stream
 }
 
 message RecognitionAudio { // Audio to recognize.
