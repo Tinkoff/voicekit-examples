@@ -3,14 +3,15 @@
 import sys
 sys.path.append("..")
 
+import os
+import base64
+import asyncio
+import httpx
+import pyaudio
 
 from tinkoff.cloud.tts.v1 import tts_pb2
 from google.protobuf.json_format import MessageToDict
 from auth import authorization_metadata
-import os
-import pyaudio
-import requests
-import base64
 
 endpoint = os.environ.get("VOICEKIT_ENDPOINT") or "api.tinkoff.ai:443"
 api_key = os.environ["VOICEKIT_API_KEY"]
@@ -52,17 +53,22 @@ def build_request():
     }
 
 
+async def main():
+    async with httpx.AsyncClient(http2=True) as client:
+        request = build_request()
+        metadata = authorization_metadata(api_key, secret_key, "tinkoff.cloud.tts", type=dict)
+        response = await client.post(f"http{'s' if endpoint.endswith('443') else ''}://{endpoint}/v1/tts:synthesize", json=request, headers=metadata)
 
-request = build_request()
-metadata = authorization_metadata(api_key, secret_key, "tinkoff.cloud.tts", type=dict)
-response = requests.post(f"http{'s' if endpoint.endswith('443') else ''}://{endpoint}/v1/tts:synthesize", json=request, headers=metadata)
+        if response.status_code != 200:
+            print(f"REST failed with HTTP code {response.status_code}\nHeaders: {response.headers}\nBody: {response.text}")
+        else:
+            response = response.json()
+            pyaudio_lib = pyaudio.PyAudio()
+            f = pyaudio_lib.open(output=True, channels=1, format=pyaudio.paInt16, rate=sample_rate)
+            f.write(base64.b64decode(response["audio_content"]))
+            f.stop_stream()
+            f.close()
 
-if response.status_code != 200:
-    print(f"REST failed with HTTP code {response.status_code}\nHeaders: {response.headers}\nBody: {response.text}")
-else:
-    response = response.json()
-    pyaudio_lib = pyaudio.PyAudio()
-    f = pyaudio_lib.open(output=True, channels=1, format=pyaudio.paInt16, rate=sample_rate)
-    f.write(base64.b64decode(response["audio_content"]))
-    f.stop_stream()
-    f.close()
+
+if __name__ == "__main__":
+    asyncio.run(main())
