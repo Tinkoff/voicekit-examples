@@ -57,7 +57,7 @@ Disable:
 $ python3 recognize.py -r 16000 -c 1 -e MPEG_AUDIO --disable_profanity_filter ../audio/sample_5.mp3
 ```
 
-Also, there is a REST-like API for non-streaming speech recognition (if you are planning to use REST in production, which is not recommended, by the way, make sure to use libraries which support HTTP2, like httpx):
+Also, there is a REST-like API for non-streaming speech recognition (if you are planning to use REST in production, which is not recommended by the way, make sure to use libraries which support HTTP2, like httpx):
 
 ```
 $ python3 recognize_rest.py -r 16000 -c 1 -e MPEG_AUDIO ../audio/sample_2.mp3
