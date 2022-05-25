@@ -31,7 +31,19 @@ def build_request():
         ),
     )
 
-stub = tts_pb2_grpc.TextToSpeechStub(grpc.secure_channel(endpoint, grpc.ssl_channel_credentials()))
+# increase this number if you are trying to synthesize really long text
+ONE_HUNDRED_MEGABYTE_BUFFER = 100 * 1024 * 1024
+
+stub = tts_pb2_grpc.TextToSpeechStub(
+    grpc.secure_channel(
+        endpoint,
+        grpc.ssl_channel_credentials(),
+        options=[
+            ("grpc.max_message_length", ONE_HUNDRED_MEGABYTE_BUFFER),
+            ("grpc.max_receive_message_length", ONE_HUNDRED_MEGABYTE_BUFFER),
+        ],
+    )
+)
 request = build_request()
 metadata = authorization_metadata(api_key, secret_key, "tinkoff.cloud.tts")
 response = stub.Synthesize(request, metadata=metadata)
