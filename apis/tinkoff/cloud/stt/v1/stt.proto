@@ -68,6 +68,7 @@ message SpeechContext { // Declares a set of phrases to be recognized with highe
   reserved 1; // Deprecated.
   reserved 2; // Deprecated.
   repeated SpeechContextPhrase phrases = 3; // Phrases to recognize with higher (or lower) probability.
+  string speech_context_dictionary_id = 4; // Use speech context object stored in cloud.
 }
 
 message WordInfo { // Detailed information on recognized word.
@@ -83,6 +84,8 @@ message VoiceActivityDetectionConfig { // Structure to customize VAD (every fiel
   float silence_duration_threshold = 3; // Duration of silence in seconds to consider phrase ended. Default value depends on service configuration.
   float silence_prob_threshold = 4; // Threshold value for silence probability (in range from 0.0 to 1.0). If silence probability is below threshold and audio fragment is considered silence. Default value depends on service configuration.
   float aggressiveness = 5; // Currently unused.
+  float silence_max = 6; // Maximum duration of silence in seconds required to end phrase. Default value depends on service configuration.
+  float silence_min = 7; // Minimum duration of silence in seconds required to end phrase. Default value depends on service configuration.
 }
 
 message RecognitionConfig { // Common recognition configuration.
