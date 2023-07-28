@@ -18,10 +18,11 @@ def build_first_request(sample_rate_hertz, num_channels):
     request.streaming_config.config.encoding = stt_pb2.AudioEncoding.LINEAR16
     request.streaming_config.config.sample_rate_hertz = sample_rate_hertz
     request.streaming_config.config.num_channels = num_channels
-    request.streaming_config.config.vad_config.min_speech_duration = 1.0
-    request.streaming_config.config.vad_config.max_speech_duration = 30.0
-    request.streaming_config.config.vad_config.silence_duration_threshold = 3.0
+    request.streaming_config.config.vad_config.min_speech_duration = 1.0  # currently ignored
+    request.streaming_config.config.vad_config.max_speech_duration = 30.0  # currently ignored
     request.streaming_config.config.vad_config.silence_prob_threshold = 0.2
+    request.streaming_config.config.vad_config.silence_min = 3. 
+    request.streaming_config.config.vad_config.silence_max = 3.2
     return request
 
 def generate_requests():
