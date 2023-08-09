@@ -65,8 +65,8 @@ message VoiceSelectionParams { // Configuration of preferred synthesis voice.
 
 message AudioConfig { // Configuration of synthesized audio.
   AudioEncoding audio_encoding = 1; // Audio encoding. Specifies both container and codec. Must be specified explicitly.
-  reserved "speaking_rate"; reserved 2;
-  reserved "pitch"; reserved 3;
+  float speaking_rate = 2; // Speaking rate of generated audio as a fraction of original speaking rate. 1.0 is the normal speed supported by specific voice. Any values < 0.33 or > 3 will return an error. Default value is 1.0.
+  float pitch = 3; // Pitch as a fraction of original speaking pitch. Any values < 0.33 or > 3 will return an error. Default value is 1.0.
   reserved "volume_gain_db"; reserved 4;
   int32 sample_rate_hertz = 5; // Sample rate of generated audio in Hertz. Must be specified explicitly. Only sample rates in inclusive range from 1000 Hz to 48000 Hz are supported.
 }
