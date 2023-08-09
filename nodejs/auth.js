@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const grpcLibrary = require('grpc');
+const grpcLibrary = require('@grpc/grpc-js');
 
 function base64Encode(string) {
     return Buffer.from(string).toString('base64')
