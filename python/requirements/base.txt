@@ -1,4 +1,4 @@
 grpcio==1.45.0
-protobuf==3.19.4
+protobuf==3.19.5
 googleapis-common-protos==1.6.0
 httpx[http2]==0.22.0
